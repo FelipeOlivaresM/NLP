@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc creationtime="2015-07-09T00:00:00+00:00" />
+    <public publicId="q37" uri="http://yovisto.com/resource/dataset/iswc2015/query/37"/>
+  </nafHeader>
+  <raw><![CDATA[Gutenberg Bible]]></raw>
+</NAF>

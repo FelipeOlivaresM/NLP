@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc title="Do You Speak Polish… Or Maybe Reverse Polish?" />
+    <public publicId="d224" uri="http://blog.yovisto.com/do-you-speak-polish-or-maybe-reverse-polish/" />
+  </nafHeader>
+  <raw><![CDATA[Do You Speak Polish… Or Maybe Reverse Polish?.
+
+HP 35s Calculator (1972) I guess almost nobody except a few mathematicians and computer scientists have ever heard of the Australian computer scientist Charles Leonard Hamblin, who passed away on May 14, 1985. And also most of my fellow computer scientists might not have heard of him. But, one of his major contributions to computer science was the introduction of the so-called Reverse Polish Notation. Does that ring a bell Back in the 1950s Hamblin became aware of the problem of computing mathematical formulae containing brackets results in memory overhead, which was rather critical at these times, because memory was rather small and expensive. One solution to the problem has already been prepared by the famous Polish mathematician Jan Lukasiewicz’s, inventor of the original Polish notation, which enables a writer of mathematical notation to instruct a reader the order in which to execute the operations (e.g. addition, multiplication, etc) without using brackets. Polish notation achieves this by having an operator (+, *, etc) precede the operands to which it applies, e.g., +ab, instead of the usual, a+b. Hamblin, with his training in formal logic, knew of Lukasiewicz’s work. Hamblin improved this principle to save additional storage by putting the operator behind the operands and thus, enabling the computer to make use of a storage, which did not require an address. This might sound rather weird to you, but 20 years ago using one of those sophisticated HP calculators (that forced you to use/think RPN) made you the undisputed number one among all the other geeks. You might learn more about Reverse Polish Notation at yovisto by watching ‘The Joys of RPN‘ –>]]></raw>
+</NAF>

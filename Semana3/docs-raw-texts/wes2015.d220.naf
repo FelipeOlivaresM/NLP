@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc title="It's Computable - thanks to Alonzo Church" />
+    <public publicId="d220" uri="http://yovisto.blogspot.de/2012/08/its-computable-thanks-to-alonzo-church.html" />
+  </nafHeader>
+  <raw><![CDATA[It's Computable - thanks to Alonzo Church.
+
+You know, the fact that you can read your email on a cell phone as well as on your desktop computer or almost any other computer connected to the internet, in principle is possible thanks to mathematician Alonzo Church, who gave the proof (together with Alan Turing) that everything that is computable on the simple model of a Turing Machine, also is computable with any other 'computer model'.
+
+In mathematics and computer science, the 'Entscheidungsproblem' is one of the challenges posed by mathematician David Hilbert in 1928. The Entscheidungsproblem asks for an algorithm that takes as input a statement of a first-order logic and answers "Yes" or "No" according to whether the statement is universally valid, i.e., valid in every structure satisfying the underlying axioms.
+
+Actually, the origin of the Entscheidungsproblem goes back to Gottfried Wilhelm Leibniz, who in the 17th century, after having constructed a successful mechanical calculating machine, dreamt of building a machine that could manipulate symbols in order to determine the truth values of mathematical statements. Leibniz realized that the first step would have to be a clean formal language, and much of his subsequent work was directed towards that goal.
+
+By the completeness theorem of first-order logic, a statement is universally valid if and only if it can be deduced from the axioms, so the Entscheidungsproblem can also be viewed as asking for an algorithm to decide whether a given statement is provable from the axioms using the rules of logic. In 1936 and 1937, Alonzo Church and Alan Turing, respectively, published independent papers showing that a general solution to the Entscheidungsproblem is impossible. To achieve this, Alonzo Church applied the concept of "effective calculability" based on his λ calculus, while Alan Turing based his proof on  his concept of Turing machines. It was recognized immediately by Turing that these two concepts are equivalent models of computation. Both authors were heavily influenced by Kurt Gödel's earlier work on his incompleteness theorem, especially by the method of assigning numbers (a so-called Gödel numbering) to logical formulas in order to reduce logic to arithmetic. 
+
+Alonzo Church died on August 11, 1995, aged 92.
+
+At yovisto you can learn more about Alonzo Church in the lecture 'At odds with the Zeitgeist: Kurt Gödel' by Prof. John W. Dawson from the Institute of Advanced Studies in Princeton.]]></raw>
+</NAF>

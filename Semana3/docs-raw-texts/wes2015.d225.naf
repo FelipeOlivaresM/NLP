@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc title="Claude Shannon – Father of Information Theory" />
+    <public publicId="d225" uri="http://blog.yovisto.com/claude-shannon-father-of-information-theory/" />
+  </nafHeader>
+  <raw><![CDATA[Claude Shannon – Father of Information Theory.
+
+Claude E. Shannon (1916-2001). Today 96 years ago, Claude E. Shannon was born, the “father of information theory“, whose groundbreaking work ushered in the Digital Revolution. Of course Shannon is famous for having founded information theory with one landmark paper published in 1948. But he is also credited with founding both digital computer and digital circuit design theory in 1937, when, as a 21-year-old master’s student at MIT, he wrote a thesis demonstrating that electrical application of Boolean algebra could construct and resolve any logical, numerical relationship. Believe it or not, it has been claimed that this was the most important master’s thesis of all time. Shannon contributed to the field of cryptanalysis during World War II and afterwards, including basic work on code breaking. At yovisto, there are many references to the work of Shannon. Obviously, because he has laid some of the foundations of computer science (and information theory), and on the other hand there are many basic lectures referring to these topics. But, there is also a very nice documentary about Claude Shannon exploring his life and the major influence his work had on today`s digital world through interviews with his friends and colleagues. Further Reading: Claude Shannon, Warren Weaver:  Mathematical Theory of Communication, University of Illinois Press (1949)  ]]></raw>
+</NAF>

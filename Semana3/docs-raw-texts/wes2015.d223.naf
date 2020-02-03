@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc title="Well, I Didn’t Know it was Hard – Happy Birthday Ivan Sutherland" />
+    <public publicId="d223" uri="http://blog.yovisto.com/well-i-didnt-know-it-was-hard-happy-birthday-ivan-sutherland/" />
+  </nafHeader>
+  <raw><![CDATA[Well, I Didn’t Know it was Hard – Happy Birthday Ivan Sutherland.
+
+Ivan Sutherland’s Sketchpad (1963) Happy Birthday 74th Ivan Sutherland! The American computer scientist and Internet pioneer has received the Turing Award from the Association for Computing Machinery in 1988 for his invention of Sketchpad, an early predecessor to the sort of graphical user interface that has become ubiquitous in personal computers today. Sketchpad could accept constraints and specified relationships among segments and arcs, including the diameter of arcs. It could draw both horizontal and vertical lines and combine them into figures and shapes. Figures could be copied, moved, rotated, or resized, retaining their basic properties. Sketchpad also had the first window-drawing program and clipping algorithm, which allowed zooming. When asked, “How could you possibly have done the first interactive graphics program, the first non-procedural programming language, the first object oriented software system, all in one year?” Ivan replied: “Well, I didn’t know it was hard.” (Alan Kay, Doing with Images Makes Symbols, 1987) In 1968 he co-founded Evans and Sutherland with his friend and colleague David C. Evans. The company has done pioneering work in the field of real-time hardware, accelerated 3D computer graphics, and printer languages. At yovisto, you might watch Ivan Sutherland together with his brother Bert reminiscing about their collective 100 plus years with computers and electronics in an interview from 2004.]]></raw>
+</NAF>

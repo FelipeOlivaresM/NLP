@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NAF xml:lang="en" version="v3">
+  <nafHeader>
+    <fileDesc creationtime="2015-07-09T00:00:00+00:00" />
+    <public publicId="q45" uri="http://yovisto.com/resource/dataset/iswc2015/query/45"/>
+  </nafHeader>
+  <raw><![CDATA[Friends and enemies of Napoleon Bonaparte]]></raw>
+</NAF>
