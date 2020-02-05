@@ -23,11 +23,15 @@ def count_words(text):
 
 
 def test_run():
-	with open("input.txt", "r") as f:
+	with open("./input.txt", "r") as f:
 		text = f.read()
 		counts = count_words(text)
 		sorted_counts = sorted(counts.items(), key=lambda pair: pair[1], reverse=True)
-		
+		print("\n")
+		print("\n")
+		print(sorted_counts)
+		print("\n")
+		print("\n")
 		print("10 most common words:\nWord\tCount")
 		for word, count in sorted_counts[:10]:
 			print("{}\t{}".format(word, count))
