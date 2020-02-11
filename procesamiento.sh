@@ -10,8 +10,6 @@ echo Instalación de varios paquetes
 
   sudo apt-get update
   
-  sudo apt-get install python3-pip
-  pip3 install virtualenv
   pip install jupyterlab
 
   sudo apt-get upgrade
