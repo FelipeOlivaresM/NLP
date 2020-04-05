@@ -1,4 +1,5 @@
 import json
+import progressbar
 from tweepy import Stream
 import lxml.etree as etree
 from tweepy import OAuthHandler
@@ -13,8 +14,11 @@ aTokenSecret = "V5LpcL3762uBpq7EeTuNbSN1qpDc7RKrj9jktFg2oh3s4"
 cKey = "8Jco2vpYtvvuj2UjeK75aQRWA"
 cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 
-tweets_buffer_size = 40
+tweets_buffer_size = 4
 tweets_buffer = list()
+
+bar = progressbar.ProgressBar(maxval=tweets_buffer_size,
+                              widgets=[progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()])
 
 
 # --------------------------------------------------------------------------------
@@ -24,25 +28,26 @@ tweets_buffer = list()
 class StdOutListener(StreamListener):
     def on_data(self, data):
         tweet = json.loads(data)
-        add_tweets_to_buffer(tweet)
-
-        return
+        return add_tweets_to_buffer(tweet)
 
     def on_error(self, status):
         print(status)
 
 
 # --------------------------------------------------------------------------------
-# Add tweets to a buffer used to write them in a csv file.
+# Add tweets to a buffer used to write them in a xml file.
 # --------------------------------------------------------------------------------
 def add_tweets_to_buffer(tweet):
+    global bar
     global tweets_buffer
-    if 'place' in [k for k in tweet] and tweet['place'] is not None:
+    if 'place' in [k for k in tweet] and tweet['place'] is not None and tweet['retweet_count'] is 0:
         tweets_buffer.append(tweet)
+        bar.update(len(tweets_buffer))
+        return
+
     if len(tweets_buffer) == tweets_buffer_size:
         add_tweets_to_xml_file(tweets_buffer)
-
-    return
+        return False
 
 
 # --------------------------------------------------------------------------------
@@ -70,11 +75,10 @@ def add_tweets_to_xml_file(tweets):
     tree = etree.fromstring(xml_output)
     tree.getroottree().write("catched_tweets.xml", pretty_print=True)
 
-    return
 
-
-my_listener = StdOutListener()
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
-stream = Stream(authenticator, my_listener)
+stream = Stream(authenticator, StdOutListener())
+bar.start()
 stream.filter(languages=['en', 'es'], track=['Coronavirus', 'coronavirus', 'covid-19', 'COVID-19'])
+bar.finish()
