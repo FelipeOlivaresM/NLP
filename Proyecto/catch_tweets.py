@@ -55,11 +55,22 @@ aTokenSecret = "V5LpcL3762uBpq7EeTuNbSN1qpDc7RKrj9jktFg2oh3s4"
 cKey = "8Jco2vpYtvvuj2UjeK75aQRWA"
 cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 
-current_data_codes = [k for k in dict(xmltodict.parse(open('catched_tweets.xml', 'rb'))['tweets'])]
-print(current_data_codes)
+# --------------------------------------------------------------------------------
+# Get current tweet ids in the xml file.
+# --------------------------------------------------------------------------------
+current_xmlf = open('catched_tweets.xml', 'rb')
+current_data_ids = [k for k in dict(xmltodict.parse(current_xmlf)['tweets'])]
+current_xmlf.close()
+
+# --------------------------------------------------------------------------------
+# Parameters for the listener.
+# --------------------------------------------------------------------------------
 listener = Listener()
 listener.tweets_buffer_size = 2
 
+# --------------------------------------------------------------------------------
+# Executing the program.
+# --------------------------------------------------------------------------------
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
 stream = Stream(authenticator, listener)
