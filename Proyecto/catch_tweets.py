@@ -12,8 +12,8 @@ aTokenSecret = "V5LpcL3762uBpq7EeTuNbSN1qpDc7RKrj9jktFg2oh3s4"
 cKey = "8Jco2vpYtvvuj2UjeK75aQRWA"
 cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 
-tweet_data = []
-tweets_buffer = []
+tweet_data = list()
+tweets_buffer = list()
 tweets_buffer_size = 30
 
 
@@ -48,7 +48,7 @@ def add_tweets_to_buffer(tweet):
 # Write the captured tweets in a csv file called captured_tweets.csv
 # --------------------------------------------------------------------------------
 def add_tweets_to_csv_file(tweets):
-    with open('./captured_tweets.csv', 'w') as csvfile:
+    with open('./catched_tweets.csv', 'w') as csvfile:
         fieldnames = [
             'id',
             'text',
