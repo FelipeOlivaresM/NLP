@@ -26,6 +26,8 @@ class StdOutListener(StreamListener):
         tweet = json.loads(data)
         add_tweets_to_buffer(tweet)
 
+        return
+
     def on_error(self, status):
         print(status)
 
@@ -39,6 +41,8 @@ def add_tweets_to_buffer(tweet):
         tweets_buffer.append(tweet)
     if len(tweets_buffer) == tweets_buffer_size:
         add_tweets_to_xml_file(tweets_buffer)
+
+    return
 
 
 # --------------------------------------------------------------------------------
@@ -65,6 +69,8 @@ def add_tweets_to_xml_file(tweets):
     xml_output = dicttoxml(tweet_data, custom_root='tweets', attr_type=False)
     tree = etree.fromstring(xml_output)
     tree.getroottree().write("catched_tweets.xml", pretty_print=True)
+
+    return
 
 
 my_listener = StdOutListener()
