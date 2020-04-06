@@ -1,21 +1,16 @@
 import json
 import time
 import dicttoxml
-import progressbar
 from tweepy import Stream
 import lxml.etree as etree
+from datetime import datetime
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
-output_path = 'catched_tweets'
-number_of_tweets_for_catch = 20  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 2000  # <----- Numero de tweets en total.
 tweets_buffer = dict()
-tweets_per_file = 10  # <----- Numero de tweets por archivo.
+tweets_per_file = 500  # <----- Numero de tweets por archivo.
 writed_tweets = 0
-num_file = 0
-
-widget_parameters = [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()]
-bar = progressbar.ProgressBar(maxval=number_of_tweets_for_catch, widgets=widget_parameters)
 
 start_time = time.time()
 
@@ -33,46 +28,41 @@ def process_incoming_data(tweet):
     global tweets_per_file
     global tweets_buffer
     global writed_tweets
-    global num_file
-    global bar
 
-    if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted'] and 'RT @' not in tweet[
-        'text']:
-        add_tweet_to_buffer(tweet)
-        writed_tweets += 1
+    if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
+        if 'RT @' not in tweet['text'] and 'covid-19' in tweet['text'] or 'coronavirus' in tweet['text']:
 
-        files_in_buffer = len([k for k in tweets_buffer])
-        print(
-            "Archivos en el buffer: " +
-            str(files_in_buffer) + " de " +
-            str(tweets_per_file) +
-            " - Tweets capturados: " +
-            str(writed_tweets) + " de " +
-            str(number_of_tweets_for_catch) +
-            " - Tiempo de ejecucion: " + str(round((time.time() - start_time) / 60, 0)) +
-            " minutos - escribiendo en archivo " +
-            str(num_file) + "."
-        )
+            add_tweet_to_buffer(tweet)
+            writed_tweets += 1
 
-        if writed_tweets == number_of_tweets_for_catch:
-            add_tweets_to_xml_file()
-            tweets_buffer.clear()
-            print("Proceso terminado.\n")
-            return False
+            files_in_buffer = len([k for k in tweets_buffer])
+            print(
+                "Tweets en el buffer: " +
+                str(files_in_buffer) + " de " +
+                str(tweets_per_file) +
+                " - Tweets capturados: " +
+                str(writed_tweets) + " de " +
+                str(number_of_tweets_for_catch) +
+                " - Tiempo de ejecucion: " + str(int((time.time() - start_time) / 60)) +
+                " minutos."
+            )
 
-        elif files_in_buffer == tweets_per_file:
-            add_tweets_to_xml_file()
-            tweets_buffer.clear()
-            print("Buffer reiniciado.\n")
-            num_file += 1
-            return
+            if writed_tweets == number_of_tweets_for_catch:
+                add_tweets_to_xml_file()
+                tweets_buffer.clear()
+                print("Proceso terminado.\n")
+                return False
+
+            elif files_in_buffer == tweets_per_file:
+                add_tweets_to_xml_file()
+                tweets_buffer.clear()
+                print("Buffer reiniciado.\n")
+                return
 
 
 def add_tweet_to_buffer(tweet):
     global tweets_buffer
-
-    tweet_id = str(tweet['id'])
-    tweets_buffer[tweet_id] = {
+    tweets_buffer[str(tweet['id'])] = {
         'text': tweet['text'],
         'screen_name': tweet['user']['screen_name'],
         'created_at': tweet['created_at'],
@@ -87,14 +77,14 @@ def add_tweet_to_buffer(tweet):
 
 def add_tweets_to_xml_file():
     global tweets_buffer
-    global output_path
-    global num_file
-
     xml_output = dicttoxml.dicttoxml(tweets_buffer, attr_type=False)
     tree = etree.fromstring(xml_output)
-    path = str(output_path) + "_" + str(num_file) + ".xml"
+    path = str(len([k for k in tweets_buffer])) + "_catched_tweets_(" + str(
+        datetime.now().strftime("%H:%M - %d-%m-%Y")
+    ) + ").xml"
+    print(path)
     tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
-    print("\nEscritura del archivo " + str(num_file) + " terminada.")
+    print("\nEscritura del archivo " + path + " terminada.")
 
 
 # --------------------------------------------------------------------------------
@@ -111,6 +101,7 @@ cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
 
+print("")
 while writed_tweets is not number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
