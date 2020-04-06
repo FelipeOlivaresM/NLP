@@ -8,9 +8,9 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 output_path = 'catched_tweets'
-number_of_tweets_for_catch = 1000  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 20  # <----- Numero de tweets en total.
 tweets_buffer = dict()
-tweets_per_file = 500  # <----- Numero de tweets por archivo.
+tweets_per_file = 10  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 num_file = 0
 
@@ -36,7 +36,8 @@ def process_incoming_data(tweet):
     global num_file
     global bar
 
-    if 'place' in [k for k in tweet] and tweet['place'] is not None and tweet['retweet_count'] is 0:
+    if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted'] and 'RT @' not in tweet[
+        'text']:
         add_tweet_to_buffer(tweet)
         writed_tweets += 1
 
