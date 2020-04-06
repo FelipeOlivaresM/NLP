@@ -7,14 +7,14 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 output_path = 'catched_tweets'
-tweets_buffer_size = 4  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 4  # <----- Numero de tweets en total.
 tweets_buffer = dict()
 tweets_per_file = 1  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 num_file = 0
 
 widget_parameters = [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()]
-bar = progressbar.ProgressBar(maxval=tweets_buffer_size, widgets=widget_parameters)
+bar = progressbar.ProgressBar(maxval=number_of_tweets_for_catch, widgets=widget_parameters)
 
 
 class Listener(StreamListener):
@@ -26,7 +26,7 @@ class Listener(StreamListener):
 
 
 def process_incoming_data(tweet):
-    global tweets_buffer_size
+    global number_of_tweets_for_catch
     global tweets_per_file
     global tweets_buffer
     global writed_tweets
@@ -37,7 +37,7 @@ def process_incoming_data(tweet):
         add_tweet_to_buffer(tweet)
         writed_tweets += 1
 
-        if writed_tweets == tweets_buffer_size:
+        if writed_tweets == number_of_tweets_for_catch:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
             return False
@@ -71,10 +71,12 @@ def add_tweets_to_xml_file():
     global output_path
     global num_file
 
+    print("Escribiendo archivo " + str(num_file))
     xml_output = dicttoxml.dicttoxml(tweets_buffer, custom_root='tweets', attr_type=False)
     tree = etree.fromstring(xml_output)
     path = str(output_path) + "_" + str(num_file) + ".xml"
     tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
+    print("Archivo " + str(num_file) + " terminado")
 
 
 # --------------------------------------------------------------------------------
