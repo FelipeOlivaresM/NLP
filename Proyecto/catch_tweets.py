@@ -117,7 +117,7 @@ while writed_tweets is not number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
         stream.filter(languages=['en', 'es'], track=tags)
-    except ValueError as valerr:
+    except:
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
         time.sleep(60)
         print("Reconectando.\n")
