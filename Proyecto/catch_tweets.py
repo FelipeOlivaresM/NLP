@@ -20,8 +20,8 @@ tweets_buffer = pd.DataFrame(columns=[
     'country'
 ])
 
-number_of_tweets_for_catch = 5  # <----- Numero de tweets en total.
-tweets_per_file = 2  # <----- Numero de tweets por archivo.
+number_of_tweets_for_catch = 2000  # <----- Numero de tweets en total.
+tweets_per_file = 500  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 
 start_time = time.time()
@@ -40,6 +40,7 @@ def process_incoming_data(tweet):
     global tweets_per_file
     global tweets_buffer
     global writed_tweets
+    global tags
 
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
@@ -118,6 +119,5 @@ while writed_tweets is not number_of_tweets_for_catch:
         stream.filter(languages=['en', 'es'], track=tags)
     except ValueError as valerr:
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
-        print(valerr)
         time.sleep(60)
         print("Reconectando.\n")
