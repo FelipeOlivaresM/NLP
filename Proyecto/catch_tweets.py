@@ -1,4 +1,5 @@
 import json
+import time
 import dicttoxml
 import progressbar
 from tweepy import Stream
@@ -7,14 +8,16 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 output_path = 'catched_tweets'
-number_of_tweets_for_catch = 500  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 1000  # <----- Numero de tweets en total.
 tweets_buffer = dict()
-tweets_per_file = 250  # <----- Numero de tweets por archivo.
+tweets_per_file = 500  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 num_file = 0
 
 widget_parameters = [progressbar.Bar('=', '[', ']'), ' ', progressbar.Percentage()]
 bar = progressbar.ProgressBar(maxval=number_of_tweets_for_catch, widgets=widget_parameters)
+
+start_time = time.time()
 
 
 class Listener(StreamListener):
@@ -38,16 +41,27 @@ def process_incoming_data(tweet):
         writed_tweets += 1
 
         files_in_buffer = len([k for k in tweets_buffer])
-        print("Archivos en el buffer: " + str(files_in_buffer))
+        print(
+            "Archivos en el buffer: " +
+            str(files_in_buffer) + " de " +
+            str(tweets_per_file) +
+            " - Tweets capturados: " +
+            str(writed_tweets) + " de " +
+            str(number_of_tweets_for_catch) +
+            " - Tiempo de ejecucion: " + str(round((time.time() - start_time) / 60, 0)) +
+            " minutos"
+        )
 
         if writed_tweets == number_of_tweets_for_catch:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
+            print("Proceso terminado \n")
             return False
 
         elif files_in_buffer == tweets_per_file:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
+            print("Buffer reiniciado \n")
             num_file += 1
             return
 
@@ -74,11 +88,11 @@ def add_tweets_to_xml_file():
     global output_path
     global num_file
 
-    xml_output = dicttoxml.dicttoxml(tweets_buffer, custom_root='tweets', attr_type=False)
+    xml_output = dicttoxml.dicttoxml(tweets_buffer, attr_type=False)
     tree = etree.fromstring(xml_output)
     path = str(output_path) + "_" + str(num_file) + ".xml"
     tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
-    print("Escritura del archivo " + str(num_file) + " terminada\n")
+    print("Escritura del archivo " + str(num_file) + " terminada")
 
 
 # --------------------------------------------------------------------------------
@@ -95,4 +109,4 @@ cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
 stream = Stream(authenticator, Listener())
-stream.filter(languages=['en', 'es'], track=['Coronavirus', 'coronavirus', 'covid-19', 'COVID-19'])
+stream.filter(languages=['en', 'es'], track=['coronavirus', 'covid-19'])
