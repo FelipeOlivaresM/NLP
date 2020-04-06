@@ -1,15 +1,27 @@
 import json
 import time
-import dicttoxml
-from tweepy import Stream
-import lxml.etree as etree
 from datetime import datetime
+
+import pandas as pd
 from tweepy import OAuthHandler
+from tweepy import Stream
 from tweepy.streaming import StreamListener
 
-number_of_tweets_for_catch = 2000  # <----- Numero de tweets en total.
-tweets_buffer = dict()
-tweets_per_file = 500  # <----- Numero de tweets por archivo.
+tags = [
+    'coronavirus', 'covid-19', 'covid19', 'covid 19',
+    'Coronavirus', 'Covid-19', 'Covid19', 'Covid 19',
+    'CORONAVIRUS', 'COVID-19', 'COVID19', 'COVID 19',
+    'CoronaVirus', 'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2'
+]
+
+tweets_buffer = pd.DataFrame(columns=[
+    'id', 'text', 'screen_name', 'created_at', 'retweet_count',
+    'favorite_count', 'friends_count', 'followers_count', 'lang',
+    'country'
+])
+
+number_of_tweets_for_catch = 5  # <----- Numero de tweets en total.
+tweets_per_file = 2  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 
 start_time = time.time()
@@ -30,12 +42,13 @@ def process_incoming_data(tweet):
     global writed_tweets
 
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
-        if 'RT @' not in tweet['text'] and 'covid-19' in tweet['text'] or 'coronavirus' in tweet['text']:
+        if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
 
             add_tweet_to_buffer(tweet)
             writed_tweets += 1
 
-            files_in_buffer = len([k for k in tweets_buffer])
+            files_in_buffer = len(tweets_buffer.index)
+
             print(
                 "Tweets en el buffer: " +
                 str(files_in_buffer) + " de " +
@@ -48,42 +61,39 @@ def process_incoming_data(tweet):
             )
 
             if writed_tweets == number_of_tweets_for_catch:
-                add_tweets_to_xml_file()
-                tweets_buffer.clear()
+                add_tweets_to_csv_file()
+                tweets_buffer = tweets_buffer.drop([0])
                 print("Proceso terminado.\n")
                 return False
 
             elif files_in_buffer == tweets_per_file:
-                add_tweets_to_xml_file()
-                tweets_buffer.clear()
+                add_tweets_to_csv_file()
+                tweets_buffer = tweets_buffer.drop([0])
                 print("Buffer reiniciado.\n")
                 return
 
 
 def add_tweet_to_buffer(tweet):
     global tweets_buffer
-    tweets_buffer[str(tweet['id'])] = {
-        'text': tweet['text'],
-        'screen_name': tweet['user']['screen_name'],
-        'created_at': tweet['created_at'],
-        'retweet_count': tweet['retweet_count'],
-        'favorite_count': tweet['favorite_count'],
-        'friends_count': tweet['user']['friends_count'],
-        'followers_count': tweet['user']['followers_count'],
-        'lang': tweet['lang'],
-        'country': tweet['place']['country']
-    }
+    tweets_buffer = tweets_buffer.append(pd.DataFrame({
+        'id': [tweet['id']],
+        'text': [tweet['text'].strip().replace("\n", " ")],
+        'screen_name': [tweet['user']['screen_name']],
+        'created_at': [tweet['created_at']],
+        'retweet_count': [tweet['retweet_count']],
+        'favorite_count': [tweet['favorite_count']],
+        'friends_count': [tweet['user']['friends_count']],
+        'followers_count': [tweet['user']['followers_count']],
+        'lang': [tweet['lang']],
+        'country': [tweet['place']['country']]
+    }))
 
 
-def add_tweets_to_xml_file():
+def add_tweets_to_csv_file():
     global tweets_buffer
-    xml_output = dicttoxml.dicttoxml(tweets_buffer, attr_type=False)
-    tree = etree.fromstring(xml_output)
-    path = str(len([k for k in tweets_buffer])) + "_catched_tweets_(" + str(
-        datetime.now().strftime("%H:%M - %d-%m-%Y")
-    ) + ").xml"
-    print(path)
-    tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
+    path = str(len(tweets_buffer.index)) + "_catched_tweets_(" + str(
+        datetime.now().strftime("%H:%M:%S - %d-%m-%Y")) + ").csv"
+    tweets_buffer.to_csv(path, encoding='utf-8', index=False)
     print("\nEscritura del archivo " + path + " terminada.")
 
 
@@ -105,8 +115,9 @@ print("")
 while writed_tweets is not number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
-        stream.filter(languages=['en', 'es'], track=['coronavirus', 'covid-19'])
-    except:
+        stream.filter(languages=['en', 'es'], track=tags)
+    except ValueError as valerr:
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
+        print(valerr)
         time.sleep(60)
         print("Reconectando.\n")
