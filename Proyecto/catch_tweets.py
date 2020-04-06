@@ -7,9 +7,9 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 
 output_path = 'catched_tweets'
-number_of_tweets_for_catch = 4  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 500  # <----- Numero de tweets en total.
 tweets_buffer = dict()
-tweets_per_file = 1  # <----- Numero de tweets por archivo.
+tweets_per_file = 250  # <----- Numero de tweets por archivo.
 writed_tweets = 0
 num_file = 0
 
@@ -37,12 +37,15 @@ def process_incoming_data(tweet):
         add_tweet_to_buffer(tweet)
         writed_tweets += 1
 
+        files_in_buffer = len([k for k in tweets_buffer])
+        print("Archivos en el buffer: " + str(files_in_buffer))
+
         if writed_tweets == number_of_tweets_for_catch:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
             return False
 
-        elif len([k for k in tweets_buffer]) == tweets_per_file:
+        elif files_in_buffer == tweets_per_file:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
             num_file += 1
@@ -71,12 +74,11 @@ def add_tweets_to_xml_file():
     global output_path
     global num_file
 
-    print("Escribiendo archivo " + str(num_file))
     xml_output = dicttoxml.dicttoxml(tweets_buffer, custom_root='tweets', attr_type=False)
     tree = etree.fromstring(xml_output)
     path = str(output_path) + "_" + str(num_file) + ".xml"
     tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
-    print("Archivo " + str(num_file) + " terminado")
+    print("Escritura del archivo " + str(num_file) + " terminada\n")
 
 
 # --------------------------------------------------------------------------------
