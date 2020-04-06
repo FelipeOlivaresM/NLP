@@ -49,19 +49,20 @@ def process_incoming_data(tweet):
             str(writed_tweets) + " de " +
             str(number_of_tweets_for_catch) +
             " - Tiempo de ejecucion: " + str(round((time.time() - start_time) / 60, 0)) +
-            " minutos"
+            " minutos - escribiendo en archivo " +
+            str(num_file) + "."
         )
 
         if writed_tweets == number_of_tweets_for_catch:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
-            print("Proceso terminado \n")
+            print("Proceso terminado.\n")
             return False
 
         elif files_in_buffer == tweets_per_file:
             add_tweets_to_xml_file()
             tweets_buffer.clear()
-            print("Buffer reiniciado \n")
+            print("Buffer reiniciado.\n")
             num_file += 1
             return
 
@@ -92,7 +93,7 @@ def add_tweets_to_xml_file():
     tree = etree.fromstring(xml_output)
     path = str(output_path) + "_" + str(num_file) + ".xml"
     tree.getroottree().write(path, pretty_print=True, encoding='UTF-8')
-    print("Escritura del archivo " + str(num_file) + " terminada")
+    print("\nEscritura del archivo " + str(num_file) + " terminada.")
 
 
 # --------------------------------------------------------------------------------
@@ -108,5 +109,12 @@ cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 # --------------------------------------------------------------------------------
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
-stream = Stream(authenticator, Listener())
-stream.filter(languages=['en', 'es'], track=['coronavirus', 'covid-19'])
+
+while writed_tweets is not number_of_tweets_for_catch:
+    try:
+        stream = Stream(authenticator, Listener())
+        stream.filter(languages=['en', 'es'], track=['coronavirus', 'covid-19'])
+    except:
+        print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
+        time.sleep(60)
+        print("Reconectando.\n")
