@@ -6,6 +6,7 @@ from os import path
 from tweepy import Stream
 from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
+from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
 
 tags = [
@@ -31,6 +32,7 @@ class Listener(StreamListener):
             return
 
     def on_error(self, status):
+        print(status)
         return False
 
 
@@ -117,7 +119,7 @@ while writed_tweets != number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
         stream.filter(languages=['en', 'es'], track=tags)
-    except (Timeout, ConnectionError):
+    except (Timeout, ConnectionError, ProtocolError):
         stream.disconnect()
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
         time.sleep(20)
