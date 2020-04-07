@@ -48,13 +48,17 @@ def process_incoming_data(tweet):
             add_tweets_to_csv_file()
             writed_tweets += 1
 
+            file = open(output_path)
+
             print(
                 "Tweets capturados: " +
                 str(writed_tweets) + " de " +
                 str(number_of_tweets_for_catch) +
                 " - Tiempo de ejecucion: " + str(int((time.time() - start_time) / 60)) +
-                " minutos - Tweets en el archivo: " + str(sum(1 for row in csv.reader(open(output_path))) - 1)
+                " minutos - Tweets en el archivo: " + str(sum(1 for row in csv.reader(file)) - 1)
             )
+
+            file.close()
 
 
 def tweet_to_list(tweet):
