@@ -17,7 +17,7 @@ tags = [
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 200  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 800  # <----- Numero de tweets en total.
 start_time = time.time()
 tweet_as_list = list()
 writed_tweets = 0
@@ -80,7 +80,7 @@ def tweet_to_list(tweet):
 def add_tweets_to_csv_file():
     global tweet_as_list
     global output_path
-    if path.isfile(output_path) == False:
+    if path.isfile(output_path) is False:
         csv_file = open(output_path, 'a', encoding="utf-8")
         writer = csv.writer(csv_file)
         writer.writerow(
@@ -97,7 +97,7 @@ def add_tweets_to_csv_file():
              ]
         )
         csv_file.close()
-    if path.isfile(output_path) == True:
+    if path.isfile(output_path) is True:
         csv_file = open(output_path, 'a', encoding="utf-8")
         writer = csv.writer(csv_file)
         writer.writerow(tweet_as_list)
@@ -120,8 +120,8 @@ authenticator.set_access_token(aToken, aTokenSecret)
 
 print("")
 while writed_tweets != number_of_tweets_for_catch:
+    stream = Stream(authenticator, Listener())
     try:
-        stream = Stream(authenticator, Listener())
         stream.filter(languages=['en', 'es'], track=tags)
     except (Timeout, ConnectionError, ProtocolError):
         stream.disconnect()
