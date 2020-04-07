@@ -5,8 +5,8 @@ import time
 from os import path
 from tweepy import Stream
 from tweepy import OAuthHandler
-from requests.exceptions import Timeout
 from tweepy.streaming import StreamListener
+from requests.exceptions import Timeout, ConnectionError
 
 tags = [
     'coronavirus', 'covid-19', 'covid19', 'covid 19',
@@ -16,7 +16,7 @@ tags = [
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 60  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 200  # <----- Numero de tweets en total.
 start_time = time.time()
 tweet_as_list = list()
 writed_tweets = 0
@@ -117,7 +117,7 @@ while writed_tweets != number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
         stream.filter(languages=['en', 'es'], track=tags)
-    except Timeout:
+    except (Timeout, ConnectionError):
         stream.disconnect()
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
         time.sleep(20)
