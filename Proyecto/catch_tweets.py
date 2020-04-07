@@ -1,10 +1,11 @@
 import csv
 import json
 import time
-import walk
 
-from tweepy import OAuthHandler
+from os import path
 from tweepy import Stream
+from tweepy import OAuthHandler
+from requests.exceptions import Timeout
 from tweepy.streaming import StreamListener
 
 tags = [
@@ -14,8 +15,9 @@ tags = [
     'CoronaVirus', 'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2'
 ]
 
+output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
+number_of_tweets_for_catch = 60  # <----- Numero de tweets en total.
 start_time = time.time()
-number_of_tweets_for_catch = 2  # <----- Numero de tweets en total.
 tweet_as_list = list()
 writed_tweets = 0
 
@@ -34,6 +36,7 @@ class Listener(StreamListener):
 
 def process_incoming_data(tweet):
     global number_of_tweets_for_catch
+    global output_path
     global writed_tweets
     global tags
 
@@ -44,11 +47,11 @@ def process_incoming_data(tweet):
             writed_tweets += 1
 
             print(
-                " Tweets capturados: " +
+                "Tweets capturados: " +
                 str(writed_tweets) + " de " +
                 str(number_of_tweets_for_catch) +
                 " - Tiempo de ejecucion: " + str(int((time.time() - start_time) / 60)) +
-                " minutos."
+                " minutos - Tweets en el archivo: " + str(sum(1 for row in csv.reader(open(output_path))) - 1)
             )
 
 
@@ -70,10 +73,9 @@ def tweet_to_list(tweet):
 
 def add_tweets_to_csv_file():
     global tweet_as_list
-    path_output = "catched_tweets_1.csv"
-    path_1, subfolders, files_list = list(walk('./'))
-    if path_output not in files_list:
-        csv_file = open(path_output, 'a', encoding="utf-8")
+    global output_path
+    if path.isfile(output_path) == False:
+        csv_file = open(output_path, 'a', encoding="utf-8")
         writer = csv.writer(csv_file)
         writer.writerow(
             ['id',
@@ -89,8 +91,8 @@ def add_tweets_to_csv_file():
              ]
         )
         csv_file.close()
-    if path_output in files_list:
-        csv_file = open(path_output, 'a', encoding="utf-8")
+    if path.isfile(output_path) == True:
+        csv_file = open(output_path, 'a', encoding="utf-8")
         writer = csv.writer(csv_file)
         writer.writerow(tweet_as_list)
         csv_file.close()
@@ -111,12 +113,12 @@ authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
 
 print("")
-while writed_tweets <= number_of_tweets_for_catch:
-    print("Reinicinando")
+while writed_tweets != number_of_tweets_for_catch:
     try:
         stream = Stream(authenticator, Listener())
         stream.filter(languages=['en', 'es'], track=tags)
-    except:
+    except Timeout:
+        stream.disconnect()
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
-        time.sleep(60)
-        print("Reconectando.\n")
+        time.sleep(20)
+        print("Reconectando... \n")
