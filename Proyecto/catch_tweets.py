@@ -17,7 +17,7 @@ tags = [
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 800  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 1000  # <----- Numero de tweets en total.
 start_time = time.time()
 tweet_as_list = list()
 writed_tweets = 0
