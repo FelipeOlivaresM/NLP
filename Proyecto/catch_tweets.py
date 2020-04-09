@@ -1,3 +1,4 @@
+import re
 import csv
 import json
 import time
@@ -17,7 +18,7 @@ tags = [
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 200  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 60  # <----- Numero de tweets en total.
 start_time = time.time()
 tweet_as_list = list()
 writed_tweets = 0
@@ -55,7 +56,7 @@ def process_incoming_data(tweet):
                 str(writed_tweets) + " de " +
                 str(number_of_tweets_for_catch) +
                 " - Tiempo de ejecucion: " + str(int((time.time() - start_time) / 60)) +
-                " minutos - Tweets en el archivo: " + str(sum(1 for row in csv.reader(file)) - 1)
+                " minutos - Tweets en el archivo " + output_path + ": " + str(sum(1 for row in csv.reader(file)) - 1)
             )
 
             file.close()
@@ -65,7 +66,7 @@ def tweet_to_list(tweet):
     global tweet_as_list
     tweet_as_list = [
         tweet['id'],
-        tweet['text'].strip().replace("\n", " "),
+        re.sub(' +', ' ', re.sub(r"http\S+", "", tweet['text'].replace("\n", " "))).strip(),
         tweet['user']['screen_name'],
         tweet['created_at'],
         tweet['retweet_count'],
