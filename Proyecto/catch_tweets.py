@@ -2,6 +2,7 @@ import re
 import csv
 import json
 import time
+import threading
 
 from os import path
 from tweepy import Stream
@@ -9,6 +10,8 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
+
+lock = threading.Lock()
 
 tags = [
     'coronavirus', 'covid-19', 'covid19', 'covid 19',
@@ -26,10 +29,13 @@ writed_tweets = 0
 
 class Listener(StreamListener):
     def on_data(self, data):
-        process_incoming_data(json.loads(data))
+        threading.Thread(target=process_incoming_data, kwargs={'tweet': json.loads(data)}).start()
+        lock.acquire()
         if writed_tweets == number_of_tweets_for_catch:
+            lock.release()
             return False
         else:
+            lock.release()
             return
 
     def on_error(self, status):
@@ -37,34 +43,34 @@ class Listener(StreamListener):
         return False
 
 
-def process_incoming_data(tweet):
+def process_incoming_data(**thread_data):
     global number_of_tweets_for_catch
     global output_path
     global writed_tweets
     global tags
-
+    
+    tweet = thread_data['tweet']
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
-            tweet_to_list(tweet)
-            add_tweets_to_csv_file()
+            add_tweets_to_csv_file(tweet_to_list(tweet), output_path)
+            lock.acquire()
             writed_tweets += 1
-
             file = open(output_path)
-
             print(
-                "Tweets capturados: " +
+                "Capturados: " +
                 str(writed_tweets) + " de " +
                 str(number_of_tweets_for_catch) +
-                " - Tiempo de ejecucion: " + str(int((time.time() - start_time) / 60)) +
-                " minutos - Tweets en el archivo " + output_path + ": " + str(sum(1 for row in csv.reader(file)) - 1)
+                " - Tiempo: " + str(int((time.time() - start_time) / 60)) +
+                " minutos - Tweets en el archivo " + output_path.split("/")[-1] +
+                ": " + str(sum(1 for row in csv.reader(file)) - 1)
             )
-
             file.close()
+            lock.release()
+    return
 
 
 def tweet_to_list(tweet):
-    global tweet_as_list
-    tweet_as_list = [
+    return [
         tweet['id'],
         re.sub(' +', ' ', re.sub(r"http\S+", "", tweet['text'].replace("\n", " "))).strip(),
         tweet['user']['screen_name'],
@@ -78,10 +84,9 @@ def tweet_to_list(tweet):
     ]
 
 
-def add_tweets_to_csv_file():
-    global tweet_as_list
-    global output_path
+def add_tweets_to_csv_file(tweet_as_list, output_path):
     if path.isfile(output_path) is False:
+        lock.acquire()
         csv_file = open(output_path, 'a', encoding="utf-8")
         writer = csv.writer(csv_file)
         writer.writerow(
@@ -98,11 +103,16 @@ def add_tweets_to_csv_file():
              ]
         )
         csv_file.close()
+        lock.release()
     if path.isfile(output_path) is True:
+        lock.acquire()
         csv_file = open(output_path, 'a', encoding="utf-8")
+        lock.release()
         writer = csv.writer(csv_file)
+        lock.acquire()
         writer.writerow(tweet_as_list)
         csv_file.close()
+        lock.release()
 
 
 # --------------------------------------------------------------------------------
