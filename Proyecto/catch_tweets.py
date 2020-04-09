@@ -52,7 +52,7 @@ def process_incoming_data(**thread_data):
     lock.acquire()
     readed_tweets += 1
     lock.release()
-    
+
     tweet = thread_data['tweet']
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
@@ -153,3 +153,4 @@ while writed_tweets != number_of_tweets_for_catch:
         sys.exit()
 
 print("\nTweets capturados: " + str(writed_tweets) + "\n")
+sys.exit()
