@@ -23,6 +23,7 @@ tags = [
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
 number_of_tweets_for_catch = 500  # <----- Numero de tweets en total.
 start_time = time.time()
+readed_tweets = 0
 writed_tweets = 0
 
 
@@ -45,8 +46,12 @@ class Listener(StreamListener):
 def process_incoming_data(**thread_data):
     global number_of_tweets_for_catch
     global writed_tweets
+    global readed_tweets
     global tags
 
+    lock.acquire()
+    readed_tweets += 1
+    lock.release()
     tweet = thread_data['tweet']
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
@@ -62,7 +67,8 @@ def process_incoming_data(**thread_data):
                 " - tiempo: " + str(int((time.time() - start_time) / 60)) +
                 " minutos - tweets en el archivo " + output_path.split("/")[-1] +
                 ": " + str(sum(1 for row in csv.reader(file)) - 1) +
-                " - hilo: " + str(threading.current_thread().name)
+                " - hilo: " + str(threading.current_thread().name) +
+                " - tweets revisados: " + str(readed_tweets)
             )
             lock.acquire()
             file.close()
