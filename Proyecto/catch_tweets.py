@@ -1,9 +1,3 @@
-import re
-import csv
-import json
-import time
-import threading
-
 from os import path
 from tweepy import Stream
 from tweepy import OAuthHandler
@@ -11,25 +5,30 @@ from tweepy.streaming import StreamListener
 from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
 
+import re, csv, sys, json, time, threading
+
 lock = threading.Lock()
 
 tags = [
     'coronavirus', 'covid-19', 'covid19', 'covid 19',
     'Coronavirus', 'Covid-19', 'Covid19', 'Covid 19',
     'CORONAVIRUS', 'COVID-19', 'COVID19', 'COVID 19',
-    'CoronaVirus', 'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2'
+    'CoronaVirus', 'CoVid-19', 'CoVid19', 'CoVid 19',
+    'COVID', 'covid', 'coVid', 'Covid', 'CoVid',
+    'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2',
+    'Virus', 'virus', 'VIRUS',
+    'VirusChino', 'VIRUSCHINO'
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
 number_of_tweets_for_catch = 60  # <----- Numero de tweets en total.
 start_time = time.time()
-tweet_as_list = list()
 writed_tweets = 0
 
 
 class Listener(StreamListener):
     def on_data(self, data):
-        threading.Thread(target=process_incoming_data, kwargs={'tweet': json.loads(data)}).start()
+        threading.Thread(target=process_incoming_data, kwargs={'tweet': json.loads(data)}, daemon=True).start()
         lock.acquire()
         if writed_tweets == number_of_tweets_for_catch:
             lock.release()
@@ -45,25 +44,27 @@ class Listener(StreamListener):
 
 def process_incoming_data(**thread_data):
     global number_of_tweets_for_catch
-    global output_path
     global writed_tweets
     global tags
 
     tweet = thread_data['tweet']
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
-            add_tweets_to_csv_file(tweet_to_list(tweet), output_path)
+            add_tweets_to_csv_file(tweet_to_list(tweet))
             lock.acquire()
             writed_tweets += 1
             file = open(output_path)
+            lock.release()
             print(
                 "Capturados: " +
                 str(writed_tweets) + " de " +
                 str(number_of_tweets_for_catch) +
-                " - Tiempo: " + str(int((time.time() - start_time) / 60)) +
-                " minutos - Tweets en el archivo " + output_path.split("/")[-1] +
-                ": " + str(sum(1 for row in csv.reader(file)) - 1)
+                " - tiempo: " + str(int((time.time() - start_time) / 60)) +
+                " minutos - tweets en el archivo " + output_path.split("/")[-1] +
+                ": " + str(sum(1 for row in csv.reader(file)) - 1) +
+                " - hilo: " + str(threading.current_thread().name)
             )
+            lock.acquire()
             file.close()
             lock.release()
     return
@@ -72,7 +73,7 @@ def process_incoming_data(**thread_data):
 def tweet_to_list(tweet):
     return [
         tweet['id'],
-        re.sub(' +', ' ', re.sub(r"http\S+", "", tweet['text'].replace("\n", " "))).strip(),
+        re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " "))).strip(),
         tweet['user']['screen_name'],
         tweet['created_at'],
         tweet['retweet_count'],
@@ -84,7 +85,7 @@ def tweet_to_list(tweet):
     ]
 
 
-def add_tweets_to_csv_file(tweet_as_list, output_path):
+def add_tweets_to_csv_file(tweet_as_list):
     if path.isfile(output_path) is False:
         lock.acquire()
         csv_file = open(output_path, 'a', encoding="utf-8")
@@ -139,3 +140,6 @@ while writed_tweets != number_of_tweets_for_catch:
         print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
         time.sleep(20)
         print("Reconectando... \n")
+    except (KeyboardInterrupt, SystemExit):
+        stream.disconnect()
+        sys.exit()
