@@ -48,7 +48,7 @@ def process_incoming_data(**thread_data):
     global output_path
     global writed_tweets
     global tags
-    
+
     tweet = thread_data['tweet']
     if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
         if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
