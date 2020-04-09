@@ -28,7 +28,7 @@ writed_tweets = 0
 
 class Listener(StreamListener):
     def on_data(self, data):
-        threading.Thread(target=process_incoming_data, kwargs={'tweet': json.loads(data)}, daemon=True).start()
+        threading.Thread(target=process_incoming_data, kwargs={'tweet': json.loads(data)}).start()
         lock.acquire()
         if writed_tweets == number_of_tweets_for_catch:
             lock.release()
