@@ -1,11 +1,7 @@
 import re
 import pandas as pd
 
-<<<<<<< HEAD
 output_path = "./twitter_data/catched_tweets_1.csv"
-=======
-output_path = "./500Datos-para-tageo.csv"
->>>>>>> 28e2e1fb6e18df02fc811751f6d9a1671a6f3c96
 df = pd.read_csv(output_path)
 datos_en_el_archivo = 0
 datos_eliminados = 0
