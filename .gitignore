@@ -1,3 +1,6 @@
 # Ignora los archivos .py en la carpeta Proyecto, asi se pueden editar en cada pc evitando conflictos.
-Proyecto/*.py
+Proyecto/catch_tweets.py
+Proyecto/clean_data.py
+.Trash-*
+*~
 
