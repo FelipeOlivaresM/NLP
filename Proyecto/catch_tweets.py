@@ -20,8 +20,8 @@ tags = [
     'VirusChino', 'VIRUSCHINO'
 ]
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el 4 es de pruebas.
-number_of_tweets_for_catch = 3000  # <----- Numero de tweets en total.
+output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
+number_of_tweets_for_catch = 2877  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
@@ -54,12 +54,14 @@ def process_incoming_data(**thread_data):
     lock.release()
 
     tweet = thread_data['tweet']
-    if 'RT @' not in tweet['text'] and not tweet['retweeted']:
-        if 'place' in [k for k in tweet] and tweet['place'] is not None:
+    if 'place' in [k for k in tweet] and tweet['place'] is not None:
+        if 'RT @' not in tweet['text'] and not tweet['retweeted']:
             add_tweets_to_csv_file(tweet_to_list(tweet))
             lock.acquire()
             writed_tweets += 1
             file = open(output_path)
+            rows_count = sum(1 for row in csv.reader(file)) - 1
+            file.close()
             lock.release()
             print(
                 "Capturados: " +
@@ -67,15 +69,11 @@ def process_incoming_data(**thread_data):
                 str(number_of_tweets_for_catch) +
                 " - tiempo: " + str(int((time.time() - start_time) / 60)) +
                 " minutos - tweets en el archivo " + output_path.split("/")[-1] +
-                ": " + str(sum(1 for row in csv.reader(file)) - 1) +
+                ": " + str(rows_count) +
                 " - hilo: " + str(threading.current_thread().name) +
                 " - tweets revisados: " + str(readed_tweets)
             )
-            lock.acquire()
-            file.close()
-            lock.release()
-
-    return
+        return
 
 
 def tweet_to_list(tweet):
@@ -119,9 +117,7 @@ def add_tweets_to_csv_file(tweet_as_list):
     if path.isfile(output_path) is True:
         lock.acquire()
         csv_file = open(output_path, 'a', encoding="utf-8")
-        lock.release()
         writer = csv.writer(csv_file)
-        lock.acquire()
         writer.writerow(tweet_as_list)
         csv_file.close()
         lock.release()
