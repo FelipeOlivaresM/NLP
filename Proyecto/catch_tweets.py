@@ -15,13 +15,18 @@ tags = [
     'CORONAVIRUS', 'COVID-19', 'COVID19', 'COVID 19',
     'CoronaVirus', 'CoVid-19', 'CoVid19', 'CoVid 19',
     'COVID', 'covid', 'coVid', 'Covid', 'CoVid',
-    'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2',
-    'Virus', 'virus', 'VIRUS',
-    'VirusChino', 'VIRUSCHINO'
+    'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2', 'Virus',
+    'virus', 'VIRUS', 'VirusChino', 'VIRUSCHINO',
+    'Cuarentena', 'CUARENTENA', 'viruschino',
+    'CuarentenaInteligente', 'covid_19', 'Covid_19',
+    'COVID_19', 'CoVid_19', 'AislamientoObligatorio',
+    'CuarentenaTotal', 'CuarentenaCoronavirus',
+    'CuarentenaCoronaVirus', 'COVIDー19', 'pandemia',
+    'CuarentenaPositiva', 'MeQuedoEnCasa', 'Pandemia'
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 2877  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 1260  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
@@ -77,9 +82,9 @@ def process_incoming_data(**thread_data):
 
 
 def tweet_to_list(tweet):
-    text = re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " "))).strip()
+    text = (re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " ")))).strip()
     if text.endswith('…'):
-        text = re.sub(' +', ' ', re.sub("http\S+", "", tweet['extended_tweet']['full_text'].replace("\n", " "))).strip()
+        text = (re.sub(' +', ' ', re.sub("http\S+", "", tweet['extended_tweet']['full_text'].replace("\n", " ")))).strip()
     return [
         tweet['id'],
         text,
