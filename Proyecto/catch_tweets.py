@@ -21,7 +21,7 @@ tags = [
 ]
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 480  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 3000  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
@@ -54,8 +54,8 @@ def process_incoming_data(**thread_data):
     lock.release()
 
     tweet = thread_data['tweet']
-    if 'place' in [k for k in tweet] and tweet['place'] is not None and not tweet['retweeted']:
-        if 'RT @' not in tweet['text'] and any(tag in tweet['text'] for tag in tags):
+    if 'RT @' not in tweet['text'] and not tweet['retweeted']:
+        if 'place' in [k for k in tweet] and tweet['place'] is not None:
             add_tweets_to_csv_file(tweet_to_list(tweet))
             lock.acquire()
             writed_tweets += 1
@@ -74,6 +74,7 @@ def process_incoming_data(**thread_data):
             lock.acquire()
             file.close()
             lock.release()
+
     return
 
 
