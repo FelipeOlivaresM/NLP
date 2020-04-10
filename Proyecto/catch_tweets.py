@@ -20,8 +20,8 @@ tags = [
     'VirusChino', 'VIRUSCHINO'
 ]
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 696  # <----- Numero de tweets en total.
+output_path = "./twitter_data/catched_tweets_4.csv"  # <----- Ruta de salida para el archivo.
+number_of_tweets_for_catch = 60  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
@@ -39,7 +39,7 @@ class Listener(StreamListener):
             return
 
     def on_error(self, status):
-        print(status)
+        print("Error: " + str(status))
         return False
 
 
@@ -78,9 +78,12 @@ def process_incoming_data(**thread_data):
 
 
 def tweet_to_list(tweet):
+    text = re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " "))).strip()
+    if text.endswith('…'):
+        text = re.sub(' +', ' ', re.sub("http\S+", "", tweet['extended_tweet']['full_text'].replace("\n", " "))).strip()
     return [
         tweet['id'],
-        re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " "))).strip(),
+        text,
         tweet['user']['screen_name'],
         tweet['created_at'],
         tweet['retweet_count'],
