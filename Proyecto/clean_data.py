@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 
-output_path = "./twitter_data/catched_tweets_1.csv"
+output_path = "./twitter_data/catched_tweets_3.csv"
 df = pd.read_csv(output_path)
 datos_en_el_archivo = 0
 datos_eliminados = 0
@@ -9,15 +9,15 @@ datos_reparados = 0
 
 print("Datos eliminados")
 for i, row in df.iterrows():
-    texto_anterior = df.at[i, 'text']
-    texto_nuevo = (re.sub(' +', ' ', re.sub("http\S+", "", str(row['text']).replace("\n", " ")))).strip()
-    df.at[i, 'text'] = texto_nuevo
     datos_en_el_archivo += 1
+    texto_anterior = str(df.at[i, 'text'])
+    texto_nuevo = (re.sub(' +', ' ', re.sub("http\S+", "", str(df.at[i, 'text']).replace("\n", " ")))).strip()
     if texto_anterior != texto_nuevo:
+        df.at[i, 'text'] = texto_nuevo
         datos_reparados += 1
-    if df.at[i, 'text'].endswith('…'):
+    if str(df.at[i, 'text']).endswith('…'):
         datos_eliminados += 1
-        print(df.at[i, 'id'], df.at[i, 'text'])
+        print(df.at[i, 'id'], ' - ', df.at[i, 'text'])
         df = df.drop([i])
 
 df.to_csv(output_path, index=False, encoding="utf-8")

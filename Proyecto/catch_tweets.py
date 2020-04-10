@@ -82,9 +82,10 @@ def process_incoming_data(**thread_data):
 
 
 def tweet_to_list(tweet):
-    text = (re.sub(' +', ' ', re.sub("http\S+", "", tweet['text'].replace("\n", " ")))).strip()
+    text = (re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['text']).replace("\n", " ")))).strip()
     if text.endswith('…'):
-        text = (re.sub(' +', ' ', re.sub("http\S+", "", tweet['extended_tweet']['full_text'].replace("\n", " ")))).strip()
+        text = (re.sub(' +', ' ',
+                       re.sub("http\S+", "", str(tweet['extended_tweet']['full_text']).replace("\n", " ")))).strip()
     return [
         tweet['id'],
         text,
