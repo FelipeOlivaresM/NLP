@@ -1,13 +1,13 @@
 import re
 import pandas as pd
 
-output_path = "./500Datos-para-tageo.csv"
+output_path = "./twitter_data/catched_tweets_1.csv"
 df = pd.read_csv(output_path)
 datos_en_el_archivo = 0
 datos_eliminados = 0
 datos_reparados = 0
 
-print("Datos eliminados")
+print("\nDatos eliminados: ")
 for i, row in df.iterrows():
     datos_en_el_archivo += 1
     texto_anterior = str(df.at[i, 'text'])
