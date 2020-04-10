@@ -1,3 +1,4 @@
 # Archivos ignorados:
-# catched_tweets.xml
+catch_tweets.py
+clean_data.py
 
