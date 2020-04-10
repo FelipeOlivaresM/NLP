@@ -7,7 +7,7 @@ datos_en_el_archivo = 0
 datos_eliminados = 0
 datos_reparados = 0
 
-print("Datos eliminados")
+print("\nDatos eliminados: ")
 for i, row in df.iterrows():
     datos_en_el_archivo += 1
     texto_anterior = str(df.at[i, 'text'])
