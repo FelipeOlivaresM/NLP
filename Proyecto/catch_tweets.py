@@ -25,8 +25,8 @@ tags = [
     'CuarentenaPositiva', 'MeQuedoEnCasa', 'Pandemia'
 ]
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
-number_of_tweets_for_catch = 1260  # <----- Numero de tweets en total.
+output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
+number_of_tweets_for_catch = 200  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
@@ -82,10 +82,13 @@ def process_incoming_data(**thread_data):
 
 
 def tweet_to_list(tweet):
-    text = (re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['text']).replace("\n", " ")))).strip()
-    if text.endswith('…'):
-        text = (re.sub(' +', ' ',
-                       re.sub("http\S+", "", str(tweet['extended_tweet']['full_text']).replace("\n", " ")))).strip()
+    if 'extended_tweet' in [k for k in tweet]:
+        text = (
+            re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['extended_tweet']['full_text']).replace("\n", " ")))
+        ).strip()
+    else:
+        text = (re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['text']).replace("\n", " ")))).strip()
+
     return [
         tweet['id'],
         text,
