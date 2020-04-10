@@ -20,7 +20,7 @@ tags = [
     'VirusChino', 'VIRUSCHINO'
 ]
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo.
+output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el 4 es de pruebas.
 number_of_tweets_for_catch = 3000  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
