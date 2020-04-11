@@ -4,10 +4,10 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
-import re, csv, sys, json, time, random, threading
+import re, csv, sys, json, time, threading
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 3000  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 1242  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
@@ -26,18 +26,6 @@ tags = [
     'PANDEMIA', 'pandemia', 'Pandemia',
     'VIRUS', 'virus', 'Virus'
 ]
-
-
-def get_sublists(list, number_of_sublists):
-    elements_in_sublist = int(round(len(list) / number_of_sublists))
-    sublists = []
-    for i in range(number_of_sublists):
-        sublist = []
-        for y in range(elements_in_sublist):
-            if len(list) is not 0:
-                sublist.append(list.pop(random.randrange(len(list))))
-        sublists.append(sublist)
-    return sublists
 
 
 class Listener(StreamListener):
