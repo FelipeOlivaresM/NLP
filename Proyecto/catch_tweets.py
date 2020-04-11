@@ -7,24 +7,20 @@ from requests.exceptions import Timeout, ConnectionError
 import re, csv, sys, json, time, threading
 
 output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 1242  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 1000  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
 writed_tweets = 0
 
 tags = [
-    'covid-19', 'covid19', 'covid 19', 'Covid-19', 'Covid19', 'Covid 19', 'COVID-19', 'COVID19', 'COVID 19',
-    'CoVid-19', 'CoVid19', 'CoVid 19', 'covid_19', 'Covid_19', 'COVID_19', 'CoVid_19', 'COVIDー19',
-    'CORONAVIRUS', 'coronavirus', 'coronaVirus', 'Coronavirus', 'CoronaVirus',
+    'covid-19', 'covid19', 'Covid-19', 'Covid19', 'COVID-19', 'COVID19', 'CoVid-19', 'CoVid19', 'COVIDー19',
+    'pandemic', 'Pandemic', 'covidpandemic', 'Covidpandemic', 'CovidPandemic', 'COVIDpandemic',
+    'CORONAVIRUS', 'coronavirus', 'coronaVirus', 'Coronavirus', 'CoronaVirus', 'COVID__19',
+    'CuarentenaTotal', 'CuarentenaCoronavirus', 'Covid_19', 'SARSCoV2',
     'Cuarentena', 'CuarentenaInteligente', 'AislamientoObligatorio',
     'CuarentenaCoronaVirus', 'CuarentenaPositiva', 'MeQuedoEnCasa',
-    'COVID', 'covid', 'coVid', 'Covid', 'CoVid',
-    'CuarentenaTotal', 'CuarentenaCoronavirus',
-    'VIRUSCHINO', 'viruschino', 'VirusChino',
-    'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2',
-    'PANDEMIA', 'pandemia', 'Pandemia',
-    'VIRUS', 'virus', 'Virus'
+    'pandemia', 'Pandemia', 'TrumpLiesAboutCoronavirus'
 ]
 
 
