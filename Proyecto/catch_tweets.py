@@ -14,15 +14,17 @@ readed_tweets = 0
 writed_tweets = 0
 
 tags = [
+    'covid-19', 'covid19', 'covid 19', 'Covid-19', 'Covid19', 'Covid 19', 'COVID-19', 'COVID19', 'COVID 19',
+    'CoVid-19', 'CoVid19', 'CoVid 19', 'covid_19', 'Covid_19', 'COVID_19', 'CoVid_19', 'COVIDー19',
     'CORONAVIRUS', 'coronavirus', 'coronaVirus', 'Coronavirus', 'CoronaVirus',
+    'Cuarentena', 'CuarentenaInteligente', 'AislamientoObligatorio',
+    'CuarentenaCoronaVirus', 'CuarentenaPositiva', 'MeQuedoEnCasa',
     'COVID', 'covid', 'coVid', 'Covid', 'CoVid',
+    'CuarentenaTotal', 'CuarentenaCoronavirus',
     'VIRUSCHINO', 'viruschino', 'VirusChino',
     'SARSCoV2', 'SARS-CoV2', 'SARS-CoV-2',
     'PANDEMIA', 'pandemia', 'Pandemia',
-    'VIRUS', 'virus', 'Virus',
-    'Cuarentena', 'CuarentenaInteligente', 'AislamientoObligatorio',
-    'CuarentenaTotal', 'CuarentenaCoronavirus',
-    'CuarentenaCoronaVirus', 'CuarentenaPositiva', 'MeQuedoEnCasa'
+    'VIRUS', 'virus', 'Virus'
 ]
 
 
