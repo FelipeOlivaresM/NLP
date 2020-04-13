@@ -22,11 +22,13 @@ tags = [
     'COVID_19', 'CoVid_19', 'AislamientoObligatorio',
     'CuarentenaTotal', 'CuarentenaCoronavirus',
     'CuarentenaCoronaVirus', 'COVIDー19', 'pandemia',
-    'CuarentenaPositiva', 'MeQuedoEnCasa', 'Pandemia'
+    'CuarentenaPositiva', 'MeQuedoEnCasa', 'Pandemia','Todoscontraelcoronavirus',
+    'pandemic','coronaviruspandemic'
+    
 ]
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 1000  # <----- Numero de tweets en total.
+output_path = "./twitter_data/catched_tweets_6.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
+number_of_tweets_for_catch = 10000  # <----- Numero de tweets en total.
 start_time = time.time()
 readed_tweets = 0
 writed_tweets = 0
