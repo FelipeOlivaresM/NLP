@@ -6,7 +6,7 @@ from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
 import re, csv, sys, json, time, threading
 
-output_path = "./twitter_data/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
+output_path = "./twitter_data/datos_en_bruto/catched_tweets_1.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
 number_of_tweets_for_catch = 10000  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
