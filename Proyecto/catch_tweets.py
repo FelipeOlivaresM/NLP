@@ -51,7 +51,7 @@ def process_incoming_data(**thread_data):
     lock.release()
 
     tweet = thread_data['tweet']
-    if 'place' in [k for k in tweet] and tweet['place'] is not None:
+    if 'place' in [k for k in tweet]:  # and tweet['place'] is not None <----- restriccion de lugar.
         if 'RT @' not in tweet['text'] and not tweet['retweeted']:
             add_tweets_to_csv_file(tweet_to_list(tweet))
             lock.acquire()
@@ -80,7 +80,10 @@ def tweet_to_list(tweet):
         ).strip()
     else:
         text = (re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['text']).replace("\n", " ")))).strip()
-
+    if tweet['place'] is not None:
+        country = tweet['place']['country']
+    elif tweet['place'] is None:
+        country = None
     return [
         tweet['id'],
         text,
@@ -91,7 +94,7 @@ def tweet_to_list(tweet):
         tweet['user']['friends_count'],
         tweet['user']['followers_count'],
         tweet['lang'],
-        tweet['place']['country']
+        country
     ]
 
 
