@@ -1,6 +1,8 @@
 import re
 import pandas as pd
 
+# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
+
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_1.csv"
 df = pd.read_csv(output_path)
 datos_en_el_archivo = 0
