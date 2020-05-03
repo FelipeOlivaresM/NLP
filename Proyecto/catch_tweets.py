@@ -8,11 +8,7 @@ import re, csv, sys, json, time, threading
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
-<<<<<<< HEAD
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_4.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-=======
-output_path = "./twitter_data/datos_en_bruto/catched_tweets_5.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
->>>>>>> ab4908af44f6eaa011a418ed7033a648287704d8
 number_of_tweets_for_catch = 200000  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
