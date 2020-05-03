@@ -3,7 +3,11 @@ import pandas as pd
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
+<<<<<<< HEAD
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_8.csv"
+=======
+output_path = "./twitter_data/datos_en_bruto/catched_tweets_7.csv"
+>>>>>>> 103b2d55e5b239339d64f16dfead47775024c238
 df = pd.read_csv(output_path)
 datos_en_el_archivo = 0
 datos_eliminados = 0
