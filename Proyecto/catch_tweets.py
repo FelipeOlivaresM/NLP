@@ -8,12 +8,21 @@ import re, csv, sys, json, time, threading
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
+
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_4.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
 number_of_tweets_for_catch = 400000  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
 writed_tweets = 0
+
+file = open(output_path)
+rows_count = sum(1 for row in csv.reader(file)) - 1
+file.close()
+
+print("")
+print("Tweets iniciales en el archivo " + str(output_path.split("/")[-1]) + ": " + str(rows_count))
+time.sleep(6)
 
 tags = [
     'covid-19', 'covid19', 'Covid-19', 'Covid19', 'COVID-19', 'COVID19', 'CoVid-19', 'CoVid19', 'COVIDー19',
@@ -46,6 +55,7 @@ def process_incoming_data(**thread_data):
     global number_of_tweets_for_catch
     global writed_tweets
     global readed_tweets
+    global rows_count
     global tags
 
     lock.acquire()
@@ -58,9 +68,7 @@ def process_incoming_data(**thread_data):
             add_tweets_to_csv_file(tweet_to_list(tweet))
             lock.acquire()
             writed_tweets += 1
-            file = open(output_path)
-            rows_count = sum(1 for row in csv.reader(file)) - 1
-            file.close()
+            rows_count += 1
             lock.release()
             print(
                 "Capturados: " +
