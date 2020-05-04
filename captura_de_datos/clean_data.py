@@ -22,6 +22,7 @@ for i, row in df.iterrows():
         print(df.at[i, 'id'], ' - ', df.at[i, 'text'])
         df = df.drop([i])
 
+df.drop_duplicates(subset=['id', 'text'], inplace=True)
 df.to_csv(output_path, index=False, encoding="utf-8")
 print("\nDatos en los que se reparo la sintaxis: " + str(datos_reparados))
 print("Datos limpios en el archivo: " + str(datos_en_el_archivo - datos_eliminados))
