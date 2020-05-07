@@ -23,6 +23,7 @@ df_mourning = pd.DataFrame(columns=df.columns)
 df_no_mourning = pd.DataFrame(columns=df.columns)
 
 for i, row in df.iterrows():
+    print(str(i) + " | " + df.shape[0])
     text = df.at[i, 'text']
     if any(word in text for word in tags_muerte):
         df_mourning = df_mourning.append(df.iloc[i])
