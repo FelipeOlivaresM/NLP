@@ -5,7 +5,7 @@ import csv, os
 
 
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"  # <---- este se conserva.
-output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_3.csv"  # <---- este se elimina.
+output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_0.csv"  # <---- este se elimina.
 
 if os.path.exists(output_path1) and os.path.exists(output_path2) and output_path1 != output_path2:
     print("")

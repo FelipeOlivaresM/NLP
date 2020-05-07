@@ -6,9 +6,10 @@ import os, math, datetime, collections
 
 
 usar_muestra = 0
+originales = 'originales'  # <---- o arregaldos
 
 tags_muerte = [
-    'mourning', 'rip', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
     'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'God be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
@@ -30,8 +31,11 @@ elif usar_muestra == 0:
     df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 
 global_count = 0
+matched_mourning_tweets = 0
 country_count = dict()
 tweets_per_day = dict()
+languages_count = dict()
+languages_count_mourning = dict()
 mourning_matches_pre_count = dict()
 
 cifras_significativas = 8
@@ -42,13 +46,31 @@ for i, row in df.iterrows():
     text = df.at[i, 'text']
     country = df.at[i, 'country']
     date_str = df.at[i, 'created_at']
+    language = df.at[i, 'lang']
+
+    if type(language) is str:
+        if language in languages_count:
+            languages_count[language] += 1
+        elif language not in languages_count:
+            languages_count[language] = 1
+    elif type(language) is not str:
+        language = 'Desconocido'
+        if language in languages_count:
+            languages_count[language] += 1
+        elif language not in languages_count:
+            languages_count[language] = 1
 
     if type(text) is str and any(word in text for word in tags_muerte):
         key = 'Tweets con match'
+        matched_mourning_tweets += 1
         if key in mourning_matches_pre_count:
             mourning_matches_pre_count[key] += 1
         elif key not in mourning_matches_pre_count:
             mourning_matches_pre_count[key] = 1
+        if language in languages_count_mourning:
+            languages_count_mourning[language] += 1
+        elif language not in languages_count_mourning:
+            languages_count_mourning[language] = 1
     else:
         key = 'Tweets sin match'
         if key in mourning_matches_pre_count:
@@ -77,7 +99,7 @@ for i, row in df.iterrows():
         elif key not in country_count:
             country_count[key] = 1
     elif type(country) is not str and math.isnan(country) == True:
-        key = 'Pais desconocido'
+        key = 'Desconocido'
         if key in country_count:
             country_count[key] += 1
         elif key not in country_count:
@@ -87,6 +109,14 @@ mourning_matches_pre_count_col = collections.OrderedDict(sorted(mourning_matches
 vector_etiquetas_m = [str(element[0]) for element in mourning_matches_pre_count_col.items()]
 vector_conteo_m = [int(element[-1]) for element in mourning_matches_pre_count_col.items()]
 
+lang_col = collections.OrderedDict(sorted(languages_count.items()))
+vector_idiomas_global = [str(element[0]) for element in lang_col.items()]
+vector_conteo_idiomas_global = [int(element[-1]) for element in lang_col.items()]
+
+mourning_matches_pre_count_lang_col = collections.OrderedDict(sorted(languages_count_mourning.items()))
+vector_idiomas = [str(element[0]) for element in mourning_matches_pre_count_lang_col.items()]
+vector_conteo_idiomas = [int(element[-1]) for element in mourning_matches_pre_count_lang_col.items()]
+
 country_count_col = collections.OrderedDict(sorted(country_count.items()))
 vector_etiquetas = [str(element[0]) for element in country_count.items()]
 vector_conteo = [int(element[-1]) for element in country_count.items()]
@@ -95,7 +125,7 @@ tweets_per_day_col = collections.OrderedDict(sorted(tweets_per_day.items()))
 vector_fechas = [str(element[0]) for element in tweets_per_day_col.items()]
 vector_tweets = [int(element[-1]) for element in tweets_per_day_col.items()]
 
-del country_count, country_count_col, tweets_per_day, tweets_per_day_col, mourning_matches_pre_count, mourning_matches_pre_count_col
+del country_count, lang_col, languages_count, country_count_col, tweets_per_day, tweets_per_day_col, mourning_matches_pre_count, mourning_matches_pre_count_col, languages_count_mourning, mourning_matches_pre_count_lang_col
 
 
 def make_autopct(values):
@@ -107,27 +137,42 @@ def make_autopct(values):
     return my_autopct
 
 
-plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, startangle=90, autopct=make_autopct(vector_conteo_m))
-plt.title('Numero de datos usados: ' + str(global_count))
-plt.savefig('./graficas_datos/analisis_preconteo_mourning.png')
+plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
+        autopct=make_autopct(vector_conteo_idiomas_global))
+plt.title('Numero de datos en total: ' + str(global_count))
+plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas.png')
 plt.clf()
 
-del vector_conteo_m, vector_etiquetas_m
+del vector_conteo_idiomas_global, vector_idiomas_global
 
-plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, startangle=90, autopct=make_autopct(vector_conteo))
-plt.title('Numero de datos usados: ' + str(global_count))
-plt.savefig('./graficas_datos/analisis_paises.png')
+plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m))
+plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
+plt.savefig('./graficas_datos/' + originales + '/analisis_preconteo_mourning.png')
+plt.clf()
+
+del vector_etiquetas_m, vector_conteo_m
+
+plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas))
+plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
+plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas_preconteo_mourning.png')
+plt.clf()
+
+del vector_idiomas, vector_conteo_idiomas
+
+plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo))
+plt.title('Numero de datos en total: ' + str(global_count))
+plt.savefig('./graficas_datos/' + originales + '/analisis_paises.png')
 plt.clf()
 
 del vector_conteo, vector_etiquetas
 
 plt.plot(vector_fechas, vector_tweets, '-o', linewidth=1.4, color='red', label='Tweets por dia')
-plt.title('Numero de datos usados: ' + str(global_count))
+plt.title('Numero de datos en total: ' + str(global_count))
 plt.xticks(rotation='vertical', fontsize=6)
 plt.ylabel('Numero de tweets')
 plt.legend()
 plt.grid()
-plt.savefig('./graficas_datos/analisis_fechas.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_fechas.png')
 plt.clf()
 
 del vector_fechas, vector_tweets

@@ -4,21 +4,24 @@ from tweepy import OAuthHandler
 from tweepy.streaming import StreamListener
 from urllib3.exceptions import ProtocolError
 from requests.exceptions import Timeout, ConnectionError
-import re, csv, sys, json, time, threading
+import re, csv, sys, json, time, threading, os
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-output_path = "./twitter_data/datos_en_bruto/catched_tweets_5.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 400000  # <----- Numero de tweets en total.
+output_path = "./twitter_data/datos_en_bruto/catched_tweets_0.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
+number_of_tweets_for_catch = 400  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
 writed_tweets = 0
 
-file = open(output_path)
-rows_count = sum(1 for row in csv.reader(file)) - 1
-file.close()
+if os.path.exists(output_path):
+    file = open(output_path)
+    rows_count = sum(1 for row in csv.reader(file)) - 1
+    file.close()
+else:
+    rows_count = 0
 
 print("")
 print("Tweets iniciales en el archivo " + str(output_path.split("/")[-1]) + ": " + str(rows_count))
