@@ -1,11 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import os, math, datetime, collections
+import os, sys, math, datetime, collections
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 0
+usar_muestra = 1
 originales = 'originales'  # <---- o arregaldos
 
 tags_muerte = [
@@ -23,11 +23,14 @@ output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
 if usar_muestra == 1:
     if os.path.exists(output_path2) == True:
+        print("\nCargando muestra de datos")
         df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
     elif os.path.exists(output_path2) == False:
+        print("\nCreando muestra de datos")
         df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=800, random_state=8)
         df.to_csv(output_path2, index=False, encoding="utf-8")
 elif usar_muestra == 0:
+    print("\nCargando datos")
     df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 
 global_count = 0
@@ -41,6 +44,9 @@ mourning_matches_pre_count = dict()
 cifras_significativas = 8
 
 for i, row in df.iterrows():
+
+    sys.stdout.write("\rLectura de datos completada al " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.flush()
 
     global_count += 1
     text = df.at[i, 'text']
@@ -106,6 +112,8 @@ for i, row in df.iterrows():
         elif key not in country_count:
             country_count[key] = 1
 
+print("\nCargando datos a vectores")
+
 mourning_matches_pre_count_col = collections.OrderedDict(sorted(mourning_matches_pre_count.items()))
 vector_etiquetas_m = [str(element[0]) for element in mourning_matches_pre_count_col.items()]
 vector_conteo_m = [int(element[-1]) for element in mourning_matches_pre_count_col.items()]
@@ -137,6 +145,8 @@ def make_autopct(values):
 
     return my_autopct
 
+
+print("Generando graficas")
 
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global))
@@ -178,4 +188,4 @@ plt.clf()
 
 del vector_fechas, vector_tweets
 
-print("\nProceso finalizado, las garficas fueron guardads en la carpeta graficas_datos.")
+print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas_datos/" + originales)

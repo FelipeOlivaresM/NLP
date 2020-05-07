@@ -10,7 +10,7 @@ import re, csv, sys, json, time, threading, os
 
 
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_0.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 400  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 600  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
@@ -23,9 +23,7 @@ if os.path.exists(output_path):
 else:
     rows_count = 0
 
-print("")
-print("Tweets iniciales en el archivo " + str(output_path.split("/")[-1]) + ": " + str(rows_count))
-time.sleep(6)
+print("\nTweets iniciales en el archivo " + str(output_path.split("/")[-1]) + ": " + str(rows_count))
 
 tags = [
     'covid-19', 'covid19', 'Covid-19', 'Covid19', 'COVID-19', 'COVID19', 'CoVid-19', 'CoVid19', 'COVIDー19',
@@ -50,7 +48,8 @@ class Listener(StreamListener):
             return
 
     def on_error(self, status):
-        print("Error: " + str(status))
+        sys.stdout.write("\rError " + str(status) + " puede que hayan mas de 3 maquinas usando las credenciales")
+        sys.stdout.flush()
         return False
 
 
@@ -73,16 +72,20 @@ def process_incoming_data(**thread_data):
             writed_tweets += 1
             rows_count += 1
             lock.release()
-            print(
-                "Capturados: " +
-                str(writed_tweets) + " de " +
+            sys.stdout.write(
+                "\rCapturados: " +
+                str(writed_tweets) + "/" +
                 str(number_of_tweets_for_catch) +
-                " - tiempo: " + str(int((time.time() - start_time) / 60)) +
-                " minutos - tweets en el archivo " + output_path.split("/")[-1] +
-                ": " + str(rows_count) +
-                " - hilo: " + str(threading.current_thread().name) +
-                " - tweets revisados: " + str(readed_tweets)
+                " (" + str(
+                    round((int(writed_tweets) / int(number_of_tweets_for_catch)) * 100, 2)
+                ) +
+                "%) - tiempo: " + str(int((time.time() - start_time) / 60)) +
+                " min - datos en " + output_path.split("/")[-1] +
+                ": " + str(rows_count) + " - revisados: " + str(readed_tweets) +
+                " - utiles: " + str(writed_tweets) + "/" + str(readed_tweets) + " ("
+                + str(round((int(writed_tweets) / int(readed_tweets)) * 100, 2)) + ")%"
             )
+            sys.stdout.flush()
         return
 
 
@@ -154,20 +157,22 @@ cSecret = "JsB5NFUFXueV5I2Oy2uPTuVpkMXFQV06XpIV1dpHQmNilWplMj"
 authenticator = OAuthHandler(cKey, cSecret)
 authenticator.set_access_token(aToken, aTokenSecret)
 
-print("")
+print("Iniciando captura")
 while writed_tweets != number_of_tweets_for_catch:
     stream = Stream(authenticator, Listener())
     try:
         stream.filter(languages=['en', 'es'], track=tags)
     except (Timeout, ConnectionError, ProtocolError):
         stream.disconnect()
-        print("\nConexion cerrada, limite de lectura superado, esperando para reconectar.")
-        time.sleep(20)
-        print("Reconectando... \n")
+        time.sleep(8)
     except (KeyboardInterrupt, SystemExit):
         stream.disconnect()
-        print("\nTweets capturados: " + str(writed_tweets) + "\n")
+        print("\nCaptura finalizada forzosamente")
+        print("Tweets finales en el archivo " + output_path.split("/")[-1] + ": " + str(rows_count))
+        print("Tweets capturados: " + str(writed_tweets) + "\n")
         sys.exit()
 
-print("\nTweets capturados: " + str(writed_tweets) + "\n")
+print("\nCaptura finalizada con normalidad")
+print("Tweets finales en el archivo " + output_path.split("/")[-1] + ": " + str(rows_count))
+print("Tweets capturados: " + str(writed_tweets) + "\n")
 sys.exit()
