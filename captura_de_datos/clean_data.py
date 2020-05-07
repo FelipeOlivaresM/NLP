@@ -3,6 +3,7 @@ import re, sys
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
+
 print("\nCargando datos")
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 df = pd.read_csv(output_path, encoding='utf8', dtype=str, engine='python')
@@ -12,7 +13,7 @@ datos_reparados = 0
 
 for i, row in df.iterrows():
 
-    sys.stdout.write("\rLimpieza de datos completada al " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.write("\rLimpieza de datos completada al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
     sys.stdout.flush()
 
     datos_en_el_archivo += 1
@@ -25,12 +26,10 @@ for i, row in df.iterrows():
         datos_eliminados += 1
         df = df.drop([i])
 
-print("\nLimpieza finalizada")
-
-print("\nReporte de resultados limpieza: ")
-
 df.drop_duplicates(subset=['id', 'text'], inplace=True)
 df.sort_values('id')
+print("\nLimpieza finalizada")
+print("\nReporte de resultados limpieza: ")
 df.to_csv(output_path, index=False, encoding="utf-8")
 datos_eliminados += (datos_en_el_archivo - int(df.shape[0]))
 print("Datos en los que se reparo la sintaxis: " + str(datos_reparados))

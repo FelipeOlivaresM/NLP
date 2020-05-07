@@ -1,5 +1,5 @@
 import pandas as pd
-import sys, csv, os
+import sys, csv
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
@@ -35,7 +35,7 @@ writer2 = csv.writer(csv_file2)
 
 print("Iniciando proceso de filtrado")
 for i, row in df.iterrows():
-    sys.stdout.write("\rFiltrado completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.write("\rFiltrado completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
     sys.stdout.flush()
     text = str(df.at[i, 'text'])
     if any(word in text for word in tags_muerte):

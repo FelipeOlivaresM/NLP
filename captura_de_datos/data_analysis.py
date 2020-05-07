@@ -5,8 +5,8 @@ import os, sys, math, datetime, collections
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 1
-originales = 'originales'  # <---- o arregaldos
+usar_muestra = 0
+originales = 'originales'  # <---- originales o arregaldos
 
 tags_muerte = [
     'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
@@ -45,7 +45,7 @@ cifras_significativas = 8
 
 for i, row in df.iterrows():
 
-    sys.stdout.write("\rLectura de datos completada al " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.write("\rAnalisis de datos completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
     sys.stdout.flush()
 
     global_count += 1
@@ -151,28 +151,28 @@ print("Generando graficas")
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas_' + str(usar_muestra) + '.png')
 plt.clf()
 
 del vector_conteo_idiomas_global, vector_idiomas_global
 
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m))
 plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
-plt.savefig('./graficas_datos/' + originales + '/analisis_preconteo_mourning.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_preconteo_mourning_' + str(usar_muestra) + '.png')
 plt.clf()
 
 del vector_etiquetas_m, vector_conteo_m
 
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas))
 plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
-plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas_preconteo_mourning.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_idiomas_preconteo_mourning_' + str(usar_muestra) + '.png')
 plt.clf()
 
 del vector_idiomas, vector_conteo_idiomas
 
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.savefig('./graficas_datos/' + originales + '/analisis_paises.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_paises_' + str(usar_muestra) + '.png')
 plt.clf()
 
 del vector_conteo, vector_etiquetas
@@ -183,7 +183,7 @@ plt.xticks(rotation='vertical', fontsize=6)
 plt.ylabel('Numero de tweets')
 plt.legend()
 plt.grid()
-plt.savefig('./graficas_datos/' + originales + '/analisis_fechas.png')
+plt.savefig('./graficas_datos/' + originales + '/analisis_fechas_' + str(usar_muestra) + '.png')
 plt.clf()
 
 del vector_fechas, vector_tweets

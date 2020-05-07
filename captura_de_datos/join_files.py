@@ -27,7 +27,8 @@ if os.path.exists(output_path1) and os.path.exists(output_path2) and output_path
     file = open(output_path1)
     rows_count1 = sum(1 for row in csv.reader(file)) - 1
     file.close()
-    df1 = pd.read_csv(output_path1)
+    del df1
+    df1 = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
     print("\nReporte de resultados union de datos: ")
     print("Tweets finales en el archivo " + str(output_path1.split("/")[-1]) + ": " + str(rows_count1))
     print("Tweets iniciales en el archivo " + str(output_path1.split("/")[-1]) + ": " + str(rows_count0))
