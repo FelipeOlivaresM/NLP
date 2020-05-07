@@ -10,7 +10,7 @@ originales = 'originales'  # <---- o arregaldos
 
 tags_muerte = [
     'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
-    'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'God be with you', 'que dios esté contigo',
+    'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
     'i pray for you to be in the kingdom of god',
