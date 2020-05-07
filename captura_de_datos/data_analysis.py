@@ -48,12 +48,13 @@ for i, row in df.iterrows():
     date_str = df.at[i, 'created_at']
     language = df.at[i, 'lang']
 
-    if type(language) is str:
+    languages_list = ['en', 'es']
+    if type(language) is str and language in languages_list:
         if language in languages_count:
             languages_count[language] += 1
         elif language not in languages_count:
             languages_count[language] = 1
-    elif type(language) is not str:
+    elif type(language) is not str or language not in languages_list:
         language = 'Desconocido'
         if language in languages_count:
             languages_count[language] += 1
