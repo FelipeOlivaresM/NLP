@@ -8,6 +8,7 @@ output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 output_path_m1 = "./twitter_data/datos_para_tageo_mourning/prefiltered_mourning.csv"
 output_path_m2 = "./twitter_data/datos_para_tageo_mourning/prefiltered_not_mourning.csv"
 
+print("\nCargando df principal")
 df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 
 tags_muerte = [
@@ -20,6 +21,7 @@ tags_muerte = [
     'i will see you again in the kingdom of god'
 ]
 
+print("Escribiendo archivos secundarios")
 df_mourning = pd.DataFrame(columns=df.columns)
 df_no_mourning = pd.DataFrame(columns=df.columns)
 df_mourning.to_csv(output_path_m1, index=False, encoding="utf-8")
@@ -31,9 +33,9 @@ csv_file2 = open(output_path_m2, 'a', encoding="utf-8")
 writer1 = csv.writer(csv_file1)
 writer2 = csv.writer(csv_file2)
 
-print("")
+print("Iniciando proceso de filtrado")
 for i, row in df.iterrows():
-    sys.stdout.write("\rFiltrado: " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.write("\rFiltrado completado al: " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
     sys.stdout.flush()
     text = str(df.at[i, 'text'])
     if any(word in text for word in tags_muerte):
@@ -43,7 +45,7 @@ for i, row in df.iterrows():
 
 csv_file1.close()
 csv_file2.close()
-print("")
+print("Ordenando datos filtrados")
 
 del df, writer1, writer2
 
@@ -56,3 +58,4 @@ df_no_mourning = pd.read_csv(output_path_m2, encoding='utf8', dtype=str, engine=
 df_no_mourning.sort_values('id')
 df_no_mourning.to_csv(output_path_m2, index=False, encoding="utf-8")
 del df_no_mourning
+print("Filtrado finalizado")
