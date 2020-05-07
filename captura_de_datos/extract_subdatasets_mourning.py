@@ -25,7 +25,7 @@ df_no_mourning = pd.DataFrame(columns=df.columns)
 
 print("")
 for i, row in df.iterrows():
-    sys.stdout.write("\rProcesados: " + str(i + 1) + " | " + str(df.shape[0]))
+    sys.stdout.write("\rProgreso: " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
     sys.stdout.flush()
     text = df.at[i, 'text']
     if any(word in text for word in tags_muerte):
