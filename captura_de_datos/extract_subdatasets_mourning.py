@@ -45,7 +45,7 @@ for i, row in df.iterrows():
 
 csv_file1.close()
 csv_file2.close()
-print("Ordenando datos filtrados")
+print("\nOrdenando datos filtrados")
 
 del df, writer1, writer2
 
