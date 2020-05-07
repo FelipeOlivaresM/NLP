@@ -1,4 +1,5 @@
 import pandas as pd
+import sys
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
@@ -22,14 +23,17 @@ tags_muerte = [
 df_mourning = pd.DataFrame(columns=df.columns)
 df_no_mourning = pd.DataFrame(columns=df.columns)
 
+print("")
 for i, row in df.iterrows():
-    print(str(i) + " | " + str(df.shape[0]))
+    sys.stdout.write("\rProcesados: " + str(i + 1) + " | " + str(df.shape[0]))
+    sys.stdout.flush()
     text = df.at[i, 'text']
     if any(word in text for word in tags_muerte):
         df_mourning = df_mourning.append(df.iloc[i])
     else:
         df_no_mourning = df_no_mourning.append(df.iloc[i])
 
+print("")
 del df
 
 df_mourning.sort_values('id')
