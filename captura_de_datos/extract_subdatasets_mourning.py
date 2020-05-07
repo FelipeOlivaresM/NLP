@@ -1,5 +1,5 @@
 import pandas as pd
-import sys
+import sys, csv, os
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
@@ -22,24 +22,37 @@ tags_muerte = [
 
 df_mourning = pd.DataFrame(columns=df.columns)
 df_no_mourning = pd.DataFrame(columns=df.columns)
+df_mourning.to_csv(output_path_m1, index=False, encoding="utf-8")
+df_no_mourning.to_csv(output_path_m2, index=False, encoding="utf-8")
+
+del df_mourning, df_no_mourning
+csv_file1 = open(output_path_m1, 'a', encoding="utf-8")
+csv_file2 = open(output_path_m2, 'a', encoding="utf-8")
+writer1 = csv.writer(csv_file1)
+writer2 = csv.writer(csv_file2)
 
 print("")
 for i, row in df.iterrows():
-    sys.stdout.write("\rProgreso: " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
+    sys.stdout.write("\rFiltrado: " + str(round(((i + 1) / (df.shape[0])) * 100, 4)) + "%")
     sys.stdout.flush()
-    text = df.at[i, 'text']
+    text = str(df.at[i, 'text'])
     if any(word in text for word in tags_muerte):
-        df_mourning = df_mourning.append(df.iloc[i])
+        writer1.writerow(df.iloc[i])
     else:
-        df_no_mourning = df_no_mourning.append(df.iloc[i])
+        writer2.writerow(df.iloc[i])
 
+csv_file1.close()
+csv_file2.close()
 print("")
-del df
 
+del df, writer1, writer2
+
+df_mourning = pd.read_csv(output_path_m1, encoding='utf8', dtype=str, engine='python')
 df_mourning.sort_values('id')
 df_mourning.to_csv(output_path_m1, index=False, encoding="utf-8")
 del df_mourning
 
+df_no_mourning = pd.read_csv(output_path_m2, encoding='utf8', dtype=str, engine='python')
 df_no_mourning.sort_values('id')
 df_no_mourning.to_csv(output_path_m2, index=False, encoding="utf-8")
 del df_no_mourning
