@@ -2,3 +2,4 @@ urllib3
 pandas
 tweepy
 requests
+matplotlib

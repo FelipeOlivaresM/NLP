@@ -4,8 +4,8 @@ import csv, os
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets.csv"  # <---- este se conserva.
-output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_5.csv"  # <---- este se elimina.
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"  # <---- este se conserva.
+output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_3.csv"  # <---- este se elimina.
 
 if os.path.exists(output_path1) and os.path.exists(output_path2) and output_path1 != output_path2:
     print("")
@@ -20,8 +20,8 @@ if os.path.exists(output_path1) and os.path.exists(output_path2) and output_path
     df1 = df1.append(df2)
     df1.to_csv(output_path1, index=False, encoding="utf-8")
     print(
-        "\nArchivo " + str(output_path1.split("/")[-1]) + " Exitosamente unido al archivo " +
-        str(output_path2.split("/")[-1])
+        "\nArchivo " + str(output_path2.split("/")[-1]) + " Exitosamente unido al archivo " +
+        str(output_path1.split("/")[-1])
     )
     file = open(output_path1)
     rows_count1 = sum(1 for row in csv.reader(file)) - 1

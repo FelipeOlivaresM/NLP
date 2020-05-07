@@ -3,7 +3,8 @@ import pandas as pd
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
-output_path = "./twitter_data/datos_en_bruto/catched_tweets.csv"
+
+output_path = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 df = pd.read_csv(output_path, encoding='utf8', dtype=str, engine='python')
 datos_en_el_archivo = 0
 datos_eliminados = 0
@@ -23,6 +24,7 @@ for i, row in df.iterrows():
         df = df.drop([i])
 
 df.drop_duplicates(subset=['id', 'text'], inplace=True)
+df.sort_values('id')
 df.to_csv(output_path, index=False, encoding="utf-8")
 datos_eliminados += (datos_en_el_archivo - int(df.shape[0]))
 print("\nDatos en los que se reparo la sintaxis: " + str(datos_reparados))
