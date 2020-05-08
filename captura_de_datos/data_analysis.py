@@ -74,10 +74,17 @@ for i, row in df.iterrows():
             mourning_matches_pre_count[key] += 1
         elif key not in mourning_matches_pre_count:
             mourning_matches_pre_count[key] = 1
-        if language in languages_count_mourning:
-            languages_count_mourning[language] += 1
-        elif language not in languages_count_mourning:
-            languages_count_mourning[language] = 1
+        if type(language) is str and language in languages_list:
+            if language in languages_count_mourning:
+                languages_count_mourning[language] += 1
+            elif language not in languages_count_mourning:
+                languages_count_mourning[language] = 1
+        elif type(language) is not str or language not in languages_list:
+            key = "Desconocido"
+            if language in languages_count_mourning:
+                languages_count_mourning[key] += 1
+            elif language not in languages_count_mourning:
+                languages_count_mourning[key] = 1
     else:
         key = 'Tweets sin match'
         if key in mourning_matches_pre_count:
