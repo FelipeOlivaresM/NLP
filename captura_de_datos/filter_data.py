@@ -6,6 +6,9 @@ import sys, csv
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
+numero_muestras = 2500
+random_estate = 8
+
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
 output_path_m1_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_mourning.csv"
@@ -94,22 +97,37 @@ print("\nOrdenando datos filtrados")
 
 del df, writer1, writer2
 
+
+def corregir_tamaño(df, tamaño_mestra):
+    while df.shape[0] < tamaño_mestra:
+        df = df.append(df)
+    return df
+
+
 df = pd.read_csv(output_path_m1_es, encoding='utf8', dtype=str, engine='python')
+df = corregir_tamaño(df, numero_muestras)
+df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m1_es, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m1_en, encoding='utf8', dtype=str, engine='python')
+df = corregir_tamaño(df, numero_muestras)
+df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m1_en, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m2_es, encoding='utf8', dtype=str, engine='python')
+df = corregir_tamaño(df, numero_muestras)
+df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m2_es, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m2_en, encoding='utf8', dtype=str, engine='python')
+df = corregir_tamaño(df, numero_muestras)
+df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m2_en, index=False, encoding="utf-8")
 del df
