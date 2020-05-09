@@ -113,13 +113,13 @@ for i, row in df.iterrows():
 
     if type(date_str) is str and date_str != '0':
         date_time_obj = datetime.datetime.strptime(date_str, '%a %b %d %H:%M:%S +0000 %Y')
-        date = date_time_obj.date().strftime("%d-%m-%Y")
+        date = date_time_obj.date().strftime("%m-%d")
         if date in tweets_per_day:
             tweets_per_day[date] += 1
         elif date not in tweets_per_day:
             tweets_per_day[date] = 1
     elif type(date_str) is not str or date_str == '0':
-        key = 'Desconocida'
+        key = 'Desc'
         if key in tweets_per_day:
             tweets_per_day[key] += 1
         elif key not in tweets_per_day:
@@ -177,7 +177,7 @@ print("Generando graficas")
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(16, 8)
+plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas.png')
 plt.clf()
 
@@ -185,7 +185,7 @@ del vector_conteo_idiomas_global, vector_idiomas_global
 
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m))
 plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
-plt.gcf().set_size_inches(16, 8)
+plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_preconteo_mourning.png')
 plt.clf()
 
@@ -193,7 +193,7 @@ del vector_etiquetas_m, vector_conteo_m
 
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas))
 plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
-plt.gcf().set_size_inches(16, 8)
+plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas_preconteo_mourning.png')
 plt.clf()
 
@@ -201,7 +201,7 @@ del vector_idiomas, vector_conteo_idiomas
 
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(16, 8)
+plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_paises.png')
 plt.clf()
 
@@ -209,11 +209,10 @@ del vector_conteo, vector_etiquetas
 
 plt.plot(vector_fechas, vector_tweets, '-o', linewidth=1.4, color='red', label='Tweets por dia')
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.xticks(rotation='vertical', fontsize=6)
-plt.ylabel('Numero de tweets')
+plt.xticks(rotation='vertical')
+plt.ylabel('Numero de tweets capturados')
 plt.legend()
-plt.grid()
-plt.gcf().set_size_inches(16, 8)
+plt.gcf().set_size_inches(16, 10)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_fechas.png')
 plt.clf()
 
