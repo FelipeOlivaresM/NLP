@@ -35,7 +35,7 @@ tags_muerte.append(' qdep ')
 tags_muerte.append(' r.i.p ')
 tags_muerte.append(' q.d.e.p ')
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_arreglados.csv"
 output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
 if usar_muestra == 1:
