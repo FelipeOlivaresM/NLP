@@ -16,15 +16,13 @@ df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 df['mourning'] = np.nan
 
 tags_muerte = [
-    'mourning', 'death', 'muerte', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto',
-    'descansa en paz', 'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you',
-    'que dios esté contigo', 'sorry for your absence', 'lamento tu ausencia',
-    'no te preocupes por las lágrimas que derramas en su nombre',
-    'lágrimas de dolor', 'tears of pain',
-    'rezo porque estés en el reino de dios',
-    'i will see you again in the kingdom of god',
+    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
+    'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
+    'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
     'i pray for you to be in the kingdom of god',
     'nos veremos de nuevo en el reino de dios',
+    'i will see you again in the kingdom of god'
 ]
 
 print("Escribiendo archivos complementarios")

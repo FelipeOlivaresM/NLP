@@ -9,15 +9,13 @@ usar_muestra = 0
 originales = 'originales'  # <---- originales o arregaldos
 
 tags_muerte = [
-    'mourning', 'death', 'muerte', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto',
-    'descansa en paz', 'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you',
-    'que dios esté contigo', 'sorry for your absence', 'lamento tu ausencia',
-    'no te preocupes por las lágrimas que derramas en su nombre',
-    'lágrimas de dolor', 'tears of pain',
-    'rezo porque estés en el reino de dios',
-    'i will see you again in the kingdom of god',
+    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
+    'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
+    'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
     'i pray for you to be in the kingdom of god',
     'nos veremos de nuevo en el reino de dios',
+    'i will see you again in the kingdom of god'
 ]
 
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
