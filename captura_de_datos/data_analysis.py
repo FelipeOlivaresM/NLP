@@ -5,11 +5,11 @@ import os, sys, math, datetime, collections
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 0
+usar_muestra = 1
 originales = 'originales'  # <---- originales o arregaldos
 
 tags_muerte = [
-    'mourning', ' rip ', ' RIP ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
     'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
@@ -27,7 +27,7 @@ if usar_muestra == 1:
         df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
     elif os.path.exists(output_path2) == False:
         print("\nCreando muestra de datos")
-        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=800, random_state=8)
+        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=80000, random_state=8)
         df.to_csv(output_path2, index=False, encoding="utf-8")
         del df
         df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
