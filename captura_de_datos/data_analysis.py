@@ -9,7 +9,7 @@ usar_muestra = 0
 originales = 'originales'  # <---- originales o arregaldos
 
 tags_muerte = [
-    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'mourning', ' rip ', ' RIP ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
     'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
@@ -51,7 +51,7 @@ for i, row in df.iterrows():
     sys.stdout.flush()
 
     global_count += 1
-    text = df.at[i, 'text']
+    text = str(df.at[i, 'text']).lower()
     country = df.at[i, 'country']
     date_str = df.at[i, 'created_at']
     language = df.at[i, 'lang']

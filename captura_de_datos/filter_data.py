@@ -16,7 +16,7 @@ df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 df['mourning'] = np.nan
 
 tags_muerte = [
-    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'mourning', ' rip ', ' RIP ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
     'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
@@ -47,11 +47,14 @@ writer4 = csv.writer(csv_m2_es)
 
 print("Iniciando proceso de filtrado")
 for i, row in df.iterrows():
+
     sys.stdout.write("\rFiltrado completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
     sys.stdout.flush()
+
     language = df.at[i, 'lang']
-    text = str(df.at[i, 'text'])
+    text = str(df.at[i, 'text']).lower()
     languages_list = ['en', 'es']
+
     if any(word in text for word in tags_muerte):
         if type(language) is str and language in languages_list:
             if str(language) == 'en':
