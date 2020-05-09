@@ -77,6 +77,7 @@ for i, row in df.iterrows():
 
     if any(word in text for word in tags_muerte):
         if type(language) is str and language in languages_list:
+            df.at[i, 'mourning'] = 1
             if str(language) == 'en':
                 writer1.writerow(df.iloc[i])
             elif str(language) == 'es':

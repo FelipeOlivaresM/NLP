@@ -1,5 +1,7 @@
 import csv
-import re
+
+# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
+
 
 myData = list()
 myData2 = list()
