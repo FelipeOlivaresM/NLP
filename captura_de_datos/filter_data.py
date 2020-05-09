@@ -84,6 +84,7 @@ for i, row in df.iterrows():
                 writer2.writerow(df.iloc[i])
     else:
         if type(language) is str and language in languages_list:
+            df.at[i, 'mourning'] = 0
             if str(language) == 'en':
                 writer3.writerow(df.iloc[i])
             elif str(language) == 'es':
