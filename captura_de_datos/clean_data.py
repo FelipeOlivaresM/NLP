@@ -19,9 +19,11 @@ for i, row in df.iterrows():
     datos_en_el_archivo += 1
     texto_anterior = str(df.at[i, 'text'])
     texto_nuevo = (re.sub(' +', ' ', re.sub("http\S+", "", str(df.at[i, 'text']).replace("\n", " ")))).strip()
+
     if texto_anterior != texto_nuevo:
         df.at[i, 'text'] = texto_nuevo
         datos_reparados += 1
+
     if str(df.at[i, 'text']).endswith('…'):
         datos_eliminados += 1
         df = df.drop([i])

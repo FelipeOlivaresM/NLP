@@ -21,17 +21,21 @@ tags_muerte = [
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
+datos = 0
 if usar_muestra == 1:
     if os.path.exists(output_path2) == True:
         print("\nCargando muestra de datos")
         df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
+        datos = df.shape[0]
     elif os.path.exists(output_path2) == False:
         print("\nCreando muestra de datos")
-        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=800, random_state=8)
+        datos = 800
+        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=datos, random_state=8)
         df.to_csv(output_path2, index=False, encoding="utf-8")
 elif usar_muestra == 0:
     print("\nCargando datos")
     df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
+    datos = df.shape[0]
 
 global_count = 0
 matched_mourning_tweets = 0
@@ -45,7 +49,7 @@ cifras_significativas = 8
 
 for i, row in df.iterrows():
 
-    sys.stdout.write("\rAnalisis de datos completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
+    sys.stdout.write("\rAnalisis de datos completado al " + str(round(((i + 1) / (datos)) * 100, 2)) + "%")
     sys.stdout.flush()
 
     global_count += 1
@@ -158,7 +162,7 @@ print("Generando graficas")
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(16,8)
+plt.gcf().set_size_inches(16, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas.png')
 plt.clf()
 
@@ -166,7 +170,7 @@ del vector_conteo_idiomas_global, vector_idiomas_global
 
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m))
 plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
-plt.gcf().set_size_inches(16,8)
+plt.gcf().set_size_inches(16, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_preconteo_mourning.png')
 plt.clf()
 
@@ -174,7 +178,7 @@ del vector_etiquetas_m, vector_conteo_m
 
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas))
 plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
-plt.gcf().set_size_inches(16,8)
+plt.gcf().set_size_inches(16, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas_preconteo_mourning.png')
 plt.clf()
 
@@ -182,7 +186,7 @@ del vector_idiomas, vector_conteo_idiomas
 
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo))
 plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(16,8)
+plt.gcf().set_size_inches(16, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_paises.png')
 plt.clf()
 
@@ -194,7 +198,7 @@ plt.xticks(rotation='vertical', fontsize=6)
 plt.ylabel('Numero de tweets')
 plt.legend()
 plt.grid()
-plt.gcf().set_size_inches(16,8)
+plt.gcf().set_size_inches(16, 8)
 plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_fechas.png')
 plt.clf()
 
