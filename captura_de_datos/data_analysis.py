@@ -21,21 +21,19 @@ tags_muerte = [
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
 output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
-datos = 0
 if usar_muestra == 1:
     if os.path.exists(output_path2) == True:
         print("\nCargando muestra de datos")
         df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
-        datos = df.shape[0]
     elif os.path.exists(output_path2) == False:
         print("\nCreando muestra de datos")
-        datos = 800
-        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=datos, random_state=8)
+        df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python').sample(n=800, random_state=8)
         df.to_csv(output_path2, index=False, encoding="utf-8")
+        del df
+        df = pd.read_csv(output_path2, encoding='utf8', dtype=str, engine='python')
 elif usar_muestra == 0:
     print("\nCargando datos")
     df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
-    datos = df.shape[0]
 
 global_count = 0
 matched_mourning_tweets = 0
@@ -49,7 +47,7 @@ cifras_significativas = 8
 
 for i, row in df.iterrows():
 
-    sys.stdout.write("\rAnalisis de datos completado al " + str(round(((i + 1) / (datos)) * 100, 2)) + "%")
+    sys.stdout.write("\rAnalisis de datos completado al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
     sys.stdout.flush()
 
     global_count += 1
