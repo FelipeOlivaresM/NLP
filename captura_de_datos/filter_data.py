@@ -1,3 +1,4 @@
+from gensim.parsing.porter import PorterStemmer
 import pandas as pd
 import numpy as np
 import sys, csv
@@ -15,15 +16,31 @@ print("\nCargando data frame principal")
 df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 df['mourning'] = np.nan
 
+porter = PorterStemmer()
+
 tags_muerte = [
-    'mourning', ' rip ', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
+    'mourning', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
     'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
     'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
     'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
     'i pray for you to be in the kingdom of god',
-    'nos veremos de nuevo en el reino de dios',
-    'i will see you again in the kingdom of god'
+    'nos veremos de nuevo en el reino de dios', 'en el reino de dios',
+    'i will see you again in the kingdom of god', 'the kingdom of god',
+    'santa gloria', 'holy glory', 'en paz descanse', 'en paz descansa',
+    'lamentamos la muerte', 'lamento la muerte', 'regret death',
+    'mourned the loss', 'lloró la pérdida', 'lloramos la pérdida', 'lloro la perdida', 'lloramos la perdida',
+    'lamentamos la pérdida', 'lamento la pérdida', 'lamentamos la perdida', 'lamento la perdida',
+    'lamentamos su muerte', 'lamento su muerte', 'regret her death', 'regret his death',
+    'mourned his loss', 'mourned her loss', 'lloró su pérdida', 'lloramos su pérdida', 'lloro su perdida',
+    'lloramos la perdida',
+    'lamentamos su pérdida', 'lamento su pérdida', 'lamentamos su perdida', 'lamento su perdida',
 ]
+
+tags_muerte = list(porter.stem_documents(tags_muerte))
+tags_muerte.append(' rip ')
+tags_muerte.append(' qdep ')
+tags_muerte.append(' r.i.p ')
+tags_muerte.append(' q.d.e.p ')
 
 print("Escribiendo archivos complementarios")
 
@@ -52,7 +69,7 @@ for i, row in df.iterrows():
     sys.stdout.flush()
 
     language = df.at[i, 'lang']
-    text = str(df.at[i, 'text']).lower()
+    text = porter.stem_sentence(str(df.at[i, 'text']).lower())
     languages_list = ['en', 'es']
 
     if any(word in text for word in tags_muerte):

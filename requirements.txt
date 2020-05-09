@@ -1,5 +1,6 @@
-urllib3
 pandas
 tweepy
+gensim
+urllib3
 requests
 matplotlib
