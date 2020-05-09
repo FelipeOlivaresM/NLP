@@ -9,13 +9,13 @@ import sys, csv
 numero_muestras = 2500
 random_estate = 8
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_originales.csv"
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
 output_path_m1_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_mourning.csv"
 output_path_m2_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_not_mourning.csv"
 output_path_m2_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_not_mourning.csv"
 
-print("\nCargando data frame principal")
+print("\nCargando data set principal")
 df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 df['mourning'] = np.nan
 
@@ -77,14 +77,12 @@ for i, row in df.iterrows():
 
     if any(word in text for word in tags_muerte):
         if type(language) is str and language in languages_list:
-            df.at[i, 'mourning'] = 1
             if str(language) == 'en':
                 writer1.writerow(df.iloc[i])
             elif str(language) == 'es':
                 writer2.writerow(df.iloc[i])
     else:
         if type(language) is str and language in languages_list:
-            df.at[i, 'mourning'] = 0
             if str(language) == 'en':
                 writer3.writerow(df.iloc[i])
             elif str(language) == 'es':
@@ -99,36 +97,25 @@ print("\nOrdenando datos filtrados")
 
 del df, writer1, writer2
 
-
-def corregir_tamaño(df, tamaño_mestra):
-    while df.shape[0] < tamaño_mestra:
-        df = df.append(df)
-    return df
-
-
 df = pd.read_csv(output_path_m1_es, encoding='utf8', dtype=str, engine='python')
-df = corregir_tamaño(df, numero_muestras)
 df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m1_es, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m1_en, encoding='utf8', dtype=str, engine='python')
-df = corregir_tamaño(df, numero_muestras)
 df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m1_en, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m2_es, encoding='utf8', dtype=str, engine='python')
-df = corregir_tamaño(df, numero_muestras)
 df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m2_es, index=False, encoding="utf-8")
 del df
 
 df = pd.read_csv(output_path_m2_en, encoding='utf8', dtype=str, engine='python')
-df = corregir_tamaño(df, numero_muestras)
 df = df.sample(n=numero_muestras, random_state=random_estate)
 df.sort_values('id')
 df.to_csv(output_path_m2_en, index=False, encoding="utf-8")

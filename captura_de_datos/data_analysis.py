@@ -6,8 +6,7 @@ from gensim.parsing.porter import PorterStemmer
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 0
-originales = 'originales'  # <---- originales o arregaldos
+usar_muestra = 1
 
 porter = PorterStemmer()
 
@@ -35,7 +34,7 @@ tags_muerte.append(' qdep ')
 tags_muerte.append(' r.i.p ')
 tags_muerte.append(' q.d.e.p ')
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_arreglados.csv"
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
 output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
 if usar_muestra == 1:
@@ -178,7 +177,7 @@ plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global))
 plt.title('Numero de datos en total: ' + str(global_count))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_idiomas.png')
 plt.clf()
 
 del vector_conteo_idiomas_global, vector_idiomas_global
@@ -186,7 +185,7 @@ del vector_conteo_idiomas_global, vector_idiomas_global
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m))
 plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_preconteo_mourning.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_preconteo_mourning.png')
 plt.clf()
 
 del vector_etiquetas_m, vector_conteo_m
@@ -194,7 +193,7 @@ del vector_etiquetas_m, vector_conteo_m
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas))
 plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_idiomas_preconteo_mourning.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_idiomas_preconteo_mourning.png')
 plt.clf()
 
 del vector_idiomas, vector_conteo_idiomas
@@ -202,7 +201,7 @@ del vector_idiomas, vector_conteo_idiomas
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo))
 plt.title('Numero de datos en total: ' + str(global_count))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_paises.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_paises.png')
 plt.clf()
 
 del vector_conteo, vector_etiquetas
@@ -213,9 +212,9 @@ plt.xticks(rotation='vertical')
 plt.ylabel('Numero de tweets capturados')
 plt.legend()
 plt.gcf().set_size_inches(16, 10)
-plt.savefig('./graficas_datos/' + originales + '/' + str(usar_muestra) + '_analisis_fechas.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_fechas.png')
 plt.clf()
 
 del vector_fechas, vector_tweets
 
-print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas_datos/" + originales)
+print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas_datos")
