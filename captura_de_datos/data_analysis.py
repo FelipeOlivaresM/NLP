@@ -6,7 +6,7 @@ from gensim.parsing.porter import PorterStemmer
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 1
+usar_muestra = 0
 
 porter = PorterStemmer()
 
@@ -159,6 +159,8 @@ tweets_per_day_col = collections.OrderedDict(sorted(tweets_per_day.items()))
 vector_fechas = [str(element[0]) for element in tweets_per_day_col.items()]
 vector_tweets = [int(element[-1]) for element in tweets_per_day_col.items()]
 
+vector_tweets2 = [sum(vector_tweets[:i]) for i in range(len(vector_tweets))]
+
 del country_count, lang_col, languages_count, country_count_col, tweets_per_day, tweets_per_day_col, mourning_matches_pre_count, mourning_matches_pre_count_col, languages_count_mourning, mourning_matches_pre_count_lang_col
 
 
@@ -206,15 +208,26 @@ plt.clf()
 
 del vector_conteo, vector_etiquetas
 
-plt.plot(vector_fechas, vector_tweets, '-o', linewidth=1.4, color='red', label='Tweets por dia')
+plt.plot(vector_fechas, vector_tweets, 'bo-', linewidth=1.4, color='red', label='Tweets por dia')
 plt.title('Numero de datos en total: ' + str(global_count))
 plt.xticks(rotation='vertical')
 plt.ylabel('Numero de tweets capturados')
 plt.legend()
 plt.gcf().set_size_inches(16, 10)
-plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_fechas.png')
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_fechas_dia_a_dia.png')
 plt.clf()
 
-del vector_fechas, vector_tweets
+del vector_tweets
+
+plt.plot(vector_fechas, vector_tweets2, 'bo-', linewidth=1.4, color='red', label='Tweets por dia')
+plt.title('Numero de datos en total: ' + str(global_count))
+plt.xticks(rotation='vertical')
+plt.ylabel('Numero de tweets capturados')
+plt.legend()
+plt.gcf().set_size_inches(16, 10)
+plt.savefig('./graficas_datos/' + str(usar_muestra) + '_analisis_fechas_acomulativo.png')
+plt.clf()
+
+del vector_fechas, vector_tweets2
 
 print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas_datos")

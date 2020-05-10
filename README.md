@@ -4,10 +4,14 @@ Para la realización de este proyecto se realizo la captura de 1.681.002 Tweets 
 
 ### Captura y preprocesamiento de datos:
 
-A continuación se muestran de forma gráfica las fechas en las que se capturaron los datos junto con la cantidad de Tweet que se capturaron en cada fecha.
+A continuación se muestran de forma gráfica las fechas en las que se capturaron los datos junto con la cantidad de Tweet que se capturaron en cada fecha día a día y de forma acumulativa.
 
 <div style="text-align:center">
-<img src="captura_de_datos/graficas_datos/0_analisis_fechas.png" alt="Fechas de captura"/><br>
+<img src="captura_de_datos/graficas_datos/0_analisis_fechas_dia_a_dia.png" alt="Fechas de captura"/><br>
+</div><br>
+
+<div style="text-align:center">
+<img src="captura_de_datos/graficas_datos/0_analisis_fechas_acomulativo.png" alt="Fechas de captura"/><br>
 </div><br>
 
 La captura de los Tweets no se restringió a ciertas zonas especificas, sin embargo, debido a las políticas de Twitter los usuarios si así lo desean pueden proteger su ubicación o compartirla, por defecto Twitter protege la ubicación de sus usuarios, en consecuencia la mayoría de las ubicaciones en las que se originan los Tweets son desconocidas, en la siguiente gráfica se muestra con mas detalle la cantidad de Tweets de los que se conoce su origen en contraste con los Tweets cuyo origen geográfico es desconocido.
