@@ -29,7 +29,7 @@ for i, row in df.iterrows():
         df = df.drop([i])
 
 df.drop_duplicates(subset=['id', 'text'], inplace=True)
-df.sort_values('id')
+df.sort_values('id', inplace=True)
 print("\nLimpieza finalizada")
 print("\nReporte de resultados limpieza: ")
 df.to_csv(output_path, index=False, encoding="utf-8")
