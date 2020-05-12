@@ -9,7 +9,7 @@ import unidecode
 
 numero_muestras = 2500
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
 output_path_m1_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_mourning.csv"
 output_path_m2_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_not_mourning.csv"
@@ -62,7 +62,7 @@ tags_español = [
     'descansa en paz',
     'gloria de dios',
     'santa gloria',
-    'luto',
+    ' luto ',
 ]
 
 tags_español = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_español)]

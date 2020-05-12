@@ -8,7 +8,7 @@ from gensim.utils import any2unicode as unicode
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-usar_muestra = 1
+usar_muestra = 0
 
 stemmer_en = SnowballStemmer('english')
 stemmer_es = SnowballStemmer('spanish')
@@ -49,7 +49,7 @@ tags_español = [
     'descansa en paz',
     'gloria de dios',
     'santa gloria',
-    'luto',
+    ' luto ',
 ]
 
 tags_español = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_español)]
