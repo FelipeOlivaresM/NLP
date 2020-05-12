@@ -1,6 +1,8 @@
+nltk
 pandas
 tweepy
 gensim
 urllib3
 requests
+unidecode
 matplotlib

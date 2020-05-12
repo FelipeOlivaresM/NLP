@@ -1,13 +1,15 @@
-from gensim.parsing.porter import PorterStemmer
+from gensim.utils import any2unicode as unicode
+from nltk.stem import SnowballStemmer
 import pandas as pd
 import sys, csv, os
+import unidecode
 
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
 numero_muestras = 2500
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
+output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
 output_path_m1_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_mourning.csv"
 output_path_m2_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_not_mourning.csv"
@@ -19,32 +21,83 @@ print("\nCargando todos los datos y metadatos necesarios")
 df = pd.read_csv(output_path1, encoding='utf8', dtype=str, engine='python')
 df['mourning'] = 4
 
-porter = PorterStemmer()
 numero_muestras += 1
 
-tags_muerte = [
-    'mourning', 'rest in peace', 'glory of god', 'cry for the departure', 'luto', 'descansa en paz',
-    'gloria de dios', 'lloran por la pertida', 'llorar por la partida', 'god be with you', 'que dios esté contigo',
-    'sorry for your absence', 'lamento tu ausencia', 'no te preocupes por las lágrimas que derramas en su nombre',
-    'lágrimas de dolor', 'tears of pain', 'rezo porque estés en el reino de dios',
-    'i pray for you to be in the kingdom of god',
-    'nos veremos de nuevo en el reino de dios', 'en el reino de dios',
-    'i will see you again in the kingdom of god', 'the kingdom of god',
-    'santa gloria', 'holy glory', 'en paz descanse', 'en paz descansa',
-    'lamentamos la muerte', 'lamento la muerte', 'regret death',
-    'mourned the loss', 'lloró la pérdida', 'lloramos la pérdida', 'lloro la perdida', 'lloramos la perdida',
-    'lamentamos la pérdida', 'lamento la pérdida', 'lamentamos la perdida', 'lamento la perdida',
-    'lamentamos su muerte', 'lamento su muerte', 'regret her death', 'regret his death',
-    'mourned his loss', 'mourned her loss', 'lloró su pérdida', 'lloramos su pérdida', 'lloro su perdida',
+stemmer_en = SnowballStemmer('english')
+stemmer_es = SnowballStemmer('spanish')
+
+tags_español = [
+    'no te preocupes por las lágrimas que derramas en su nombre',
+    'nos veremos de nuevo en el reino de dios',
+    'rezo porque estés en el reino de dios',
+    'paz a su alma',
+    'lloran por la pertida',
+    'llorar por la partida',
+    'que dios esté contigo',
+    'lamento tu ausencia',
+    'lágrimas de dolor',
+    'en el reino de dios',
+    'en paz descanse',
+    'en paz descansa',
+    'lamentamos la muerte',
+    'lamento la muerte',
+    'lloró la pérdida',
+    'lloramos la pérdida',
+    'lloro la perdida',
     'lloramos la perdida',
-    'lamentamos su pérdida', 'lamento su pérdida', 'lamentamos su perdida', 'lamento su perdida',
+    'lamentamos la pérdida',
+    'lamento la pérdida',
+    'lamentamos la perdida',
+    'lamento la perdida',
+    'lamentamos su muerte',
+    'lamento su muerte',
+    'lloró su pérdida',
+    'lloramos su pérdida',
+    'lloro su perdida',
+    'lloramos la perdida',
+    'lamentamos su pérdida',
+    'lamento su pérdida',
+    'lamentamos su perdida',
+    'lamento su perdida',
+    'descansa en paz',
+    'gloria de dios',
+    'santa gloria',
+    'luto',
 ]
 
-tags_muerte = list(porter.stem_documents(tags_muerte))
-tags_muerte.append(' rip ')
-tags_muerte.append(' qdep ')
-tags_muerte.append(' r.i.p ')
-tags_muerte.append(' q.d.e.p ')
+tags_español = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_español)]
+
+tags_ingles = [
+    'i pray for you to be in the kingdom of god',
+    'i will see you again in the kingdom of god',
+    'sorry for your absence',
+    'cry for the departure',
+    'the kingdom of god',
+    'mourned the loss',
+    'regret her death',
+    'regret his death',
+    'mourned his loss',
+    'mourned her loss',
+    'god be with you',
+    'rest in peace',
+    'tears of pain',
+    'glory of god',
+    'regret death',
+    'holy glory',
+    'mourning',
+]
+
+tags_ingles = [stemmer_en.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_ingles)]
+
+tags_abreviaciones = [
+    '#RIP', '#QDEP', '#restinpeace', '#descanzaenpas', '#restinpeace', '#luto',
+    ' q.d.e.p ', ' r.i.p ', ' qdep ', ' rip ', '#Luto', '#LUTO', '#duelo', '#Duelo',
+    '#DUELO', '#lutonacional'
+]
+
+tags_abreviaciones = [w.lower() for w in tags_abreviaciones]
+
+tags_muerte = tags_español + tags_ingles + tags_abreviaciones
 
 df_template = pd.DataFrame(columns=df.columns)
 
@@ -92,12 +145,17 @@ for i, row in df.iterrows():
 
     sys.stdout.flush()
 
+    text = df.at[i, 'text']
     id = str(df.at[i, 'id'])
     language = df.at[i, 'lang']
-    text = porter.stem_sentence(str(df.at[i, 'text']).lower())
     languages_list = ['en', 'es']
 
     if len(ids_m2_es) + len(ids_m2_en) + len(ids_m1_es) + len(ids_m1_en) == ((numero_muestras * 4)): break
+
+    if type(text) is str and language == 'es':
+        text = stemmer_es.stem(unidecode.unidecode(unicode(text.lower(), "utf-8")))
+    elif type(text) is str and language == 'en':
+        text = stemmer_en.stem(unidecode.unidecode(unicode(text.lower(), "utf-8")))
 
     if any(word in text for word in tags_muerte):
         if type(language) is str and language in languages_list:
