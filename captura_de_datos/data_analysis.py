@@ -50,6 +50,10 @@ tags_español = [
     'gloria de dios',
     'santa gloria',
     ' luto ',
+    ' dolor ',
+    ' aflicción ',
+    ' pena ',
+    ' pesar '
 ]
 
 tags_español = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_español)]
@@ -71,18 +75,17 @@ tags_ingles = [
     'glory of god',
     'regret death',
     'holy glory',
-    'mourning',
+    ' mourning ',
+    ' grieving '
 ]
 
 tags_ingles = [stemmer_en.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_ingles)]
 
 tags_abreviaciones = [
-    '#RIP', '#QDEP', '#restinpeace', '#descanzaenpas', '#restinpeace', '#luto',
-    ' q.d.e.p ', ' r.i.p ', ' qdep ', ' rip ', '#Luto', '#LUTO', '#duelo', '#Duelo',
-    '#DUELO', '#lutonacional'
+    ' #RIP ', ' #QDEP ', ' #restinpeace ', ' #descanzaenpas ', ' #restinpeace ', ' #luto ',
+    ' q.d.e.p ', ' r.i.p ', ' qdep ', ' rip ', ' #Luto ', ' #LUTO ', ' #duelo ', ' #Duelo ',
+    ' #DUELO ', ' #lutonacional '
 ]
-
-tags_abreviaciones = [w.lower() for w in tags_abreviaciones]
 
 tags_muerte = tags_español + tags_ingles + tags_abreviaciones
 
