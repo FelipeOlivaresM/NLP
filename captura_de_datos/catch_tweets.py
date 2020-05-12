@@ -10,7 +10,7 @@ import re, csv, sys, json, time, threading, os
 
 
 output_path = "./twitter_data/datos_en_bruto/catched_tweets_0.csv"  # <----- Ruta de salida para el archivo, el archivo 4 es para pruebas.
-number_of_tweets_for_catch = 600  # <----- Numero de tweets en total.
+number_of_tweets_for_catch = 600000  # <----- Numero de tweets en total.
 start_time = time.time()
 lock = threading.Lock()
 readed_tweets = 0
@@ -83,7 +83,7 @@ def process_incoming_data(**thread_data):
                 " min - datos en " + output_path.split("/")[-1] +
                 ": " + str(rows_count) + " - revisados: " + str(readed_tweets) +
                 " - utiles: " + str(writed_tweets) + "/" + str(readed_tweets) + " ("
-                + str(round((int(writed_tweets) / int(readed_tweets)) * 100, 2)) + ")%"
+                + str(round((int(writed_tweets) / int(readed_tweets)) * 100, 2)) + "%)"
             )
             sys.stdout.flush()
         return
