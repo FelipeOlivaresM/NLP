@@ -7,7 +7,7 @@ import unidecode
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-numero_muestras = 2500
+numero_muestras = 3500
 
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
@@ -72,8 +72,10 @@ tags_español = [
 tags_español = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_español)]
 
 tags_ingles = [
+    'We must never forget every one of the heroes',
     'i pray for you to be in the kingdom of god',
     'i will see you again in the kingdom of god',
+    'you will live on forever',
     'sorry for your absence',
     'cry for the departure',
     'the kingdom of god',
@@ -100,9 +102,12 @@ tags_abreviaciones = [
     ' #DUELO ', ' #lutonacional '
 ]
 
-tags_abreviaciones = [w.lower() for w in tags_abreviaciones]
+emojis = []
 
-tags_muerte = tags_español + tags_ingles + tags_abreviaciones
+tags_abreviaciones1 = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_abreviaciones)]
+tags_abreviaciones2 = [stemmer_en.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_abreviaciones)]
+
+tags_muerte = set(tags_español + tags_ingles + tags_abreviaciones1 + tags_abreviaciones2 + emojis)
 
 df_template = pd.DataFrame(columns=df.columns)
 

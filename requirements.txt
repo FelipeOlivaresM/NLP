@@ -1,4 +1,5 @@
 nltk
+emoji
 pandas
 tweepy
 gensim
