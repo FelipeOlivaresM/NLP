@@ -7,7 +7,7 @@ import unidecode
 # pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
 
 
-numero_muestras = 3500
+numero_muestras = 5100
 
 output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
 output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
@@ -89,9 +89,35 @@ tags_ingles = [
     'tears of pain',
     'glory of god',
     'regret death',
+    'im sorry',
+    'i care about you',
+    'she will be dearly missed',
+    'he will be dearly missed',
+    'she is in my thoughts and prayers',
+    'he is in my thoughts and prayers',
+    'you and your family are in my thoughts and prayers',
+    'you are important to me',
+    'my condolences',
+    'i hope you find some peace today',
+    'i am saddened to hear about',
     'holy glory',
     ' mourning ',
-    ' grieving '
+    ' grieving ',
+    ' condolences ',
+    'she is in a better place',
+    'he is in a better place',
+    'you have an angel in heaven',
+    'she is no longer suffering',
+    'he is no longer suffering',
+    'she is with god now',
+    'he is with god now',
+    'they are with god now',
+    ' lamentation ',
+    ' lament ',
+    ' keening ',
+    ' wailing ',
+    ' weeping ',
+    ' sorrow '
 ]
 
 tags_ingles = [stemmer_en.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_ingles)]
