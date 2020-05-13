@@ -167,7 +167,7 @@ for i, row in df.iterrows():
     elif type(text) is str and language == 'en':
         text = stemmer_en.stem(unidecode.unidecode(unicode(text.lower(), "utf-8")))
 
-    if any(word in text for word in tags_muerte):
+    if type(text) is str and any(word in text for word in tags_muerte):
         if type(language) is str and language in languages_list:
             if str(language) == 'en' and id not in ids_m1_en and len(ids_m1_en) < numero_muestras:
                 writer1.writerow(df.iloc[i])
