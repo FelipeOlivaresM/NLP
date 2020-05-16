@@ -5,7 +5,7 @@ import re, sys
 
 
 print("\nCargando datos")
-output_path = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
+output_path = "./twitter data/datos en bruto/catched_tweets_full_data.csv"
 df = pd.read_csv(output_path, encoding='utf8', dtype=str, engine='python')
 datos_en_el_archivo = 0
 datos_eliminados = 0

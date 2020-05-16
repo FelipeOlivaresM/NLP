@@ -9,11 +9,11 @@ import unidecode
 
 numero_muestras = 5100
 
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
-output_path_m1_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_mourning.csv"
-output_path_m1_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_mourning.csv"
-output_path_m2_en = "./twitter_data/datos_para_tageo_mourning/en_prefiltered_not_mourning.csv"
-output_path_m2_es = "./twitter_data/datos_para_tageo_mourning/es_prefiltered_not_mourning.csv"
+output_path1 = "./twitter data/datos en bruto/catched_tweets_full_data.csv"
+output_path_m1_en = "./twitter data/datos para tageo mourning/en_prefiltered_mourning.csv"
+output_path_m1_es = "./twitter data/datos para tageo mourning/es_prefiltered_mourning.csv"
+output_path_m2_en = "./twitter data/datos para tageo mourning/en_prefiltered_not_mourning.csv"
+output_path_m2_es = "./twitter data/datos para tageo mourning/es_prefiltered_not_mourning.csv"
 
 vector_rutas = [output_path_m1_en, output_path_m1_es, output_path_m2_en, output_path_m2_es]
 

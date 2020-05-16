@@ -13,6 +13,9 @@ usar_muestra = 0
 stemmer_en = SnowballStemmer('english')
 stemmer_es = SnowballStemmer('spanish')
 
+output_path1 = "./twitter data/datos en bruto/catched_tweets_full_data.csv"
+output_path2 = "./twitter data/datos en bruto/catched_tweets_sample.csv"
+
 tags_español = [
     'no te preocupes por las lágrimas que derramas en su nombre',
     'nos veremos de nuevo en el reino de dios',
@@ -121,9 +124,6 @@ tags_abreviaciones1 = [stemmer_es.stem(unidecode.unidecode(unicode(w, "utf-8")))
 tags_abreviaciones2 = [stemmer_en.stem(unidecode.unidecode(unicode(w, "utf-8"))).lower() for w in (tags_abreviaciones)]
 
 tags_muerte = set(tags_español + tags_ingles + tags_abreviaciones1 + tags_abreviaciones2 + emojis)
-
-output_path1 = "./twitter_data/datos_en_bruto/catched_tweets_full_data.csv"
-output_path2 = "./twitter_data/datos_en_bruto/catched_tweets_sample.csv"
 
 if usar_muestra == 1:
     if os.path.exists(output_path2) == True:
