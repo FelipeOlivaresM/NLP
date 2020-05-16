@@ -4,9 +4,6 @@ import pandas as pd
 import sys, csv, os
 import unidecode
 
-# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
-
-
 numero_muestras = 5100
 
 output_path1 = "./twitter data/datos en bruto/catched_tweets_full_data.csv"

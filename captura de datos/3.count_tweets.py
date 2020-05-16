@@ -1,8 +1,5 @@
 import csv
 
-# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
-
-
 output_path = "./twitter data/datos en bruto/catched_tweets_full_data.csv"
 
 file = open(output_path)

@@ -1,9 +1,6 @@
 import pandas as pd
 import csv, os
 
-# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
-
-
 output_path1 = "./twitter data/datos en bruto/catched_tweets_full_data.csv"  # <---- este se conserva.
 output_path2 = "./twitter data/datos en bruto/catched_tweets_0.csv"  # <---- este se elimina.
 

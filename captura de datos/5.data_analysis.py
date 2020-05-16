@@ -5,9 +5,6 @@ from nltk.stem import SnowballStemmer
 import os, sys, math, datetime, collections
 from gensim.utils import any2unicode as unicode
 
-# pip3 install -r requirements.txt <---- por si da flojera instalarlos a mano.
-
-
 usar_muestra = 0
 
 stemmer_en = SnowballStemmer('english')

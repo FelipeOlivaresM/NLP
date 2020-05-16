@@ -2,7 +2,7 @@
 # create_new_file: 0 para usar un archivo existente si es posible
 # o 1 para crear de nuevo
 # balance_data: 0 para retornar dataframe sin balancear o 1 para retornar
-# dataframe vbalanceado.
+# dataframe balanceado.
 # -----------------------------------------------------------------------------
 def get_mourning_df(create_new_file, balance_data):
     from sklearn.utils import resample
@@ -49,7 +49,6 @@ def get_mourning_df(create_new_file, balance_data):
         mourning_df.at[i, 'text'] = (
             re.sub(' +', ' ', re.sub("http\S+", "", str(mourning_df.at[i, 'text']).replace("\n", " ")))
         ).strip()
-        print(mourning_df.at[i, 'text'])
     if balance_data == 1:
         min_len = int(min(mourning_df['mourning'].value_counts()))
         df_0 = resample(mourning_df[mourning_df.mourning == '0'], replace=False, n_samples=min_len, random_state=1)
@@ -60,3 +59,6 @@ def get_mourning_df(create_new_file, balance_data):
     elif balance_data == 0:
         mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
         return mourning_df
+
+
+get_mourning_df(1, 1)
