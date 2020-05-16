@@ -2,6 +2,7 @@ nltk
 pandas
 tweepy
 gensim
+sklearn
 urllib3
 requests
 unidecode
