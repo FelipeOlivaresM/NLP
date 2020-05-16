@@ -6,8 +6,7 @@
 # -----------------------------------------------------------------------------
 def get_mourning_df(create_new_file, balance_data):
     from sklearn.utils import resample
-    import os, pandas
-
+    import os, re, pandas
     mourning_folder = './datos mourning'
     mourning_df_path = mourning_folder + '/dataset listo/mourning_full_df.csv'
     mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning'])
@@ -44,11 +43,17 @@ def get_mourning_df(create_new_file, balance_data):
                     pass
                 elif numero_de_archivo == 4:
                     pass
+    del df
     mourning_df.drop_duplicates(subset=['text'], inplace=True)
+    for i, row in mourning_df.iterrows():
+        mourning_df.at[i, 'text'] = (
+            re.sub(' +', ' ', re.sub("http\S+", "", str(mourning_df.at[i, 'text']).replace("\n", " ")))
+        ).strip()
+        print(mourning_df.at[i, 'text'])
     if balance_data == 1:
         min_len = int(min(mourning_df['mourning'].value_counts()))
-        df_0 = resample(mourning_df[mourning_df.mourning == 0], replace=False, n_samples=min_len, random_state=1)
-        df_1 = resample(mourning_df[mourning_df.mourning == 1], replace=False, n_samples=min_len, random_state=1)
+        df_0 = resample(mourning_df[mourning_df.mourning == '0'], replace=False, n_samples=min_len, random_state=1)
+        df_1 = resample(mourning_df[mourning_df.mourning == '1'], replace=False, n_samples=min_len, random_state=1)
         mourning_df = pandas.concat([df_0, df_1])
         mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
         return mourning_df
