@@ -28,7 +28,7 @@ Los idiomas como ya fue mencionado se restringieron a ingles o español, sin emb
 <img src="captura de datos/graficas datos/0_analisis_idiomas.png" alt="Proporcion de idiomas"/><br>
 </div><br>
 
-Como se menciono al principio uno de los objetivos del proyecto es discriminar los textos que tienen el sentimiento de luto asociados y los que no, para esto en primera instancia se realizo un prefiltrado de datos usando palabras o mensajes relacionados con luto, como “rip” o “descansa en la gloria de dios” que se buscaron en el texto del Tweet, estos fueron etiquetados manualmente para ser usados posteriormente en el entrenamiento de un modelo de ML el cual fue entrenado para realizar esta tarea, los resultados del prefiltrado con etiquetas se muestra a continuacion.
+Como se menciono al principio uno de los objetivos del proyecto es discriminar los textos que tienen el sentimiento de luto asociados y los que no, para esto en primera instancia se realizo un prefiltrado de datos usando palabras o mensajes relacionados con luto, como “rip” o “descansa en la gloria de dios” que se buscaron en el texto del Tweet, estos fueron etiquetados manualmente para ser usados posteriormente en el entrenamiento de un modelo de ML el cual fue entrenado para realizar esta tarea, los resultados del prefiltrado con etiquetas se muestra a continuación.
 
 <div style="text-align:center">
 <img src="captura de datos/graficas datos/0_analisis_preconteo_mourning.png" alt="Datos prefiltrado luto"/><br>
@@ -38,4 +38,16 @@ De los datos que tuvieron coincidencias y fueron clasificados como asociados al 
 
 <div style="text-align:center">
 <img src="captura de datos/graficas datos/0_analisis_idiomas_preconteo_mourning.png" alt="Proporcion de idiomas datos prefiltrado luto"/><br>
+</div><br>
+
+Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obtener la siguiente proporción de datos certificados, donde es y en son los idiomas y 1 y 0 indican si el sentimiento de luto se encuentra presento o no respectivamente en el texto.
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
+</div><br>
+
+Sin embargo algunos de los datos certificados estaban dañados, además de estar des balanceados, por lo que se procedió a balancear los datos, debido a que primero se balancearon por luto y luego por idioma esto provoca un pequeños desface en luto, la proporción de los datos ya balanceados y preparados para usarse en el entrenamiento de modelos es la siguiente.
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
