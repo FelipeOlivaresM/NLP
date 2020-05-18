@@ -62,23 +62,32 @@ def get_mourning_df(create_new_file, balance_data):
             )).strip()
         print("")
     mourning_df.drop_duplicates(subset=['text'], inplace=True)
+    mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]
+    mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
+    mourning_df.reset_index(drop=True, inplace=True)
     mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
     if balance_data == 1:
         print("Balanceando datos")
-        mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]
-        mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
-        min_len1 = int(min(mourning_df['mourning'].value_counts()))
+        mourning_df["Sello"] = 0
+        for i, row in mourning_df.iterrows():
+            sys.stdout.write(
+                "\rCreando sellos para balancear " + str(
+                    round(((i + 1) / (mourning_df.shape[0])) * 100, 2)
+                ) + "%"
+            )
+            sys.stdout.flush()
+            mourning_df.at[i, 'sello'] = str(mourning_df.at[i, 'lang']) + '_' + str(mourning_df.at[i, 'mourning'])
+        min_len1 = int(min(mourning_df['sello'].value_counts()))
+        print("")
         if (min_len1 % 2) != 0: min_len1 -= 1
-        df_0 = resample(mourning_df[mourning_df.mourning == '0'], replace=False, n_samples=min_len1, random_state=1)
-        df_1 = resample(mourning_df[mourning_df.mourning == '1'], replace=False, n_samples=min_len1, random_state=1)
-        mourning_df = pandas.concat([df_0, df_1])
-        min_len2 = int(min(mourning_df['lang'].value_counts()))
-        if (min_len2 % 2) != 0: min_len2 -= 1
-        df_2 = resample(mourning_df[mourning_df.lang == 'en'], replace=False, n_samples=min_len2, random_state=1)
-        df_3 = resample(mourning_df[mourning_df.lang == 'es'], replace=False, n_samples=min_len2, random_state=1)
-        mourning_df = pandas.concat([df_2, df_3])
+        df_0 = resample(mourning_df[mourning_df.sello == 'es_0'], replace=False, n_samples=min_len1, random_state=1)
+        df_1 = resample(mourning_df[mourning_df.sello == 'es_1'], replace=False, n_samples=min_len1, random_state=1)
+        df_2 = resample(mourning_df[mourning_df.sello == 'en_0'], replace=False, n_samples=min_len1, random_state=1)
+        df_3 = resample(mourning_df[mourning_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
+        mourning_df = pandas.concat([df_0, df_1, df_2, df_3])
         mourning_df.sort_values('lang', inplace=True)
         print("Datos entrgados")
+        mourning_df = mourning_df.filter(['text', 'lang', 'mourning'])
         mourning_df.reset_index(drop=True, inplace=True)
         return mourning_df
     elif balance_data == 0:
