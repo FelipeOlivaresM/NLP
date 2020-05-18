@@ -46,7 +46,7 @@ Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obte
 <img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
 
-Sin embargo algunos de los datos certificados estaban dañados, además de estar des balanceados, por lo que se procedió a balancear los datos, debido a que primero se balancearon por luto y luego por idioma esto provoca un pequeños desface en luto, la proporción de los datos ya balanceados y preparados para usarse en el entrenamiento de modelos es la siguiente.
+Sin embargo los datos estaban des balanceados, por lo que se procedió a balancear los datos, la proporción de los datos ya balanceados y preparados para usarse en el entrenamiento de modelos es la siguiente.
 
 <div style="text-align:center">
 <img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
