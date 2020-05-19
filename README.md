@@ -40,7 +40,7 @@ De los datos que tuvieron coincidencias y fueron clasificados como asociados al 
 <img src="captura de datos/graficas datos/0_analisis_idiomas_preconteo_mourning.png" alt="Proporcion de idiomas datos prefiltrado luto"/><br>
 </div><br>
 
-Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obtener la siguiente proporción de datos certificados, donde es y en son los idiomas y 1 y 0 indican si el sentimiento de luto se encuentra presento o no respectivamente en el texto.
+Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obtener la siguiente proporción de datos certificados sin repetir, donde es y en son los idiomas y 1 y 0 indican si el sentimiento de luto se encuentra presento o no respectivamente en el texto.
 
 <div style="text-align:center">
 <img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>

@@ -57,9 +57,9 @@ def get_mourning_df(create_new_file, balance_data):
                 ) + "%"
             )
             sys.stdout.flush()
-            mourning_df.at[i, 'text'] = (re.sub(
-                ' +', ' ', re.sub("http\S+", "", str(mourning_df.at[i, 'text']).replace("\n", " "))
-            )).strip()
+            mourning_df.at[i, 'text'] = (
+                re.sub(' +', ' ', re.sub("http\S+", "", re.sub('\s+', ' ', str(mourning_df.at[i, 'text']))))
+            ).strip()
         print("")
     mourning_df.drop_duplicates(subset=['text'], inplace=True)
     mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]

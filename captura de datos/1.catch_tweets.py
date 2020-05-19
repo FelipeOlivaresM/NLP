@@ -89,10 +89,10 @@ def process_incoming_data(**thread_data):
 def tweet_to_list(tweet):
     if 'extended_tweet' in [k for k in tweet]:
         text = (
-            re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['extended_tweet']['full_text']).replace("\n", " ")))
+            re.sub(' +', ' ', re.sub("http\S+", "", re.sub('\s+', ' ', str(tweet['extended_tweet']['full_text']))))
         ).strip()
     else:
-        text = (re.sub(' +', ' ', re.sub("http\S+", "", str(tweet['text']).replace("\n", " ")))).strip()
+        text = (re.sub(' +', ' ', re.sub("http\S+", "", re.sub('\s+', ' ', str(tweet['text']))))).strip()
     if tweet['place'] is not None:
         country = tweet['place']['country']
     elif tweet['place'] is None:
