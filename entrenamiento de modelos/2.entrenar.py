@@ -2,7 +2,7 @@ from cargar_df import get_mourning_df
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import pickle
 
@@ -10,7 +10,7 @@ import pickle
 modelo = MultinomialNB()
 modelo_es = MultinomialNB()
 modelo_en = MultinomialNB()
-count_vector = CountVectorizer()
+count_vector = TfidfVectorizer()
 
 # ---------------- Lectura y separacion de datos.
 df = pd.DataFrame(get_mourning_df(0, 1, 1))
