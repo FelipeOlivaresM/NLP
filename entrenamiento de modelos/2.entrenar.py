@@ -10,6 +10,7 @@ import pickle
 modelo = MultinomialNB()
 modelo_es = MultinomialNB()
 modelo_en = MultinomialNB()
+count_vector = CountVectorizer()
 
 # ---------------- Lectura y separacion de datos.
 df = pd.DataFrame(get_mourning_df(0, 1, 1))
@@ -31,7 +32,6 @@ data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
 )
 
 # ---------------- vectorizacion de los textos.
-count_vector = CountVectorizer()
 training_data = count_vector.fit_transform(data_train)
 testing_data = count_vector.transform(data_test)
 training_data_es = count_vector.fit_transform(data_train_es)

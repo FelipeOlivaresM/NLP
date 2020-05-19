@@ -101,9 +101,9 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
 
         for i, row in mourning_df.iterrows():
             sys.stdout.write(
-                "\rCreando sellos de balanceamiento " + str(
-                    round(((i + 1) / (mourning_df.shape[0])) * 100, 2)
-                ) + "%"
+                "\rCreando sellos de balanceamiento " +
+                str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2))
+                + "%"
             )
             sys.stdout.flush()
             mourning_df.at[i, 'sello'] = str(mourning_df.at[i, 'lang']) + '_' + str(mourning_df.at[i, 'mourning'])
@@ -113,11 +113,11 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
         print("")
         print("Balanceando")
 
-        if (min_len1 % 2) != 0: min_len1 -= 1
         df_0 = resample(mourning_df[mourning_df.sello == 'es_0'], replace=False, n_samples=min_len1, random_state=1)
         df_1 = resample(mourning_df[mourning_df.sello == 'es_1'], replace=False, n_samples=min_len1, random_state=1)
         df_2 = resample(mourning_df[mourning_df.sello == 'en_0'], replace=False, n_samples=min_len1, random_state=1)
         df_3 = resample(mourning_df[mourning_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
+
         mourning_df = pandas.concat([df_0, df_1, df_2, df_3])
 
         print("Eliminando sellos de balanceamiento")

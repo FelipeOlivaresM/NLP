@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import sys, collections
 
-balanceado = 0
+balanceado = 1
 df = pd.DataFrame(get_mourning_df(0, balanceado, 1))
 
 conteo_categorias = dict()
