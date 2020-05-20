@@ -43,11 +43,11 @@ testing_data_en = count_vector.transform(data_test_en)
 
 # ---------------- entrenamiento y guardado de los modelos.
 modelo.fit(training_data, label_train)
-pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Completo.sav', 'wb'))
+pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Completo_Mourning.sav', 'wb'))
 modelo_es.fit(training_data_es, label_train_es)
-pickle.dump(modelo_es, open('./modelos/' + str(type(modelo_es).__name__) + '_Español.sav', 'wb'))
+pickle.dump(modelo_es, open('./modelos/' + str(type(modelo_es).__name__) + '_Español_Mourning.sav', 'wb'))
 modelo_en.fit(training_data_en, label_train_en)
-pickle.dump(modelo_en, open('./modelos/' + str(type(modelo_en).__name__) + '_Ingles.sav', 'wb'))
+pickle.dump(modelo_en, open('./modelos/' + str(type(modelo_en).__name__) + '_Ingles_Mourning.sav', 'wb'))
 
 # ---------------- implementacion de los modelos.
 predictions = modelo.predict(testing_data)
