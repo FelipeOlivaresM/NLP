@@ -1,4 +1,5 @@
 nltk
+colour
 pandas
 tweepy
 gensim
