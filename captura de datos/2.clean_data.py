@@ -21,7 +21,7 @@ for i, row in df.iterrows():
         df.at[i, 'text'] = texto_nuevo
         datos_reparados += 1
 
-    if str(df.at[i, 'text']).endswith('…'):
+    if str(df.at[i, 'text']).endswith('…') or str(df.at[i, 'lang']) not in ['en', 'es']:
         datos_eliminados += 1
         df = df.drop([i])
 
