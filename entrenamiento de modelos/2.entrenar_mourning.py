@@ -1,10 +1,12 @@
-from cargar_df import get_mourning_df
+from cargar_datos import get_mourning_df
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 import pickle
+
+print("")
 
 # ---------------- Asignacion de los modelos.
 modelo = MultinomialNB()

@@ -43,11 +43,23 @@ De los datos que tuvieron coincidencias y fueron clasificados como asociados al 
 Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obtener la siguiente proporción de datos certificados sin repetir, donde es y en son los idiomas y 1 y 0 indican si el sentimiento de luto se encuentra presento o no respectivamente en el texto.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento_mourning.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
 
 Sin embargo los datos estaban des balanceados, por lo que se procedió a balancear los datos, la proporción de los datos ya balanceados y preparados para usarse en el entrenamiento de modelos es la siguiente.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento_mourning.png" alt="Proporcion datos de luto en cada idioma"/><br>
+</div><br>
+
+Tambien se trabajo en identificar las emociones presentes en un texto, para lograr esto se recolectaron datos en ingles y en español y se etiquetaron como 0 para sentimientos positivos, 1 para negativos y 2 para neutrales, eun un principio se conto con la siguiente distribucion de datos.
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento_sentiments.png" alt="Proporcion datos de luto en cada idioma"/><br>
+</div><br>
+
+Los cuales luego de ser balanceados generan la siguiente proporcion.
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento_sentiments.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
