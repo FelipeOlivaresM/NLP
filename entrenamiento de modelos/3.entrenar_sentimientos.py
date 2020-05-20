@@ -1,4 +1,4 @@
-from cargar_datos import get_mourning_df
+from cargar_datos import get_feelings_df
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
@@ -15,21 +15,21 @@ modelo_en = MultinomialNB()
 count_vector = TfidfVectorizer()
 
 # ---------------- Lectura y separacion de datos.
-df = pd.DataFrame(get_mourning_df(0, 1, 1))
+df = pd.DataFrame(get_feelings_df(0, 1, 1))
 df_es = df[df.lang == 'es']
 df_en = df[df.lang == 'en']
 
 # ---------------- Separacion en data y labels de entrenamiento.
 data_train, data_test, label_train, label_test = train_test_split(
-    df['text'], df['mourning'],
+    df['text'], df['sentiment'],
     random_state=1
 )
 data_train_es, data_test_es, label_train_es, label_test_es = train_test_split(
-    df_es['text'], df_es['mourning'],
+    df_es['text'], df_es['sentiment'],
     random_state=1
 )
 data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
-    df_en['text'], df_en['mourning'],
+    df_en['text'], df_en['sentiment'],
     random_state=1
 )
 

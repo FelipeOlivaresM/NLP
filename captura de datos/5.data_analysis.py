@@ -264,16 +264,11 @@ def make_autopct(values):
     return my_autopct
 
 
-red = Color("orangered")
-colors = list(red.range_to(Color("orange"), max([
-    len(vector_conteo_idiomas_global),
-    len(vector_conteo_idiomas),
-    len(vector_conteo_m),
-    len(vector_conteo)
-])))
-colors = [color.rgb for color in colors]
-
 print("Generando graficas")
+
+red = Color("orangered")
+colors = list(red.range_to(Color("orange"), len(vector_conteo_idiomas_global)))
+colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global), colors=colors)
@@ -284,6 +279,10 @@ plt.clf()
 
 del vector_conteo_idiomas_global, vector_idiomas_global
 
+red = Color("orangered")
+colors = list(red.range_to(Color("orange"), len(vector_conteo_m)))
+colors = [color.rgb for color in colors]
+
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m), colors=colors)
 plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
 plt.gcf().set_size_inches(14, 8)
@@ -291,6 +290,10 @@ plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_preconteo_mourn
 plt.clf()
 
 del vector_etiquetas_m, vector_conteo_m
+
+red = Color("orangered")
+colors = list(red.range_to(Color("orange"), len(vector_conteo_idiomas)))
+colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas),
         colors=colors)
@@ -300,6 +303,10 @@ plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_idiomas_precont
 plt.clf()
 
 del vector_idiomas, vector_conteo_idiomas
+
+red = Color("orangered")
+colors = list(red.range_to(Color("orange"), len(vector_conteo)))
+colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo), colors=colors)
 plt.title('Numero de datos en total: ' + str(global_count))

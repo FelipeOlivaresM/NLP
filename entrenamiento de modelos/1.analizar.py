@@ -5,7 +5,7 @@ import sys, collections
 from colour import Color
 
 print("")
-balanceado = 0
+balanceado = 1
 df_mourning = pd.DataFrame(get_mourning_df(0, balanceado, 1))
 df_sentiments = pd.DataFrame(get_feelings_df(0, balanceado, 1))
 
@@ -61,7 +61,7 @@ def make_autopct(values):
 
 
 red = Color("orangered")
-colors = list(red.range_to(Color("orange"), max([len(vector_conteo1), len(vector_conteo2)])))
+colors = list(red.range_to(Color("orange"), len(vector_conteo1)))
 colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo1, labels=vector_etiquetas1, shadow=True, autopct=make_autopct(vector_conteo1),
@@ -70,6 +70,10 @@ plt.title('Numero de datos usados para entrenar los modelos de luto: ' + str(df_
 plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas datos/' + str(balanceado) + '_distribucion_datos_entrenamiento_mourning.png')
 plt.clf()
+
+red = Color("orangered")
+colors = list(red.range_to(Color("orange"), len(vector_conteo2)))
+colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo2, labels=vector_etiquetas2, shadow=True, autopct=make_autopct(vector_conteo2),
         colors=colors)

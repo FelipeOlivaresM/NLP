@@ -39,13 +39,13 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
                     df['mourning'] = df.mourning.map({'4': '0', '1': '1'})
                     mourning_df = mourning_df.append(df)
 
-                elif numero_de_archivo == 3:
+                if numero_de_archivo == 3:
                     df = df.filter(['text', 'lang', 'tag'])
                     df.columns = ['text', 'lang', 'mourning']
                     df['mourning'] = df.mourning.map({'no mourning': '0', 'mourning': '1'})
                     mourning_df = mourning_df.append(df)
 
-                elif numero_de_archivo == 4:
+                if numero_de_archivo == 4:
                     df = df.filter(['tweet', 'lang', 'mourning'])
                     df.columns = ['text', 'lang', 'mourning']
                     df['mourning'] = df.mourning.map({'no mourning': '0', 'mourning': '1'})
@@ -175,9 +175,24 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
                     df['sentiment'] = df.sentiment.map({'positive': '0', 'negative': '1', 'neutral': '2'})
                     feelings_df = feelings_df.append(df)
 
-                else:
+                if numero_de_archivo == 2 or numero_de_archivo == 3 or numero_de_archivo == 4:
                     df = df.filter(['sentiment', 'text'])
                     df['lang'] = 'en'
+                    df['sentiment'] = df.sentiment.map({'positive': '0', 'negative': '1', 'neutral': '2'})
+                    feelings_df = feelings_df.append(df)
+
+                if numero_de_archivo == 5 or numero_de_archivo == 6 or numero_de_archivo == 7:
+                    df = df.filter(['polarity', 'text'])
+                    df.columns = ['sentiment', 'text']
+                    if numero_de_archivo in [5, 6]: df['lang'] = 'es'
+                    if numero_de_archivo == 7: df['lang'] = 'en'
+                    df['sentiment'] = df.sentiment.map({'positive': '0', 'negative': '1', 'neutral': '2'})
+                    feelings_df = feelings_df.append(df)
+
+                if numero_de_archivo == 8:
+                    df = df.filter(['sentiment', 'text'])
+                    df.columns = ['sentiment', 'text']
+                    df['lang'] = 'es'
                     df['sentiment'] = df.sentiment.map({'positive': '0', 'negative': '1', 'neutral': '2'})
                     feelings_df = feelings_df.append(df)
 
@@ -245,8 +260,11 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
         df_0 = resample(feelings_df[feelings_df.sello == 'en_0'], replace=False, n_samples=min_len1, random_state=1)
         df_1 = resample(feelings_df[feelings_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
         df_2 = resample(feelings_df[feelings_df.sello == 'en_2'], replace=False, n_samples=min_len1, random_state=1)
+        df_3 = resample(feelings_df[feelings_df.sello == 'es_0'], replace=False, n_samples=min_len1, random_state=1)
+        df_4 = resample(feelings_df[feelings_df.sello == 'es_1'], replace=False, n_samples=min_len1, random_state=1)
+        df_5 = resample(feelings_df[feelings_df.sello == 'es_2'], replace=False, n_samples=min_len1, random_state=1)
 
-        mourning_df = pandas.concat([df_0, df_1, df_2])
+        mourning_df = pandas.concat([df_0, df_1, df_2, df_3, df_4, df_5])
 
         print("Eliminando sellos de balanceamiento")
 
