@@ -42,9 +42,10 @@ df['sentiment'] = sentiment_predictions
 # ---------------- Filtrar df de salida.
 
 df1 = df[df.lang == 'en']
-df2 = df1[df1.sentiment == '0']
-df3 = df1[df1.mourning == '1']
-df = pd.concat([df2, df3])
+df2 = df[df.lang == 'es']
+df3 = df1[df1.sentiment == '0']
+df4 = df2[df2.sentiment == '2']
+df = pd.concat([df3, df4])
 
 df['sello'] = ""
 df.reset_index(drop=True, inplace=True)
