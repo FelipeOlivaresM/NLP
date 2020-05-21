@@ -7,10 +7,10 @@ df = pd.read_csv(output_path, encoding='utf8', dtype=str, engine='python')
 datos_en_el_archivo = 0
 datos_eliminados = 0
 datos_reparados = 0
-
+tamanio_i = int(df.shape[0])
 for i, row in df.iterrows():
 
-    sys.stdout.write("\rLimpieza de datos completada al " + str(round(((i + 1) / (df.shape[0])) * 100, 2)) + "%")
+    sys.stdout.write("\rLimpieza de datos completada al " + str(round(((i + 1) / (tamanio_i)) * 100, 2)) + "%")
     sys.stdout.flush()
 
     datos_en_el_archivo += 1
