@@ -1,68 +1,53 @@
 from cargar_datos import get_mourning_df
 from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 import pandas as pd
-import pickle
+import pickle, os
 
 print("")
 
+modelos = {
+    'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
+    'RF': RandomForestClassifier(n_estimators=18, max_depth=28),
+    'NN': MLPClassifier(hidden_layer_sizes=(2, 2)),
+    'DT': DecisionTreeClassifier(max_depth=18),
+    'NB': MultinomialNB()
+}
+
 # ---------------- Asignacion de los modelos.
-modelo = MultinomialNB()
-modelo_es = MultinomialNB()
-modelo_en = MultinomialNB()
-count_vector = TfidfVectorizer(use_idf=True)
-count_vector_es = TfidfVectorizer(use_idf=True)
-count_vector_en = TfidfVectorizer(use_idf=True)
+modelo = modelos['DT']
+vectorizer = TfidfVectorizer(use_idf=True)
 
 # ---------------- Lectura y separacion de datos.
 df = pd.DataFrame(get_mourning_df(0, 1, 1))
-df_es = df[df.lang == 'es']
-df_en = df[df.lang == 'en']
 
 # ---------------- Separacion en data y labels de entrenamiento.
 data_train, data_test, label_train, label_test = train_test_split(
-    df['text'], df['mourning'],
-    random_state=1
-)
-data_train_es, data_test_es, label_train_es, label_test_es = train_test_split(
-    df_es['text'], df_es['mourning'],
-    random_state=1
-)
-data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
-    df_en['text'], df_en['mourning'],
-    random_state=1
+    df['text'], df['mourning']
 )
 
 # ---------------- vectorizacion de los textos.
-training_data = count_vector.fit_transform(data_train)
-testing_data = count_vector.transform(data_test)
-training_data_es = count_vector_es.fit_transform(data_train_es)
-testing_data_es = count_vector_es.transform(data_test_es)
-training_data_en = count_vector_en.fit_transform(data_train_en)
-testing_data_en = count_vector_en.transform(data_test_en)
+training_data = vectorizer.fit_transform(data_train)
+testing_data = vectorizer.transform(data_test)
+
+# ---------------- almacenamiento de los vocabularios.
+ruta_vocabulario = "./vocabularios/vocabulario_mourning.pkl"
+if os.path.exists(ruta_vocabulario):
+    os.remove(ruta_vocabulario)
+pickle.dump(vectorizer.vocabulary_, open(ruta_vocabulario, "wb"))
 
 # ---------------- entrenamiento y guardado de los modelos.
 modelo.fit(training_data, label_train)
-pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Completo_Mourning.sav', 'wb'))
-modelo_es.fit(training_data_es, label_train_es)
-pickle.dump(modelo_es, open('./modelos/' + str(type(modelo_es).__name__) + '_Español_Mourning.sav', 'wb'))
-modelo_en.fit(training_data_en, label_train_en)
-pickle.dump(modelo_en, open('./modelos/' + str(type(modelo_en).__name__) + '_Ingles_Mourning.sav', 'wb'))
+pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Mourning.sav', 'wb'))
 
 # ---------------- implementacion de los modelos.
 predictions = modelo.predict(testing_data)
-predictions_es = modelo_es.predict(testing_data_es)
-predictions_en = modelo_en.predict(testing_data_en)
 
 # ---------------- Resultados de los modelos.
-print("\nResultados " + str(type(modelo).__name__) + "_Completo:\n")
-reporte1 = classification_report(label_test, predictions)
-print(reporte1)
-print("\nResultados " + str(type(modelo_es).__name__) + "_Español:\n")
-reporte2 = classification_report(label_test_es, predictions_es)
-print(reporte2)
-print("\nResultados " + str(type(modelo_en).__name__) + "_Ingles:\n")
-reporte3 = classification_report(label_test_en, predictions_en)
-print(reporte3)
+print("\nResultados " + str(type(modelo).__name__) + ":\n")
+print(classification_report(label_test, predictions))

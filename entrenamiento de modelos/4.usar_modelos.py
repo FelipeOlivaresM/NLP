@@ -3,38 +3,42 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # ---------------- Rutas de los datos para etiquetar.
-datos_para_etiquetar = './dataset etiquetado modelos/catched_tweets_sample_20-05-2020.csv'
-datos_etiquetados = './dataset etiquetado modelos/taged_tweets_sample_20-05-2020.csv'
+datos_para_etiquetar = './dataset etiquetado modelos/21-05-2020_catched_tweets_sample.csv'
+datos_etiquetados = './dataset etiquetado modelos/21-05-2020_taged_tweets_sample.csv'
 
 # ---------------- Rutas de los modelos.
-ruta_modelo_mourning_español = './modelos/MultinomialNB_Español_Mourning.sav'
-ruta_modelo_mourning_ingles = './modelos/MultinomialNB_Ingles_Mourning.sav'
-ruta_modelo_sentiment_español = './modelos/MultinomialNB_Español_Sentiment.sav'
-ruta_modelo_sentiment_ingles = './modelos/MultinomialNB_Ingles_Sentiment.sav'
+ruta_modelo_mourning = './modelos/DecisionTreeClassifier_Mourning.sav'
+ruta_modelo_sentiment = './modelos/DecisionTreeClassifier_Sentiment.sav'
 
 # ---------------- Cargar modelos.
-modelo_mourning_español = pickle.load(open(ruta_modelo_mourning_español, 'rb'))
-modelo_mourning_ingles = pickle.load(open(ruta_modelo_mourning_ingles, 'rb'))
-modelo_sentiment_español = pickle.load(open(ruta_modelo_sentiment_español, 'rb'))
-modelo_sentiment_ingles = pickle.load(open(ruta_modelo_sentiment_ingles, 'rb'))
+modelo_mourning = pickle.load(open(ruta_modelo_mourning, 'rb'))
+modelo_sentiment = pickle.load(open(ruta_modelo_sentiment, 'rb'))
 
 # ---------------- Cargar datos.
 df = pd.read_csv(datos_para_etiquetar, encoding='utf8', dtype=str, engine='python')
 df = df.filter(['text', 'lang'])
-df_es = df[df.lang == 'es']
-df_en = df[df.lang == 'en']
 
-# ---------------- Vectorizar datos.
-count_vector_es = TfidfVectorizer(use_idf=True)
-count_vector_en = TfidfVectorizer(use_idf=True)
-es_data = count_vector_es.fit_transform(df_es['text'])
-en_data = count_vector_en.fit_transform(df_en['text'])
+# ---------------- Vectorizar datos cargando vocabularios.
+vocabulary_m = pickle.load(open("./vocabularios/vocabulario_mourning.pkl", "rb"))
+vocabulary_s = pickle.load(open("./vocabularios/vocabulario_sentiment.pkl", "rb"))
+vectorizer_m = TfidfVectorizer(use_idf=True, decode_error="replace", vocabulary=vocabulary_m)
+vectorizer_s = TfidfVectorizer(use_idf=True, decode_error="replace", vocabulary=vocabulary_s)
+m_data = vectorizer_m.fit_transform(df['text'])
+s_data = vectorizer_s.fit_transform(df['text'])
 
 # ---------------- Clasificar usando modelos.
-mourning_predictions_es = modelo_mourning_español.predict(es_data)
-mourning_predictions_en = modelo_mourning_ingles.predict(en_data)
-sentiment_predictions_es = modelo_sentiment_español.predict(es_data)
-sentiment_predictions_en = modelo_sentiment_ingles.predict(en_data)
+mourning_predictions = modelo_mourning.predict(m_data)
+sentiment_predictions = modelo_sentiment.predict(s_data)
+
+# ---------------- Agregar predicciones a los datos.
+df['mourning'] = mourning_predictions
+df['sentiment'] = sentiment_predictions
+
+# ---------------- Resultados de usar el modelo para clasificar datos.
+print("\nResultados de mourning en el dataset:\n")
+print(df['mourning'].value_counts())
+print("\nResultados de sentiment en el dataset:\n")
+print(df['sentiment'].value_counts())
 
 # ---------------- Guardar datos tageados.
 df.to_csv(datos_etiquetados, index=False, encoding="utf-8")

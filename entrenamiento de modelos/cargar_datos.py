@@ -22,6 +22,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
 
     elif create_new_file == 1 or os.path.exists(mourning_df_path) == False:
         path, subfolders, files_list = list(os.walk(mourning_folder))[0]
+        files_list.sort()
         for i in range(len(files_list)):
             sys.stdout.write(
                 "\rPreparando dataframe " + str(round(((i + 1) / (len(files_list))) * 100, 2)) + "%"
@@ -156,6 +157,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
 
     elif create_new_file == 1 or os.path.exists(feelings_df_path) == False:
         path, subfolders, files_list = list(os.walk(feelings_folder))[0]
+        files_list.sort()
         for i in range(len(files_list)):
             sys.stdout.write(
                 "\rPreparando dataframe " + str(round(((i + 1) / (len(files_list))) * 100, 2)) + "%"
@@ -264,14 +266,14 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
         df_4 = resample(feelings_df[feelings_df.sello == 'es_1'], replace=False, n_samples=min_len1, random_state=1)
         df_5 = resample(feelings_df[feelings_df.sello == 'es_2'], replace=False, n_samples=min_len1, random_state=1)
 
-        mourning_df = pandas.concat([df_0, df_1, df_2, df_3, df_4, df_5])
+        feelings_df = pandas.concat([df_0, df_1, df_2, df_3, df_4, df_5])
 
         print("Eliminando sellos de balanceamiento")
 
-        mourning_df = mourning_df.filter(['text', 'lang', 'sentiment'])
+        feelings_df = feelings_df.filter(['text', 'lang', 'sentiment'])
         print("Datos entregados")
-        mourning_df.reset_index(drop=True, inplace=True)
-        return mourning_df
+        feelings_df.reset_index(drop=True, inplace=True)
+        return feelings_df
 
     elif balance_data == 0:
         print("Datos entregados")
