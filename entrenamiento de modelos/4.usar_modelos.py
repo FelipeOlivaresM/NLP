@@ -25,9 +25,10 @@ df_es = df[df.lang == 'es']
 df_en = df[df.lang == 'en']
 
 # ---------------- Vectorizar datos.
-count_vector = TfidfVectorizer()
-es_data = count_vector.transform(df_es['text'])
-en_data = count_vector.transform(df_en['text'])
+count_vector_es = TfidfVectorizer(use_idf=True)
+count_vector_en = TfidfVectorizer(use_idf=True)
+es_data = count_vector_es.transform(df_es['text'])
+en_data = count_vector_en.transform(df_en['text'])
 
 # ---------------- Clasificar usando modelos.
 mourning_predictions_es = modelo_mourning_español.predict(es_data)

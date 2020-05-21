@@ -12,7 +12,9 @@ print("")
 modelo = MultinomialNB()
 modelo_es = MultinomialNB()
 modelo_en = MultinomialNB()
-count_vector = TfidfVectorizer()
+count_vector = TfidfVectorizer(use_idf=True)
+count_vector_es = TfidfVectorizer(use_idf=True)
+count_vector_en = TfidfVectorizer(use_idf=True)
 
 # ---------------- Lectura y separacion de datos.
 df = pd.DataFrame(get_mourning_df(0, 1, 1))
@@ -36,10 +38,10 @@ data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
 # ---------------- vectorizacion de los textos.
 training_data = count_vector.fit_transform(data_train)
 testing_data = count_vector.transform(data_test)
-training_data_es = count_vector.fit_transform(data_train_es)
-testing_data_es = count_vector.transform(data_test_es)
-training_data_en = count_vector.fit_transform(data_train_en)
-testing_data_en = count_vector.transform(data_test_en)
+training_data_es = count_vector_es.fit_transform(data_train_es)
+testing_data_es = count_vector_es.transform(data_test_es)
+training_data_en = count_vector_en.fit_transform(data_train_en)
+testing_data_en = count_vector_en.transform(data_test_en)
 
 # ---------------- entrenamiento y guardado de los modelos.
 modelo.fit(training_data, label_train)
