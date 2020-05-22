@@ -5,9 +5,10 @@ import sys, collections
 from colour import Color
 
 print("")
-balanceado = 1
-df_mourning = pd.DataFrame(get_mourning_df(0, balanceado, 1))
-df_sentiments = pd.DataFrame(get_feelings_df(0, balanceado, 1))
+balanceado = 0
+entrenamiento = 1
+df_mourning = pd.DataFrame(get_mourning_df(0, balanceado, 0, entrenamiento))
+df_sentiments = pd.DataFrame(get_feelings_df(0, balanceado, 0, entrenamiento))
 
 conteo_categorias1 = dict()
 for i, row in df_mourning.iterrows():
@@ -68,7 +69,7 @@ plt.pie(vector_conteo1, labels=vector_etiquetas1, shadow=True, autopct=make_auto
         colors=colors)
 plt.title('Numero de datos usados para entrenar los modelos de luto: ' + str(df_mourning.shape[0]))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas datos/' + str(balanceado) + '_distribucion_datos_entrenamiento_mourning.png')
+plt.savefig('./graficas datos/distribucion_datos_mourning_c' + str(balanceado) + str(entrenamiento) + '.png')
 plt.clf()
 
 red = Color("orangered")
@@ -79,7 +80,7 @@ plt.pie(vector_conteo2, labels=vector_etiquetas2, shadow=True, autopct=make_auto
         colors=colors)
 plt.title('Numero de datos usados para entrenar los modelos de sentimientos: ' + str(df_sentiments.shape[0]))
 plt.gcf().set_size_inches(14, 8)
-plt.savefig('./graficas datos/' + str(balanceado) + '_distribucion_datos_entrenamiento_sentiments.png')
+plt.savefig('./graficas datos/distribucion_datos_sentiments_c' + str(balanceado) + str(entrenamiento) + '.png')
 plt.clf()
 
 print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas datos")

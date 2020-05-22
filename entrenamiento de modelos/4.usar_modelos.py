@@ -3,8 +3,8 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 # ---------------- Rutas de los datos para etiquetar.
-datos_para_etiquetar = './dataset etiquetado modelos/21-05-2020_catched_tweets_sample.csv'
-datos_etiquetados = './dataset etiquetado modelos/21-05-2020_taged_tweets_sample.csv'
+datos_para_etiquetar = './dataset etiquetado modelos/tweets_sample.csv'
+datos_etiquetados = './dataset etiquetado modelos/taged_tweets_sample.csv'
 
 # ---------------- Rutas de los modelos.
 ruta_modelo_mourning = './modelos/DecisionTreeClassifier_Mourning.sav'
@@ -39,14 +39,7 @@ print("Agregando datos de predicciones al dataset de salida")
 df['mourning'] = mourning_predictions
 df['sentiment'] = sentiment_predictions
 
-# ---------------- Filtrar df de salida.
-
-df1 = df[df.lang == 'en']
-df2 = df[df.lang == 'es']
-df3 = df1[df1.sentiment == '0']
-df4 = df2[df2.sentiment == '2']
-df = pd.concat([df3, df4])
-
+# ---------------- Contar df de salida.
 df['sello'] = ""
 df.reset_index(drop=True, inplace=True)
 

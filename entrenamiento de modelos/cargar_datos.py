@@ -5,8 +5,10 @@
 # dataframe balanceado.
 # lematizacion: lematiza los textos usando nltk 0 para no lematizar y 1
 # para retornar el texto lematizado.
+# training: une al dataset los datos etiquetados por los modelos, 1 para unir
+# y 0 para usar solo datos certificados.
 # -----------------------------------------------------------------------------
-def get_mourning_df(create_new_file, balance_data, lematizacion):
+def get_mourning_df(create_new_file, balance_data, lematizacion, training):
     from gensim.utils import any2unicode as unicode
     from nltk.stem import SnowballStemmer
     from sklearn.utils import resample
@@ -52,6 +54,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
                     df['mourning'] = df.mourning.map({'no mourning': '0', 'mourning': '1'})
                     mourning_df = mourning_df.append(df)
 
+        del df
         print("")
         mourning_df.reset_index(drop=True, inplace=True)
 
@@ -72,6 +75,15 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
     mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
     mourning_df.reset_index(drop=True, inplace=True)
     mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
+
+    if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
+        print("Incrementando datos con dataset etiquetado por modelos")
+        df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
+                             encoding='utf8', dtype=str, engine='python')
+        df = df.filter(['text', 'lang', 'mourning'])
+        mourning_df = mourning_df.append(df)
+        mourning_df.reset_index(drop=True, inplace=True)
+        del df
 
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
@@ -140,8 +152,10 @@ def get_mourning_df(create_new_file, balance_data, lematizacion):
 # dataframe balanceado.
 # lematizacion: lematiza los textos usando nltk 0 para no lematizar y 1
 # para retornar el texto lematizado.
+# training: une al dataset los datos etiquetados por los modelos, 1 para unir
+# y 0 para usar solo datos certificados.
 # -----------------------------------------------------------------------------
-def get_feelings_df(create_new_file, balance_data, lematizacion):
+def get_feelings_df(create_new_file, balance_data, lematizacion, training):
     from gensim.utils import any2unicode as unicode
     from nltk.stem import SnowballStemmer
     from sklearn.utils import resample
@@ -198,6 +212,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
                     df['sentiment'] = df.sentiment.map({'positive': '0', 'negative': '1', 'neutral': '2'})
                     feelings_df = feelings_df.append(df)
 
+        del df
         print("")
         feelings_df.reset_index(drop=True, inplace=True)
 
@@ -213,11 +228,20 @@ def get_feelings_df(create_new_file, balance_data, lematizacion):
 
         print("")
 
-        feelings_df.drop_duplicates(subset=['text'], inplace=True)
-        feelings_df = feelings_df.loc[feelings_df['sentiment'].isin(['0', '1', '2'])]
-        feelings_df = feelings_df.loc[feelings_df['lang'].isin(['es', 'en'])]
+    feelings_df.drop_duplicates(subset=['text'], inplace=True)
+    feelings_df = feelings_df.loc[feelings_df['sentiment'].isin(['0', '1', '2'])]
+    feelings_df = feelings_df.loc[feelings_df['lang'].isin(['es', 'en'])]
+    feelings_df.reset_index(drop=True, inplace=True)
+    feelings_df.to_csv(feelings_df_path, index=False, encoding="utf-8")
+
+    if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
+        print("Incrementando datos con dataset etiquetado por modelos")
+        df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
+                             encoding='utf8', dtype=str, engine='python')
+        df = df.filter(['text', 'lang', 'sentiment'])
+        feelings_df = feelings_df.append(df)
         feelings_df.reset_index(drop=True, inplace=True)
-        feelings_df.to_csv(feelings_df_path, index=False, encoding="utf-8")
+        del df
 
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
