@@ -43,23 +43,35 @@ De los datos que tuvieron coincidencias y fueron clasificados como asociados al 
 Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obtener la siguiente proporción de datos certificados sin repetir, donde es y en son los idiomas y 1 y 0 indican si el sentimiento de luto se encuentra presento o no respectivamente en el texto.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento_mourning.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c00.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
 
 Sin embargo los datos estaban des balanceados, por lo que se procedió a balancear los datos, la proporción de los datos ya balanceados y preparados para usarse en el entrenamiento de modelos es la siguiente.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento_mourning.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c10.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
 
 Tambien se trabajo en identificar las emociones presentes en un texto, para lograr esto se recolectaron datos en ingles y en español y se etiquetaron como 0 para sentimientos positivos, 1 para negativos y 2 para neutrales, eun un principio se conto con la siguiente distribucion de datos.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/0_distribucion_datos_entrenamiento_sentiments.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c00.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
 
-Los cuales luego de ser balanceados generan la siguiente proporcion.
+Los cuales luego de ser balanceados para poder ser usados en el entrenamiento de modelos de machine learning generan la siguiente proporcion de datos.
 
 <div style="text-align:center">
-<img src="entrenamiento de modelos/graficas datos/1_distribucion_datos_entrenamiento_sentiments.png" alt="Proporcion datos de luto en cada idioma"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c10.png" alt="Proporcion datos de luto en cada idioma"/><br>
+</div><br>
+
+A pesar de ser proporciones de datos bastante significativas no son suficientes para entrenar modelos del todo sólidos usando solamente los vectores de texto como features, además, al limitar los datos al balancear el dataset de entrenamiento el vocabulario de estos modelos a veces se queda corto respecto al vocabulario de la totalidad de los datos, por lo que se optó por retroalimentar los modelos usando las predicciones de los modelos con mejores resultados en ambos casos, es muy importante resaltar que para esta etapa se reentrenaron los modelos usando datos clasificados por ellos mismos, sin embargo el testing de los modelos que se usará para calificar los modelos se hace únicamente usando los datos certificados por la totalidad de los grupos participantes, este incremento se realizo etiquetando con los modelos 160.000 datos, de tal modo que el incremento incluso en los datos mas escasos fuera significativo.
+
+A nivel de datos los incrementos en los dataset sin balancear fueron bastante significativos, a continuación se muestran las nuevas proporciones de datos sin balancear tanto para el dataset de luto como para el de sentimientos respectivamente.
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c01.png" alt="Proporcion datos de luto en cada idioma"/><br>
+</div><br>
+
+<div style="text-align:center">
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c01.png" alt="Proporcion datos de luto en cada idioma"/><br>
 </div><br>
