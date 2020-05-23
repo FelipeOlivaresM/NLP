@@ -83,4 +83,4 @@ plt.gcf().set_size_inches(14, 8)
 plt.savefig('./graficas datos/distribucion_datos_sentiments_c' + str(balanceado) + str(entrenamiento) + '.png')
 plt.clf()
 
-print("Proceso finalizado, las garficas fueron guardads en la carpeta graficas datos")
+print("Proceso finalizado, las graficas fueron guardads en la carpeta graficas datos")
