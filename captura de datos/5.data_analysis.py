@@ -272,8 +272,8 @@ colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo_idiomas_global, labels=vector_idiomas_global, shadow=True,
         autopct=make_autopct(vector_conteo_idiomas_global), colors=colors)
-plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(14, 8)
+plt.title('Conteo global de idiomas usando ' + str(global_count) + ' Tweets')
+plt.gcf().set_size_inches(10, 8)
 plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_idiomas.png')
 plt.clf()
 
@@ -284,8 +284,8 @@ colors = list(red.range_to(Color("orange"), len(vector_conteo_m)))
 colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo_m, labels=vector_etiquetas_m, shadow=True, autopct=make_autopct(vector_conteo_m), colors=colors)
-plt.title('Numero de datos usados para realizar el preconteo: ' + str(global_count))
-plt.gcf().set_size_inches(14, 8)
+plt.title('Resultados del preconteo de mourning usando ' + str(global_count) + ' Tweets')
+plt.gcf().set_size_inches(10, 8)
 plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_preconteo_mourning.png')
 plt.clf()
 
@@ -297,8 +297,8 @@ colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo_idiomas, labels=vector_idiomas, shadow=True, autopct=make_autopct(vector_conteo_idiomas),
         colors=colors)
-plt.title('Numero de datos con cincidencia en el preconteo: ' + str(matched_mourning_tweets))
-plt.gcf().set_size_inches(14, 8)
+plt.title('Conteo de idiomas de los ' + str(matched_mourning_tweets) + ' Tweets con match en el preconteo')
+plt.gcf().set_size_inches(10, 8)
 plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_idiomas_preconteo_mourning.png')
 plt.clf()
 
@@ -309,15 +309,15 @@ colors = list(red.range_to(Color("orange"), len(vector_conteo)))
 colors = [color.rgb for color in colors]
 
 plt.pie(vector_conteo, labels=vector_etiquetas, shadow=True, autopct=make_autopct(vector_conteo), colors=colors)
-plt.title('Numero de datos en total: ' + str(global_count))
-plt.gcf().set_size_inches(14, 8)
+plt.title('Conteo de origen geografico conocido y desconocido de los ' + str(global_count) + ' Tweets capturados')
+plt.gcf().set_size_inches(10, 8)
 plt.savefig('./graficas datos/' + str(usar_muestra) + '_analisis_paises.png')
 plt.clf()
 
 del vector_conteo, vector_etiquetas
 
 plt.plot(vector_fechas, vector_tweets, 'bo-', linewidth=1.4, color='red', label='Tweets por dia')
-plt.title('Numero de datos en total: ' + str(global_count))
+plt.title('Ritmo de captura dia a dia de los ' + str(global_count) + ' datos capturados')
 plt.xticks(rotation='vertical')
 plt.ylabel('Numero de tweets capturados')
 plt.legend()
@@ -328,7 +328,7 @@ plt.clf()
 del vector_tweets
 
 plt.plot(vector_fechas, vector_tweets2, 'bo-', linewidth=1.4, color='red', label='Tweets por dia')
-plt.title('Numero de datos en total: ' + str(global_count))
+plt.title('Ritmo de captura acomulativo de los ' + str(global_count) + ' datos capturados')
 plt.xticks(rotation='vertical')
 plt.ylabel('Numero de tweets capturados')
 plt.legend()
