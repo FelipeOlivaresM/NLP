@@ -46,10 +46,10 @@ Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obte
 
 <div class="row" style="text-align:center; width: 100%">
 <div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c00.png" width="100%" height="auto"/>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c0.png" width="100%" height="auto"/>
 </div>
 <div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c00.png" width="100%" height="auto"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c0.png" width="100%" height="auto"/><br>
 </div>
 </div>
 <br>
@@ -58,36 +58,12 @@ Sin embargo los datos estaban des balanceados, por lo que se procedió a balance
 
 <div class="row" style="text-align:center; width: 100%">
 <div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c10.png" width="100%" height="auto"/>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c1.png" width="100%" height="auto"/>
 </div>
 <div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c10.png" width="100%" height="auto"/><br>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c1.png" width="100%" height="auto"/><br>
 </div>
 </div>
 <br>
 
-A pesar de ser proporciones de datos bastante significativas no son suficientes para entrenar modelos del todo sólidos usando solamente los vectores de texto como features, además, al limitar los datos al balancear el dataset de entrenamiento el vocabulario de estos modelos a veces se queda corto respecto al vocabulario de la totalidad de los datos, lo que afecta el desempeño de los modelos cuando encuentran nuevosvalores, por lo que se optó por retroalimentar los modelos usando las predicciones de los modelos con mejores resultados en ambos casos, los cuales a pesar la cantidad de datos usada lograron puntuaciones de f1-score de entre el 75% y el 84%, es muy importante resaltar que para esta etapa se reentrenaron los modelos usando datos clasificados por ellos mismos, sin embargo el testing de los modelos que se usará para calificar los modelos se hace únicamente usando los datos certificados por la totalidad de los grupos participantes, este incremento se realizo etiquetando con los modelos 160.000 datos, de tal modo que el incremento incluso en los datos mas escasos fuera significativo.
-
-A nivel de datos los incrementos en los dataset sin balancear fueron bastante significativos, a continuación se muestran las nuevas proporciones de datos sin balancear tanto para el dataset de luto como para el de sentimientos respectivamente.
-
-<div class="row" style="text-align:center; width: 100%">
-<div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c01.png" width="100%" height="auto"/>
-</div>
-<div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c01.png" width="100%" height="auto"/><br>
-</div>
-</div>
-<br>
-
-Luego de balancear los dataset incrementados de luto y de sentimientos las proporciones de datos obtenidas fueron las siguientes respectivamente.
-
-<div class="row" style="text-align:center; width: 100%">
-<div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c11.png" width="100%" height="auto"/>
-</div>
-<div class="column" style="display: inline-block; text-align:center; width: 49%;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c11.png" width="100%" height="auto"/><br>
-</div>
-</div>
-<br>
+A pesar de ser proporciones de datos bastante significativas no son suficientes para entrenar modelos del todo sólidos usando solamente los vectores de texto como features, además, al limitar los datos al balancear el dataset de entrenamiento el vocabulario de estos modelos a veces se queda corto respecto al vocabulario de la totalidad de los datos, lo que afecta el desempeño de los modelos cuando encuentran nuevos valores.
