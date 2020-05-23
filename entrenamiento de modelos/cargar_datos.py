@@ -5,8 +5,9 @@
 # dataframe balanceado.
 # lematizacion: lematiza los textos usando nltk 0 para no lematizar y 1
 # para retornar el texto lematizado.
-# training: une al dataset los datos etiquetados por los modelos, 1 para unir
-# y 0 para usar solo datos certificados.
+# training: une al dataset los datos etiquetados por los modelos, 1 para unir,
+# 0 para usar solo datos certificados y 2 para solo usar datos etiquetados por
+# modelos.
 # -----------------------------------------------------------------------------
 def get_mourning_df(create_new_file, balance_data, lematizacion, training):
     from gensim.utils import any2unicode as unicode
@@ -16,13 +17,13 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 
     mourning_folder = './datos mourning'
     mourning_df_path = mourning_folder + '/dataset listo/mourning_full_df.csv'
-    mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning']).dropna()
+    mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning'])
 
-    if create_new_file == 0 and os.path.exists(mourning_df_path) == True:
+    if create_new_file == 0 and os.path.exists(mourning_df_path) == True and training != 2:
         print('Cargando datos')
         mourning_df = pandas.read_csv(mourning_df_path, encoding='utf8', dtype=str, engine='python')
 
-    elif create_new_file == 1 or os.path.exists(mourning_df_path) == False:
+    if create_new_file == 1 or os.path.exists(mourning_df_path) == False and training != 2:
         path, subfolders, files_list = list(os.walk(mourning_folder))[0]
         files_list.sort()
         for i in range(len(files_list)):
@@ -56,6 +57,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 
         del df
         print("")
+        mourning_df.dropna()
         mourning_df.reset_index(drop=True, inplace=True)
 
         for i, row in mourning_df.iterrows():
@@ -70,14 +72,16 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 
         print("")
 
-    mourning_df.drop_duplicates(subset=['text'], inplace=True)
-    mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]
-    mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
-    mourning_df.reset_index(drop=True, inplace=True)
-    mourning_df.dropna()
-    mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
+        mourning_df.drop_duplicates(subset=['text'], inplace=True)
+        mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]
+        mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
+        mourning_df.reset_index(drop=True, inplace=True)
+        mourning_df.dropna()
+        mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
 
-    if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
+    if training == 1 and os.path.exists(
+            './dataset etiquetado modelos/taged_tweets_sample.csv') or training == 2 and os.path.exists(
+        './dataset etiquetado modelos/taged_tweets_sample.csv'):
         print("Incrementando datos con dataset etiquetado por modelos")
         df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
                              encoding='utf8', dtype=str, engine='python')
@@ -89,23 +93,19 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
         stemmer_es = SnowballStemmer('spanish')
-
         for i, row in mourning_df.iterrows():
             sys.stdout.write(
                 "\rLematizando " + str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2)) + "%"
             )
             sys.stdout.flush()
-
             if mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'es':
                 mourning_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
                     unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
                 )
-
             elif mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'en':
                 mourning_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
                     unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
                 )
-
         print("\nLematizacion finalizada")
 
     mourning_df.dropna()
@@ -158,8 +158,9 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 # dataframe balanceado.
 # lematizacion: lematiza los textos usando nltk 0 para no lematizar y 1
 # para retornar el texto lematizado.
-# training: une al dataset los datos etiquetados por los modelos, 1 para unir
-# y 0 para usar solo datos certificados.
+# training: une al dataset los datos etiquetados por los modelos, 1 para unir,
+# 0 para usar solo datos certificados y 2 para solo usar datos etiquetados por
+# modelos.
 # -----------------------------------------------------------------------------
 def get_feelings_df(create_new_file, balance_data, lematizacion, training):
     from gensim.utils import any2unicode as unicode
@@ -169,13 +170,13 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
 
     feelings_folder = './datos sentimientos'
     feelings_df_path = feelings_folder + '/dataset listo/sentiments_full_df.csv'
-    feelings_df = pandas.DataFrame(columns=['text', 'lang', 'sentiment']).dropna()
+    feelings_df = pandas.DataFrame(columns=['text', 'lang', 'sentiment'])
 
-    if create_new_file == 0 and os.path.exists(feelings_df_path) == True:
+    if create_new_file == 0 and os.path.exists(feelings_df_path) == True and training != 2:
         print('Cargando datos')
         feelings_df = pandas.read_csv(feelings_df_path, encoding='utf8', dtype=str, engine='python')
 
-    elif create_new_file == 1 or os.path.exists(feelings_df_path) == False:
+    if create_new_file == 1 or os.path.exists(feelings_df_path) == False and training != 2:
         path, subfolders, files_list = list(os.walk(feelings_folder))[0]
         files_list.sort()
         for i in range(len(files_list)):
@@ -220,6 +221,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
 
         del df
         print("")
+        feelings_df.dropna()
         feelings_df.reset_index(drop=True, inplace=True)
 
         for i, row in feelings_df.iterrows():
@@ -234,14 +236,16 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
 
         print("")
 
-    feelings_df.drop_duplicates(subset=['text'], inplace=True)
-    feelings_df = feelings_df.loc[feelings_df['sentiment'].isin(['0', '1', '2'])]
-    feelings_df = feelings_df.loc[feelings_df['lang'].isin(['es', 'en'])]
-    feelings_df.reset_index(drop=True, inplace=True)
-    feelings_df.dropna()
-    feelings_df.to_csv(feelings_df_path, index=False, encoding="utf-8")
+        feelings_df.drop_duplicates(subset=['text'], inplace=True)
+        feelings_df = feelings_df.loc[feelings_df['sentiment'].isin(['0', '1', '2'])]
+        feelings_df = feelings_df.loc[feelings_df['lang'].isin(['es', 'en'])]
+        feelings_df.reset_index(drop=True, inplace=True)
+        feelings_df.dropna()
+        feelings_df.to_csv(feelings_df_path, index=False, encoding="utf-8")
 
-    if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
+    if training == 1 and os.path.exists(
+            './dataset etiquetado modelos/taged_tweets_sample.csv') or training == 2 and os.path.exists(
+        './dataset etiquetado modelos/taged_tweets_sample.csv'):
         print("Incrementando datos con dataset etiquetado por modelos")
         df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
                              encoding='utf8', dtype=str, engine='python')
@@ -253,23 +257,19 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
         stemmer_es = SnowballStemmer('spanish')
-
         for i, row in feelings_df.iterrows():
             sys.stdout.write(
                 "\rLematizando " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%"
             )
             sys.stdout.flush()
-
             if feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'es':
                 feelings_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
                     unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
                 )
-
             elif feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'en':
                 feelings_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
                     unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
                 )
-
         print("\nLematizacion finalizada")
 
     feelings_df.dropna()
