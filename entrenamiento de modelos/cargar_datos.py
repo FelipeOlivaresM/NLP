@@ -16,7 +16,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 
     mourning_folder = './datos mourning'
     mourning_df_path = mourning_folder + '/dataset listo/mourning_full_df.csv'
-    mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning'])
+    mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning']).dropna()
 
     if create_new_file == 0 and os.path.exists(mourning_df_path) == True:
         print('Cargando datos')
@@ -74,6 +74,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
     mourning_df = mourning_df.loc[mourning_df['mourning'].isin(['1', '0'])]
     mourning_df = mourning_df.loc[mourning_df['lang'].isin(['es', 'en'])]
     mourning_df.reset_index(drop=True, inplace=True)
+    mourning_df.dropna()
     mourning_df.to_csv(mourning_df_path, index=False, encoding="utf-8")
 
     if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
@@ -81,7 +82,7 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
         df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
                              encoding='utf8', dtype=str, engine='python')
         df = df.filter(['text', 'lang', 'mourning'])
-        mourning_df = mourning_df.append(df)
+        mourning_df = mourning_df.append(df.dropna())
         mourning_df.reset_index(drop=True, inplace=True)
         del df
 
@@ -107,7 +108,10 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
 
         print("\nLematizacion finalizada")
 
+    mourning_df.dropna()
+
     if balance_data == 1:
+        mourning_df.dropna()
         print("Balanceando datos")
         mourning_df["Sello"] = 0
 
@@ -125,6 +129,8 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
         print("")
         print("Balanceando")
 
+        mourning_df.dropna()
+
         df_0 = resample(mourning_df[mourning_df.sello == 'es_0'], replace=False, n_samples=min_len1, random_state=1)
         df_1 = resample(mourning_df[mourning_df.sello == 'es_1'], replace=False, n_samples=min_len1, random_state=1)
         df_2 = resample(mourning_df[mourning_df.sello == 'en_0'], replace=False, n_samples=min_len1, random_state=1)
@@ -137,12 +143,12 @@ def get_mourning_df(create_new_file, balance_data, lematizacion, training):
         mourning_df = mourning_df.filter(['text', 'lang', 'mourning'])
         print("Datos entregados")
         mourning_df.reset_index(drop=True, inplace=True)
-        return mourning_df
+        return mourning_df.dropna()
 
     elif balance_data == 0:
         print("Datos entregados")
         mourning_df.reset_index(drop=True, inplace=True)
-        return mourning_df
+        return mourning_df.dropna()
 
 
 # -----------------------------------------------------------------------------
@@ -163,7 +169,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
 
     feelings_folder = './datos sentimientos'
     feelings_df_path = feelings_folder + '/dataset listo/sentiments_full_df.csv'
-    feelings_df = pandas.DataFrame(columns=['text', 'lang', 'sentiment'])
+    feelings_df = pandas.DataFrame(columns=['text', 'lang', 'sentiment']).dropna()
 
     if create_new_file == 0 and os.path.exists(feelings_df_path) == True:
         print('Cargando datos')
@@ -232,6 +238,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
     feelings_df = feelings_df.loc[feelings_df['sentiment'].isin(['0', '1', '2'])]
     feelings_df = feelings_df.loc[feelings_df['lang'].isin(['es', 'en'])]
     feelings_df.reset_index(drop=True, inplace=True)
+    feelings_df.dropna()
     feelings_df.to_csv(feelings_df_path, index=False, encoding="utf-8")
 
     if training == 1 and os.path.exists('./dataset etiquetado modelos/taged_tweets_sample.csv'):
@@ -239,7 +246,7 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
         df = pandas.read_csv('./dataset etiquetado modelos/taged_tweets_sample.csv',
                              encoding='utf8', dtype=str, engine='python')
         df = df.filter(['text', 'lang', 'sentiment'])
-        feelings_df = feelings_df.append(df)
+        feelings_df = feelings_df.append(df.dropna())
         feelings_df.reset_index(drop=True, inplace=True)
         del df
 
@@ -265,7 +272,10 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
 
         print("\nLematizacion finalizada")
 
+    feelings_df.dropna()
+
     if balance_data == 1:
+        feelings_df.dropna()
         print("Balanceando datos")
         feelings_df["Sello"] = 0
 
@@ -283,6 +293,8 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
         print("")
         print("Balanceando")
 
+        feelings_df.dropna()
+
         df_0 = resample(feelings_df[feelings_df.sello == 'en_0'], replace=False, n_samples=min_len1, random_state=1)
         df_1 = resample(feelings_df[feelings_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
         df_2 = resample(feelings_df[feelings_df.sello == 'en_2'], replace=False, n_samples=min_len1, random_state=1)
@@ -297,9 +309,9 @@ def get_feelings_df(create_new_file, balance_data, lematizacion, training):
         feelings_df = feelings_df.filter(['text', 'lang', 'sentiment'])
         print("Datos entregados")
         feelings_df.reset_index(drop=True, inplace=True)
-        return feelings_df
+        return feelings_df.dropna()
 
     elif balance_data == 0:
         print("Datos entregados")
         feelings_df.reset_index(drop=True, inplace=True)
-        return feelings_df
+        return feelings_df.dropna()
