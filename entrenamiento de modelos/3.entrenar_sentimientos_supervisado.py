@@ -16,7 +16,7 @@ modelos = {
     'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=16), n_estimators=8),
     'RF': RandomForestClassifier(n_estimators=34, max_depth=48),
     'NN': MLPClassifier(hidden_layer_sizes=(4, 4)),
-    'DT': DecisionTreeClassifier(max_depth=24),
+    'DT': DecisionTreeClassifier(max_depth=84),
     'NB': MultinomialNB()
 }
 
@@ -26,8 +26,8 @@ vectorizer = TfidfVectorizer(use_idf=True)
 
 if usar_datos_incrementados == 1:
     print("Usando datos incrementados para entrenar\n")
-    df_entrenamiento = pd.DataFrame(get_feelings_df(0, 1, 1, 1))
-    df_testeo = pd.DataFrame(get_feelings_df(0, 1, 1, 0))
+    df_entrenamiento = pd.DataFrame(get_feelings_df(0, 0, 1, 1))
+    df_testeo = pd.DataFrame(get_feelings_df(0, 0, 1, 0))
 
     data_train = df_entrenamiento['text']
     data_test = df_testeo['text']

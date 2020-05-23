@@ -16,7 +16,7 @@ modelos = {
     'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
     'RF': RandomForestClassifier(n_estimators=18, max_depth=28),
     'NN': MLPClassifier(hidden_layer_sizes=(2, 2)),
-    'DT': DecisionTreeClassifier(max_depth=18),
+    'DT': DecisionTreeClassifier(max_depth=54),
     'NB': MultinomialNB()
 }
 
@@ -26,8 +26,8 @@ vectorizer = TfidfVectorizer(use_idf=True)
 
 if usar_datos_incrementados == 1:
     print("Usando datos incrementados para entrenar\n")
-    df_entrenamiento = pd.DataFrame(get_mourning_df(0, 1, 1, 1))
-    df_testeo = pd.DataFrame(get_mourning_df(0, 1, 1, 0))
+    df_entrenamiento = pd.DataFrame(get_mourning_df(0, 0, 1, 1))
+    df_testeo = pd.DataFrame(get_mourning_df(0, 0, 1, 0))
 
     data_train = df_entrenamiento['text']
     data_test = df_testeo['text']
@@ -39,14 +39,14 @@ if usar_datos_incrementados == 1:
     testing_data = vectorizer.transform(data_test)
 
     # ---------------- almacenamiento de los vocabularios.
-    ruta_vocabulario = "./vocabularios/vocabulario_sentiment.pkl"
+    ruta_vocabulario = "./vocabularios/vocabulario_mourning.pkl"
     if os.path.exists(ruta_vocabulario):
         os.remove(ruta_vocabulario)
     pickle.dump(vectorizer.vocabulary_, open(ruta_vocabulario, "wb"))
 
     # ---------------- entrenamiento y guardado de los modelos.
     modelo.fit(training_data, label_train)
-    pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Sentiment.sav', 'wb'))
+    pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Mourning.sav', 'wb'))
 
     # ---------------- implementacion de los modelos.
     predictions = modelo.predict(testing_data)
@@ -70,14 +70,14 @@ elif usar_datos_incrementados == 0:
     testing_data = vectorizer.transform(data_test)
 
     # ---------------- almacenamiento de los vocabularios.
-    ruta_vocabulario = "./vocabularios/vocabulario_sentiment.pkl"
+    ruta_vocabulario = "./vocabularios/vocabulario_mourning.pkl"
     if os.path.exists(ruta_vocabulario):
         os.remove(ruta_vocabulario)
     pickle.dump(vectorizer.vocabulary_, open(ruta_vocabulario, "wb"))
 
     # ---------------- entrenamiento y guardado de los modelos.
     modelo.fit(training_data, label_train)
-    pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Sentiment.sav', 'wb'))
+    pickle.dump(modelo, open('./modelos/' + str(type(modelo).__name__) + '_Mourning.sav', 'wb'))
 
     # ---------------- implementacion de los modelos.
     predictions = modelo.predict(testing_data)
