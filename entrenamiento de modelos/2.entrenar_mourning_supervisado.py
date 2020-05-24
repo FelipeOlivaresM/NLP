@@ -10,12 +10,11 @@ import pandas as pd
 import pickle, os
 
 print("")
-usar_datos_incrementados = 0
 
 modelos = {
     'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
     'RF': RandomForestClassifier(n_estimators=18, max_depth=28),
-    'NN': MLPClassifier(hidden_layer_sizes=(50, 2)),
+    'NN': MLPClassifier(hidden_layer_sizes=(20, 2)),
     'DT': DecisionTreeClassifier(max_depth=16),
     'NB': MultinomialNB()
 }
@@ -24,7 +23,6 @@ modelos = {
 modelo = modelos['DT']
 vectorizer = TfidfVectorizer(use_idf=True)
 
-print("Usando datos certificados para entrenar\n")
 # ---------------- Lectura y separacion de datos.
 df = pd.DataFrame(get_mourning_df(1, 1))
 
