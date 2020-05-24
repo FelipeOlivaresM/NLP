@@ -10,11 +10,11 @@ A continuación se muestran de forma gráfica las fechas en las que se capturaro
 
 <table style="border-collapse: collapse; border: none;" cellspacing="0" cellpadding="0">
 <tr style="padding: 0px; margin: 0px; border: none;">
-<td style="padding: 0px; margin: 0px; border: none;line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_fechas_dia_a_dia.png" width="100%" height="auto"/>
+<td style="padding: 0px; margin: 0px; border: none; line-height:0;">
+<img src="captura de datos/graficas datos/0_analisis_fechas_dia_a_dia.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 <td style="padding: 0px; margin: 0px; border: none; line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_fechas_acomulativo.png" width="100%" height="auto"/>
+<img src="captura de datos/graficas datos/0_analisis_fechas_acomulativo.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 </tr>
 </table>
@@ -23,11 +23,11 @@ La captura de los Tweets no se restringió a ciertas zonas especificas, sin emba
 
 <table style="border-collapse: collapse; border: none;" cellspacing="0" cellpadding="0">
 <tr style="padding: 0px; margin: 0px; border: none;">
-<td style="padding: 0px; margin: 0px; border: none;line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_paises.png" width="100%" height="auto"/>
+<td style="padding: 0px; margin: 0px; border: none; line-height:0;">
+<img src="captura de datos/graficas datos/0_analisis_paises.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 <td style="padding: 0px; margin: 0px; border: none; line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_idiomas.png" width="100%" height="auto"/>
+<img src="captura de datos/graficas datos/0_analisis_idiomas.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 </tr>
 </table>
@@ -36,11 +36,11 @@ Como se menciono al principio uno de los objetivos del proyecto es discriminar l
 
 <table style="border-collapse: collapse; border: none;" cellspacing="0" cellpadding="0">
 <tr style="padding: 0px; margin: 0px; border: none;">
-<td style="padding: 0px; margin: 0px; border: none;line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_preconteo_mourning.png" width="100%" height="auto"/>
+<td style="padding: 0px; margin: 0px; border: none; line-height:0;">
+<img src="captura de datos/graficas datos/0_analisis_preconteo_mourning.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 <td style="padding: 0px; margin: 0px; border: none; line-height:0;">
-<img src="captura de datos/graficas datos/0_analisis_idiomas_preconteo_mourning.png" width="100%" height="auto"/>
+<img src="captura de datos/graficas datos/0_analisis_idiomas_preconteo_mourning.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 </tr>
 </table>
@@ -49,11 +49,11 @@ Uniendo los datos de varios grupos trabajando en el mismo proyecto se logro obte
 
 <table style="border-collapse: collapse; border: none;" cellspacing="0" cellpadding="0">
 <tr style="padding: 0px; margin: 0px; border: none;">
-<td style="padding: 0px; margin: 0px; border: none;line-height:0;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c0.png" width="100%" height="auto"/>
+<td style="padding: 0px; margin: 0px; border: none; line-height:0;">
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c0.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 <td style="padding: 0px; margin: 0px; border: none; line-height:0;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c0.png" width="100%" height="auto"/>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c0.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 </tr>
 </table>
@@ -62,11 +62,11 @@ Sin embargo los datos estaban des balanceados, por lo que se procedió a balance
 
 <table style="border-collapse: collapse; border: none;" cellspacing="0" cellpadding="0">
 <tr style="padding: 0px; margin: 0px; border: none;">
-<td style="padding: 0px; margin: 0px; border: none;line-height:0;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c1.png" width="100%" height="auto"/>
+<td style="padding: 0px; margin: 0px; border: none; line-height:0;">
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_mourning_c1.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 <td style="padding: 0px; margin: 0px; border: none; line-height:0;">
-<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c1.png" width="100%" height="auto"/>
+<img src="entrenamiento de modelos/graficas datos/distribucion_datos_sentiments_c1.png" width="100%" height="auto" style="padding: 0px; margin: 0px; border: none; line-height:0;"/>
 </td>
 </tr>
 </table>
