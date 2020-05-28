@@ -5,10 +5,9 @@
 # para retornar el texto lematizado.
 # -----------------------------------------------------------------------------
 def get_mourning_df(balance_data, lematizacion):
-    from gensim.utils import any2unicode as unicode
     from nltk.stem import SnowballStemmer
     from sklearn.utils import resample
-    import os, re, sys, pandas, unidecode
+    import os, re, sys, pandas
 
     mourning_folder = './datos mourning'
     mourning_df = pandas.DataFrame(columns=['text', 'lang', 'mourning'])
@@ -81,7 +80,8 @@ def get_mourning_df(balance_data, lematizacion):
         df_3 = resample(mourning_df[mourning_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
         mourning_df = pandas.concat([df_0, df_1, df_2, df_3])
         mourning_df = mourning_df.filter(['text', 'lang', 'mourning'])
-        mourning_df.reset_index(drop=True, inplace=True)
+
+    mourning_df.reset_index(drop=True, inplace=True)
 
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
@@ -92,17 +92,15 @@ def get_mourning_df(balance_data, lematizacion):
             )
             sys.stdout.flush()
             if type(mourning_df.at[i, 'text']) is str and mourning_df.at[i, 'lang'] == 'es':
-                mourning_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
-                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
-                )
+                mourning_df.at[i, 'text'] = str(stemmer_es.stem(mourning_df.at[i, 'text'])).lower()
             elif type(mourning_df.at[i, 'text']) is str and mourning_df.at[i, 'lang'] == 'en':
-                mourning_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
-                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
-                )
-        mourning_df.reset_index(drop=True, inplace=True)
+                mourning_df.at[i, 'text'] = str(stemmer_en.stem(mourning_df.at[i, 'text'])).lower()
         print("")
 
+    mourning_df.reset_index(drop=True, inplace=True)
+
     print("Df mourning entregado\n")
+    mourning_df.sort_values('text', inplace=True)
     mourning_df.reset_index(drop=True, inplace=True)
     return mourning_df
 
@@ -114,10 +112,9 @@ def get_mourning_df(balance_data, lematizacion):
 # para retornar el texto lematizado.
 # -----------------------------------------------------------------------------
 def get_feelings_df(balance_data, lematizacion):
-    from gensim.utils import any2unicode as unicode
     from nltk.stem import SnowballStemmer
     from sklearn.utils import resample
-    import os, re, sys, pandas, unidecode
+    import os, re, sys, pandas
 
     feelings_folder = './datos sentimientos'
     feelings_df = pandas.DataFrame(columns=['text', 'lang', 'sentiment'])
@@ -204,7 +201,8 @@ def get_feelings_df(balance_data, lematizacion):
         df_5 = resample(feelings_df[feelings_df.sello == 'es_2'], replace=False, n_samples=min_len1, random_state=1)
         feelings_df = pandas.concat([df_0, df_1, df_2, df_3, df_4, df_5])
         feelings_df = feelings_df.filter(['text', 'lang', 'sentiment'])
-        feelings_df.reset_index(drop=True, inplace=True)
+
+    feelings_df.reset_index(drop=True, inplace=True)
 
     if lematizacion == 1:
         stemmer_en = SnowballStemmer('english')
@@ -213,16 +211,14 @@ def get_feelings_df(balance_data, lematizacion):
             sys.stdout.write("\rLematizando df " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%")
             sys.stdout.flush()
             if type(feelings_df.at[i, 'text']) is str and feelings_df.at[i, 'lang'] == 'es':
-                feelings_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
-                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
-                )
+                feelings_df.at[i, 'text'] = str(stemmer_es.stem(feelings_df.at[i, 'text'])).lower()
             elif type(feelings_df.at[i, 'text']) is str and feelings_df.at[i, 'lang'] == 'en':
-                feelings_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
-                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
-                )
-        feelings_df.reset_index(drop=True, inplace=True)
+                feelings_df.at[i, 'text'] = str(stemmer_en.stem(feelings_df.at[i, 'text'])).lower()
         print("")
 
+    feelings_df.reset_index(drop=True, inplace=True)
+
     print("Df sentiments entregado\n")
+    feelings_df.sort_values('text', inplace=True)
     feelings_df.reset_index(drop=True, inplace=True)
     return feelings_df
