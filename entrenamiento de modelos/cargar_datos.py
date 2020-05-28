@@ -59,24 +59,6 @@ def get_mourning_df(balance_data, lematizacion):
 
     print("")
 
-    if lematizacion == 1:
-        stemmer_en = SnowballStemmer('english')
-        stemmer_es = SnowballStemmer('spanish')
-        for i, row in mourning_df.iterrows():
-            sys.stdout.write(
-                "\rLematizando df " + str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2)) + "%"
-            )
-            sys.stdout.flush()
-            if mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'es':
-                mourning_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
-                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
-                )
-            elif mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'en':
-                mourning_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
-                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
-                )
-        print("")
-
     if balance_data == 1:
         mourning_df["Sello"] = 0
         for i, row in mourning_df.iterrows():
@@ -95,6 +77,26 @@ def get_mourning_df(balance_data, lematizacion):
         df_3 = resample(mourning_df[mourning_df.sello == 'en_1'], replace=False, n_samples=min_len1, random_state=1)
         mourning_df = pandas.concat([df_0, df_1, df_2, df_3])
         mourning_df = mourning_df.filter(['text', 'lang', 'mourning'])
+        mourning_df.reset_index(drop=True, inplace=True)
+
+    if lematizacion == 1:
+        stemmer_en = SnowballStemmer('english')
+        stemmer_es = SnowballStemmer('spanish')
+        for i, row in mourning_df.iterrows():
+            sys.stdout.write(
+                "\rLematizando df " + str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2)) + "%"
+            )
+            sys.stdout.flush()
+            if mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'es':
+                mourning_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
+                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
+                )
+            elif mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'en':
+                mourning_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
+                    unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
+                )
+        mourning_df.reset_index(drop=True, inplace=True)
+        print("")
 
     print("Df mourning entregado\n")
     mourning_df.reset_index(drop=True, inplace=True)
@@ -173,22 +175,6 @@ def get_feelings_df(balance_data, lematizacion):
 
     print("")
 
-    if lematizacion == 1:
-        stemmer_en = SnowballStemmer('english')
-        stemmer_es = SnowballStemmer('spanish')
-        for i, row in feelings_df.iterrows():
-            sys.stdout.write("\rLematizando df " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%")
-            sys.stdout.flush()
-            if feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'es':
-                feelings_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
-                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
-                )
-            elif feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'en':
-                feelings_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
-                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
-                )
-        print("")
-
     if balance_data == 1:
         feelings_df.dropna()
         feelings_df["Sello"] = 0
@@ -210,6 +196,24 @@ def get_feelings_df(balance_data, lematizacion):
         df_5 = resample(feelings_df[feelings_df.sello == 'es_2'], replace=False, n_samples=min_len1, random_state=1)
         feelings_df = pandas.concat([df_0, df_1, df_2, df_3, df_4, df_5])
         feelings_df = feelings_df.filter(['text', 'lang', 'sentiment'])
+        feelings_df.reset_index(drop=True, inplace=True)
+
+    if lematizacion == 1:
+        stemmer_en = SnowballStemmer('english')
+        stemmer_es = SnowballStemmer('spanish')
+        for i, row in feelings_df.iterrows():
+            sys.stdout.write("\rLematizando df " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%")
+            sys.stdout.flush()
+            if feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'es':
+                feelings_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
+                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
+                )
+            elif feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'en':
+                feelings_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
+                    unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
+                )
+        feelings_df.reset_index(drop=True, inplace=True)
+        print("")
 
     print("Df sentiments entregado\n")
     feelings_df.reset_index(drop=True, inplace=True)

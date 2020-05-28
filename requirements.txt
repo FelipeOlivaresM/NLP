@@ -6,5 +6,6 @@ gensim
 sklearn
 urllib3
 requests
+notebook
 unidecode
 matplotlib
