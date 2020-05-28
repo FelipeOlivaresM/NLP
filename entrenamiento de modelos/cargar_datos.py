@@ -54,8 +54,12 @@ def get_mourning_df(balance_data, lematizacion):
         sys.stdout.write("\rNormalizando df " + str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2)) + "%")
         sys.stdout.flush()
         mourning_df.at[i, 'text'] = (
-            re.sub(' +', ' ', re.sub("http\S+", "", re.sub('\s+', ' ', str(mourning_df.at[i, 'text']))))
-        ).strip()
+            re.sub('\s+', ' ',
+                   re.sub(' +', ' ',
+                          re.sub("http\S+", "",
+                                 re.sub(r'\b(?=\w*[j])[aeiouj]{2,}\b', 'jajaja',
+                                        re.sub(r'[\b@]\w+\s{1}', '', str(mourning_df.at[i, 'text'])
+                                               )))))).strip()
 
     print("")
 
@@ -87,11 +91,11 @@ def get_mourning_df(balance_data, lematizacion):
                 "\rLematizando df " + str(round(((i + 1) / (mourning_df.shape[0])) * 100, 2)) + "%"
             )
             sys.stdout.flush()
-            if mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'es':
+            if type(mourning_df.at[i, 'text']) is str and mourning_df.at[i, 'lang'] == 'es':
                 mourning_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
                     unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
                 )
-            elif mourning_df.at[i, 'text'] is str and mourning_df.at[i, 'lang'] == 'en':
+            elif type(mourning_df.at[i, 'text']) is str and mourning_df.at[i, 'lang'] == 'en':
                 mourning_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
                     unicode(mourning_df.at[i, 'text'].lower(), "utf-8"))
                 )
@@ -170,8 +174,12 @@ def get_feelings_df(balance_data, lematizacion):
         sys.stdout.write("\rNormalizando df " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%")
         sys.stdout.flush()
         feelings_df.at[i, 'text'] = (
-            re.sub(' +', ' ', re.sub("http\S+", "", re.sub('\s+', ' ', str(feelings_df.at[i, 'text']))))
-        ).strip()
+            re.sub('\s+', ' ',
+                   re.sub(' +', ' ',
+                          re.sub("http\S+", "",
+                                 re.sub(r'\b(?=\w*[j])[aeiouj]{2,}\b', 'jajaja',
+                                        re.sub(r'[\b@]\w+\s{1}', '', str(feelings_df.at[i, 'text'])
+                                               )))))).strip()
 
     print("")
 
@@ -204,11 +212,11 @@ def get_feelings_df(balance_data, lematizacion):
         for i, row in feelings_df.iterrows():
             sys.stdout.write("\rLematizando df " + str(round(((i + 1) / (feelings_df.shape[0])) * 100, 2)) + "%")
             sys.stdout.flush()
-            if feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'es':
+            if type(feelings_df.at[i, 'text']) is str and feelings_df.at[i, 'lang'] == 'es':
                 feelings_df.at[i, 'text'] = stemmer_es.stem(unidecode.unidecode(
                     unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
                 )
-            elif feelings_df.at[i, 'text'] is str and feelings_df.at[i, 'lang'] == 'en':
+            elif type(feelings_df.at[i, 'text']) is str and feelings_df.at[i, 'lang'] == 'en':
                 feelings_df.at[i, 'text'] = stemmer_en.stem(unidecode.unidecode(
                     unicode(feelings_df.at[i, 'text'].lower(), "utf-8"))
                 )
