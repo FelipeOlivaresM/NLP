@@ -13,16 +13,16 @@ def entrenar_modelos_mourning_supervisados(modelo_entr, df_balanceado, df_lemati
 
     modelos_es = {
         'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
-        'RF': RandomForestClassifier(n_estimators=18, max_depth=28),
-        'NN': MLPClassifier(hidden_layer_sizes=(20, 2)),
+        'RF': RandomForestClassifier(n_estimators=14, max_depth=28),
+        'NN': MLPClassifier(hidden_layer_sizes=(30, 2), max_iter=400),
         'DT': DecisionTreeClassifier(max_depth=16),
         'NB': MultinomialNB()
     }
 
     modelos_en = {
         'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
-        'RF': RandomForestClassifier(n_estimators=18, max_depth=28),
-        'NN': MLPClassifier(hidden_layer_sizes=(20, 2)),
+        'RF': RandomForestClassifier(n_estimators=14, max_depth=28),
+        'NN': MLPClassifier(hidden_layer_sizes=(30, 2), max_iter=400),
         'DT': DecisionTreeClassifier(max_depth=16),
         'NB': MultinomialNB()
     }
@@ -52,12 +52,12 @@ def entrenar_modelos_mourning_supervisados(modelo_entr, df_balanceado, df_lemati
         # ---------------- Separacion en data y labels de entrenamiento.
         # -------- Español.
         data_train_es, data_test_es, label_train_es, label_test_es = train_test_split(
-            df_es['text'], df_es['mourning']
+            df_es['text'], df_es['mourning'], random_state=1
         )
         del df_es
         # -------- Ingles.
         data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
-            df_en['text'], df_en['mourning']
+            df_en['text'], df_en['mourning'], random_state=1
         )
         print("Division de datos terminada")
         del df_en
@@ -118,3 +118,6 @@ def entrenar_modelos_mourning_supervisados(modelo_entr, df_balanceado, df_lemati
     elif modelo_entr not in modelos_es or modelo_entr not in modelos_en or df_balanceado > 1 or df_balanceado < 0 or df_lematizado > 1 or df_lematizado < 0:
 
         print("Parametros incorrectos para entrenar modelo")
+
+
+entrenar_modelos_mourning_supervisados("GBT", 1, 1)

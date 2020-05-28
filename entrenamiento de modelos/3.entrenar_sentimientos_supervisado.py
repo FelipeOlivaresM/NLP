@@ -12,18 +12,18 @@ def entrenar_modelos_sentiments_supervisados(modelo_entr, df_balanceado, df_lema
     import pickle, os, nltk
 
     modelos_es = {
-        'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=16), n_estimators=8),
-        'RF': RandomForestClassifier(n_estimators=34, max_depth=48),
-        'NN': MLPClassifier(hidden_layer_sizes=(20, 2)),
-        'DT': DecisionTreeClassifier(max_depth=18),
+        'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
+        'RF': RandomForestClassifier(n_estimators=14, max_depth=28),
+        'NN': MLPClassifier(hidden_layer_sizes=(30, 1), max_iter=400),
+        'DT': DecisionTreeClassifier(max_depth=16),
         'NB': MultinomialNB()
     }
 
     modelos_en = {
-        'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=16), n_estimators=8),
-        'RF': RandomForestClassifier(n_estimators=34, max_depth=48),
-        'NN': MLPClassifier(hidden_layer_sizes=(20, 2)),
-        'DT': DecisionTreeClassifier(max_depth=18),
+        'GBT': AdaBoostClassifier(DecisionTreeClassifier(max_depth=6), n_estimators=4),
+        'RF': RandomForestClassifier(n_estimators=14, max_depth=32),
+        'NN': MLPClassifier(hidden_layer_sizes=(40, 1), max_iter=400),
+        'DT': DecisionTreeClassifier(max_depth=16),
         'NB': MultinomialNB()
     }
 
@@ -52,12 +52,12 @@ def entrenar_modelos_sentiments_supervisados(modelo_entr, df_balanceado, df_lema
         # ---------------- Separacion en data y labels de entrenamiento.
         # -------- Español.
         data_train_es, data_test_es, label_train_es, label_test_es = train_test_split(
-            df_es['text'], df_es['sentiment']
+            df_es['text'], df_es['sentiment'], random_state=1
         )
         del df_es
         # -------- Ingles.
         data_train_en, data_test_en, label_train_en, label_test_en = train_test_split(
-            df_en['text'], df_en['sentiment']
+            df_en['text'], df_en['sentiment'], random_state=1
         )
         print("Division de datos terminada")
         del df_en
@@ -118,3 +118,6 @@ def entrenar_modelos_sentiments_supervisados(modelo_entr, df_balanceado, df_lema
     elif modelo_entr not in modelos_es or modelo_entr not in modelos_en or df_balanceado > 1 or df_balanceado < 0 or df_lematizado > 1 or df_lematizado < 0:
 
         print("Parametros incorrectos para entrenar modelo")
+
+
+entrenar_modelos_sentiments_supervisados("GBT", 1, 1)
