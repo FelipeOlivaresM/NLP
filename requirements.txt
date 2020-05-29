@@ -1,4 +1,5 @@
 nltk
+emoji
 colour
 pandas
 tweepy
@@ -7,5 +8,6 @@ sklearn
 urllib3
 requests
 notebook
+tabulate
 unidecode
 matplotlib
