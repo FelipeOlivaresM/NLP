@@ -120,4 +120,4 @@ def entrenar_modelos_sentiments_supervisados(modelo_entr, df_balanceado, df_lema
         print("Parametros incorrectos para entrenar modelo")
 
 
-entrenar_modelos_sentiments_supervisados("GBT", 1, 1)
+entrenar_modelos_sentiments_supervisados("DT", 1, 1)

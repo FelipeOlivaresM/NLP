@@ -120,4 +120,4 @@ def entrenar_modelos_mourning_supervisados(modelo_entr, df_balanceado, df_lemati
         print("Parametros incorrectos para entrenar modelo")
 
 
-entrenar_modelos_mourning_supervisados("GBT", 1, 1)
+entrenar_modelos_mourning_supervisados("DT", 1, 1)
