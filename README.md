@@ -1,4 +1,4 @@
-# Proyect final NLP
+# NLP
 
 Instalar requerimientos con: pip install -r requirements.txt
 
